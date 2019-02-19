@@ -3,7 +3,6 @@ defmodule PerfMon.Websites.Report do
   import Ecto.Changeset
   alias PerfMon.Websites.Monitor
 
-
   schema "reports" do
     field :data, :map
     belongs_to :monitor, Monitor

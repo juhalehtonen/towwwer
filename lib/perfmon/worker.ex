@@ -1,6 +1,5 @@
 defmodule PerfMon.Worker do
   alias PerfMon.Tools.PageSpeed
-  # alias PerfMon.Websites.Report
   alias PerfMon.Websites
 
   # TODO: Periodically query every Site and send API request for their Monitor(s) path(s)

@@ -234,7 +234,6 @@ defmodule PerfMon.Websites do
   def get_report!(id) do
     Report
     |> Repo.get!(id)
-    |> Repo.preload([:reports])
   end
 
   @doc """

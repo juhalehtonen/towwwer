@@ -23,7 +23,7 @@
             <span>Monitor reports</span>
             <ul>
                 <%= for report <- monitor.reports do %>
-                    <li><%= report.data["analysisUTCTimestamp"] %></li>
+                    <li><%= link report.data["analysisUTCTimestamp"], to: Routes.report_path(@conn, :show, report) %></li>
                 <% end %>
             </ul>
         </li>
