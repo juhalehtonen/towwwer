@@ -1,0 +1,26 @@
+<h1>Listing Monitors</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Path</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for monitor <- @monitors do %>
+    <tr>
+      <td><%= monitor.path %></td>
+
+      <td>
+        <%= link "Show", to: Routes.monitor_path(@conn, :show, monitor) %>
+        <%= link "Edit", to: Routes.monitor_path(@conn, :edit, monitor) %>
+        <%= link "Delete", to: Routes.monitor_path(@conn, :delete, monitor), method: :delete, data: [confirm: "Are you sure?"] %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Monitor", to: Routes.monitor_path(@conn, :new) %></span>

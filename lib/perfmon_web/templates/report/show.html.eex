@@ -1,0 +1,13 @@
+<h1>Show Report</h1>
+
+<ul>
+
+  <li>
+    <strong>Data:</strong>
+    <%= @report.data %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.report_path(@conn, :edit, @report) %></span>
+<span><%= link "Back", to: Routes.report_path(@conn, :index) %></span>

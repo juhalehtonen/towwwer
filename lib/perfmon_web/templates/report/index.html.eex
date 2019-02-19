@@ -1,0 +1,26 @@
+<h1>Listing Reports</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Data</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for report <- @reports do %>
+    <tr>
+      <td><%= report.data %></td>
+
+      <td>
+        <%= link "Show", to: Routes.report_path(@conn, :show, report) %>
+        <%= link "Edit", to: Routes.report_path(@conn, :edit, report) %>
+        <%= link "Delete", to: Routes.report_path(@conn, :delete, report), method: :delete, data: [confirm: "Are you sure?"] %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Report", to: Routes.report_path(@conn, :new) %></span>

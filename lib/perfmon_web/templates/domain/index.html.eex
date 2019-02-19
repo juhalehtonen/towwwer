@@ -1,0 +1,28 @@
+<h1>Listing Domains</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Token</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for domain <- @domains do %>
+    <tr>
+      <td><%= domain.name %></td>
+      <td><%= domain.token %></td>
+
+      <td>
+        <%= link "Show", to: Routes.domain_path(@conn, :show, domain) %>
+        <%= link "Edit", to: Routes.domain_path(@conn, :edit, domain) %>
+        <%= link "Delete", to: Routes.domain_path(@conn, :delete, domain), method: :delete, data: [confirm: "Are you sure?"] %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Domain", to: Routes.domain_path(@conn, :new) %></span>

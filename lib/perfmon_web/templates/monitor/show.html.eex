@@ -1,0 +1,13 @@
+<h1>Show Monitor</h1>
+
+<ul>
+
+  <li>
+    <strong>Path:</strong>
+    <%= @monitor.path %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.monitor_path(@conn, :edit, @monitor) %></span>
+<span><%= link "Back", to: Routes.monitor_path(@conn, :index) %></span>
