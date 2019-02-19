@@ -1,9 +1,9 @@
-defmodule PerfMon.Websites.Domain do
+defmodule PerfMon.Websites.Site do
   use Ecto.Schema
   import Ecto.Changeset
   alias PerfMon.Websites.Monitor
 
-  schema "domains" do
+  schema "sites" do
     field :name, :string
     field :token, :string
     has_many :monitors, Monitor
@@ -12,8 +12,8 @@ defmodule PerfMon.Websites.Domain do
   end
 
   @doc false
-  def changeset(domain, attrs) do
-    domain
+  def changeset(site, attrs) do
+    site
     |> cast(attrs, [:name, :token])
     |> cast_assoc(:monitors, required: true)
     |> validate_required([:name, :token])

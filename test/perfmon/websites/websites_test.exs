@@ -3,64 +3,64 @@ defmodule PerfMon.WebsitesTest do
 
   alias PerfMon.Websites
 
-  describe "domains" do
-    alias PerfMon.Websites.Domain
+  describe "sites" do
+    alias PerfMon.Websites.Site
 
     @valid_attrs %{name: "some name", token: "some token"}
     @update_attrs %{name: "some updated name", token: "some updated token"}
     @invalid_attrs %{name: nil, token: nil}
 
-    def domain_fixture(attrs \\ %{}) do
-      {:ok, domain} =
+    def site_fixture(attrs \\ %{}) do
+      {:ok, site} =
         attrs
         |> Enum.into(@valid_attrs)
-        |> Websites.create_domain()
+        |> Websites.create_site()
 
-      domain
+      site
     end
 
-    test "list_domains/0 returns all domains" do
-      domain = domain_fixture()
-      assert Websites.list_domains() == [domain]
+    test "list_sites/0 returns all sites" do
+      site = site_fixture()
+      assert Websites.list_sites() == [site]
     end
 
-    test "get_domain!/1 returns the domain with given id" do
-      domain = domain_fixture()
-      assert Websites.get_domain!(domain.id) == domain
+    test "get_site!/1 returns the site with given id" do
+      site = site_fixture()
+      assert Websites.get_site!(site.id) == site
     end
 
-    test "create_domain/1 with valid data creates a domain" do
-      assert {:ok, %Domain{} = domain} = Websites.create_domain(@valid_attrs)
-      assert domain.name == "some name"
-      assert domain.token == "some token"
+    test "create_site/1 with valid data creates a site" do
+      assert {:ok, %Site{} = site} = Websites.create_site(@valid_attrs)
+      assert site.name == "some name"
+      assert site.token == "some token"
     end
 
-    test "create_domain/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Websites.create_domain(@invalid_attrs)
+    test "create_site/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Websites.create_site(@invalid_attrs)
     end
 
-    test "update_domain/2 with valid data updates the domain" do
-      domain = domain_fixture()
-      assert {:ok, %Domain{} = domain} = Websites.update_domain(domain, @update_attrs)
-      assert domain.name == "some updated name"
-      assert domain.token == "some updated token"
+    test "update_site/2 with valid data updates the site" do
+      site = site_fixture()
+      assert {:ok, %Site{} = site} = Websites.update_site(site, @update_attrs)
+      assert site.name == "some updated name"
+      assert site.token == "some updated token"
     end
 
-    test "update_domain/2 with invalid data returns error changeset" do
-      domain = domain_fixture()
-      assert {:error, %Ecto.Changeset{}} = Websites.update_domain(domain, @invalid_attrs)
-      assert domain == Websites.get_domain!(domain.id)
+    test "update_site/2 with invalid data returns error changeset" do
+      site = site_fixture()
+      assert {:error, %Ecto.Changeset{}} = Websites.update_site(site, @invalid_attrs)
+      assert site == Websites.get_site!(site.id)
     end
 
-    test "delete_domain/1 deletes the domain" do
-      domain = domain_fixture()
-      assert {:ok, %Domain{}} = Websites.delete_domain(domain)
-      assert_raise Ecto.NoResultsError, fn -> Websites.get_domain!(domain.id) end
+    test "delete_site/1 deletes the site" do
+      site = site_fixture()
+      assert {:ok, %Site{}} = Websites.delete_site(site)
+      assert_raise Ecto.NoResultsError, fn -> Websites.get_site!(site.id) end
     end
 
-    test "change_domain/1 returns a domain changeset" do
-      domain = domain_fixture()
-      assert %Ecto.Changeset{} = Websites.change_domain(domain)
+    test "change_site/1 returns a site changeset" do
+      site = site_fixture()
+      assert %Ecto.Changeset{} = Websites.change_site(site)
     end
   end
 

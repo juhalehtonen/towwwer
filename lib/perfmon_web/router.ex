@@ -17,9 +17,9 @@ defmodule PerfMonWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-    resources "/reports", ReportController
+    resources "/sites", SiteController
     resources "/monitors", MonitorController
-    resources "/domains", DomainController
+    resources "/reports", ReportController
   end
 
   # Other scopes may use custom stacks.

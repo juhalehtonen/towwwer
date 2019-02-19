@@ -6,104 +6,104 @@ defmodule PerfMon.Websites do
   import Ecto.Query, warn: false
   alias PerfMon.Repo
 
-  alias PerfMon.Websites.Domain
+  alias PerfMon.Websites.Site
 
   @doc """
-  Returns the list of domains.
+  Returns the list of sites.
 
   ## Examples
 
-      iex> list_domains()
-      [%Domain{}, ...]
+      iex> list_sites()
+      [%Site{}, ...]
 
   """
-  def list_domains do
-    Repo.all(from d in Domain, preload: [:monitors])
+  def list_sites do
+    Repo.all(from d in Site, preload: [:monitors])
   end
 
   @doc """
-  Gets a single domain.
+  Gets a single site.
 
-  Raises `Ecto.NoResultsError` if the Domain does not exist.
+  Raises `Ecto.NoResultsError` if the Site does not exist.
 
   ## Examples
 
-      iex> get_domain!(123)
-      %Domain{}
+      iex> get_site!(123)
+      %Site{}
 
-      iex> get_domain!(456)
+      iex> get_site!(456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_domain!(id) do
-    Domain
+  def get_site!(id) do
+    Site
     |> Repo.get!(id)
     |> Repo.preload([:monitors])
   end
 
   @doc """
-  Creates a domain.
+  Creates a site.
 
   ## Examples
 
-      iex> create_domain(%{field: value})
-      {:ok, %Domain{}}
+      iex> create_site(%{field: value})
+      {:ok, %Site{}}
 
-      iex> create_domain(%{field: bad_value})
+      iex> create_site(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_domain(attrs \\ %{}) do
-    %Domain{}
-    |> Domain.changeset(attrs)
+  def create_site(attrs \\ %{}) do
+    %Site{}
+    |> Site.changeset(attrs)
     |> Repo.insert()
   end
 
   @doc """
-  Updates a domain.
+  Updates a site.
 
   ## Examples
 
-      iex> update_domain(domain, %{field: new_value})
-      {:ok, %Domain{}}
+      iex> update_site(site, %{field: new_value})
+      {:ok, %Site{}}
 
-      iex> update_domain(domain, %{field: bad_value})
+      iex> update_site(site, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_domain(%Domain{} = domain, attrs) do
-    domain
-    |> Domain.changeset(attrs)
+  def update_site(%Site{} = site, attrs) do
+    site
+    |> Site.changeset(attrs)
     |> Repo.update()
   end
 
   @doc """
-  Deletes a Domain.
+  Deletes a Site.
 
   ## Examples
 
-      iex> delete_domain(domain)
-      {:ok, %Domain{}}
+      iex> delete_site(site)
+      {:ok, %Site{}}
 
-      iex> delete_domain(domain)
+      iex> delete_site(site)
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_domain(%Domain{} = domain) do
-    Repo.delete(domain)
+  def delete_site(%Site{} = site) do
+    Repo.delete(site)
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking domain changes.
+  Returns an `%Ecto.Changeset{}` for tracking site changes.
 
   ## Examples
 
-      iex> change_domain(domain)
-      %Ecto.Changeset{source: %Domain{}}
+      iex> change_site(site)
+      %Ecto.Changeset{source: %Site{}}
 
   """
-  def change_domain(%Domain{} = domain) do
-    Domain.changeset(domain, %{})
+  def change_site(%Site{} = site) do
+    Site.changeset(site, %{})
   end
 
   alias PerfMon.Websites.Monitor

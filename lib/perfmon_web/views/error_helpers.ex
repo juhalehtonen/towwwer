@@ -21,7 +21,7 @@ defmodule PerfMonWeb.ErrorHelpers do
     # When using gettext, we typically pass the strings we want
     # to translate as a static argument:
     #
-    #     # Translate "is invalid" in the "errors" domain
+    #     # Translate "is invalid" in the "errors" site
     #     dgettext("errors", "is invalid")
     #
     #     # Translate the number of files with plural rules
@@ -32,7 +32,7 @@ defmodule PerfMonWeb.ErrorHelpers do
     # This requires us to call the Gettext module passing our gettext
     # backend as first argument.
     #
-    # Note we use the "errors" domain, which means translations
+    # Note we use the "errors" site, which means translations
     # should be written to the errors.po file. The :count option is
     # set by Ecto and indicates we should also apply plural rules.
     if count = opts[:count] do

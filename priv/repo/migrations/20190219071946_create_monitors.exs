@@ -4,11 +4,11 @@ defmodule PerfMon.Repo.Migrations.CreateMonitors do
   def change do
     create table(:monitors) do
       add :path, :string
-      add :domain_id, references(:domains, on_delete: :nothing)
+      add :site_id, references(:sites, on_delete: :nothing)
 
       timestamps()
     end
 
-    create index(:monitors, [:domain_id])
+    create index(:monitors, [:site_id])
   end
 end
