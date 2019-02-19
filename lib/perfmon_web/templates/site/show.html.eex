@@ -23,7 +23,7 @@
             <span>Monitor reports</span>
             <ul>
                 <%= for report <- monitor.reports do %>
-                    <li>Report here</li>
+                    <li><%= report.data["analysisUTCTimestamp"] %></li>
                 <% end %>
             </ul>
         </li>

@@ -16,5 +16,6 @@ defmodule PerfMon.Websites.Report do
     report
     |> cast(attrs, [:data])
     |> validate_required([:data])
+    |> put_assoc(:monitor, attrs.monitor)
   end
 end
