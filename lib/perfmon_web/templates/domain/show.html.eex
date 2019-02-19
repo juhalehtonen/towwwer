@@ -14,5 +14,6 @@
 
 </ul>
 
+
 <span><%= link "Edit", to: Routes.domain_path(@conn, :edit, @domain) %></span>
 <span><%= link "Back", to: Routes.domain_path(@conn, :index) %></span>

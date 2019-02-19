@@ -18,7 +18,7 @@ defmodule PerfMon.Websites do
 
   """
   def list_domains do
-    Repo.all(Domain)
+    Repo.all(from d in Domain, preload: [:monitors])
   end
 
   @doc """
@@ -35,7 +35,11 @@ defmodule PerfMon.Websites do
       ** (Ecto.NoResultsError)
 
   """
-  def get_domain!(id), do: Repo.get!(Domain, id)
+  def get_domain!(id) do
+    Domain
+    |> Repo.get!(id)
+    |> Repo.preload([:monitors])
+  end
 
   @doc """
   Creates a domain.

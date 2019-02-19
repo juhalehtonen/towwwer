@@ -13,6 +13,16 @@
   <%= text_input f, :token %>
   <%= error_tag f, :token %>
 
+
+  <h2>Add a monitor to this domain</h2>
+  <%= inputs_for f, :monitors, fn p -> %>
+      <div class="form-group">
+          <%= label p, :path %>
+          <%= text_input p, :path %>
+          <%= error_tag p, :path %>
+      </div>
+  <% end %>
+
   <div>
     <%= submit "Save" %>
   </div>

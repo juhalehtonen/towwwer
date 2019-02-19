@@ -3,6 +3,7 @@ defmodule PerfMonWeb.DomainController do
 
   alias PerfMon.Websites
   alias PerfMon.Websites.Domain
+  alias PerfMon.Websites.Monitor
 
   def index(conn, _params) do
     domains = Websites.list_domains()
@@ -10,7 +11,10 @@ defmodule PerfMonWeb.DomainController do
   end
 
   def new(conn, _params) do
-    changeset = Websites.change_domain(%Domain{})
+    # changeset = Websites.change_domain(%Domain{})
+    changeset = Websites.change_domain(%Domain{monitors: [
+                                                  %Monitor{path: "/"}
+                                                ]})
     render(conn, "new.html", changeset: changeset)
   end
 
