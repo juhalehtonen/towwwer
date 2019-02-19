@@ -12,7 +12,8 @@ defmodule PerfMon.Worker do
     for site <- sites do
       for monitor <- site.monitors do
         {:ok, pid} = Task.Supervisor.start_child(PerfMon.TaskSupervisor, fn ->
-          :timer.sleep(1000)
+          # Avoid hitting API limits :D TODO: Just get an API key
+          :timer.sleep(5000)
           build_report(site.base_url <> monitor.path, monitor)
         end)
       end
