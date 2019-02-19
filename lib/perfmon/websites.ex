@@ -18,7 +18,7 @@ defmodule PerfMon.Websites do
 
   """
   def list_sites do
-    Repo.all(from d in Site, preload: [:monitors])
+    Repo.all(from d in Site, preload: [monitors: [:reports]])
   end
 
   @doc """
@@ -38,7 +38,7 @@ defmodule PerfMon.Websites do
   def get_site!(id) do
     Site
     |> Repo.get!(id)
-    |> Repo.preload([:monitors])
+    |> Repo.preload([monitors: [:reports]])
   end
 
   @doc """
@@ -118,7 +118,7 @@ defmodule PerfMon.Websites do
 
   """
   def list_monitors do
-    Repo.all(Monitor)
+    Repo.all(from m in Monitor, preload: [:reports])
   end
 
   @doc """
@@ -231,7 +231,11 @@ defmodule PerfMon.Websites do
       ** (Ecto.NoResultsError)
 
   """
-  def get_report!(id), do: Repo.get!(Report, id)
+  def get_report!(id) do
+    Report
+    |> Repo.get!(id)
+    |> Repo.preload([:reports])
+  end
 
   @doc """
   Creates a report.
