@@ -4,7 +4,7 @@ defmodule PerfMon.Repo.Migrations.CreateReports do
   def change do
     create table(:reports) do
       add :data, :map
-      add :monitor_id, references(:monitors, on_delete: :nothing)
+      add :monitor_id, references(:monitors, on_delete: :delete_all)
 
       timestamps()
     end

@@ -4,7 +4,7 @@ defmodule PerfMon.Repo.Migrations.CreateMonitors do
   def change do
     create table(:monitors) do
       add :path, :string
-      add :site_id, references(:sites, on_delete: :nothing)
+      add :site_id, references(:sites, on_delete: :delete_all)
 
       timestamps()
     end

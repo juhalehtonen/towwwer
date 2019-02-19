@@ -31,9 +31,6 @@ defmodule PerfMonWeb.SiteController do
 
   def show(conn, %{"id" => id}) do
     site = Websites.get_site!(id)
-
-    IO.inspect(site)
-
     render(conn, "show.html", site: site)
   end
 
