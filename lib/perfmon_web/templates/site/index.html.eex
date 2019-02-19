@@ -3,7 +3,7 @@
 <table>
   <thead>
     <tr>
-      <th>Name</th>
+      <th>Base URL</th>
       <th>Token</th>
 
       <th></th>
@@ -12,7 +12,7 @@
   <tbody>
 <%= for site <- @sites do %>
     <tr>
-      <td><%= site.name %></td>
+      <td><%= site.base_url %></td>
       <td><%= site.token %></td>
 
       <td>
