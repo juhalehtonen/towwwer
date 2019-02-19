@@ -5,7 +5,6 @@ defmodule PerfMon.Websites do
 
   import Ecto.Query, warn: false
   alias PerfMon.Repo
-
   alias PerfMon.Websites.Site
 
   @doc """
@@ -30,7 +29,7 @@ defmodule PerfMon.Websites do
   """
   def list_pending_sites do
     Repo.all from s in Site,
-      where: s.updated_at < datetime_add(^NaiveDateTime.utc_now(), -1, "minute"),
+      where: s.updated_at < datetime_add(^NaiveDateTime.utc_now(), -1, "hour"),
       preload: [monitors: [:reports]]
   end
 

@@ -3,7 +3,7 @@ defmodule PerfMon.Worker do
   alias PerfMon.Tools.PageSpeed
   alias PerfMon.Websites
 
-  # How long to wait (in milliseconds) between each report creation.
+  # How long to wait (in milliseconds) between each report creation check.
   # 60 * 60 * 12 * 1000 = run these every 12 hours
   @periodic_wait 60 * 60 * 12 * 1000
 
