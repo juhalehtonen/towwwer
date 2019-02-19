@@ -10,6 +10,11 @@
     <strong>Token:</strong>
     <%= @site.token %>
   </li>
+
+  <li>
+      <strong>Updated at:</strong>
+      <%= @site.updated_at %>
+  </li>
 </ul>
 
 <h2>Monitors</h2>

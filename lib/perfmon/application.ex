@@ -12,9 +12,9 @@ defmodule PerfMon.Application do
       PerfMon.Repo,
       # Start the endpoint when the application starts
       PerfMonWeb.Endpoint,
+      {Task.Supervisor, name: PerfMon.TaskSupervisor, restart: :transient},
       # Starts a worker by calling: PerfMon.Worker.start_link(arg)
       {PerfMon.Worker, %{}},
-      {Task.Supervisor, name: PerfMon.TaskSupervisor, restart: :transient}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

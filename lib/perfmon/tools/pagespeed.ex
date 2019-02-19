@@ -22,6 +22,10 @@ defmodule PerfMon.Tools.PageSpeed do
   end
   def query_pagespeed_api(_url), do: {:error, "URL not a binary"}
 
+  @doc """
+  Constructs and saves a new Report from the JSON response of the
+  PageSpeed API.
+  """
   def build_report(url, monitor) do
     case query_pagespeed_api(url) do
       {:ok, body} ->

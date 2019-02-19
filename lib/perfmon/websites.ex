@@ -22,6 +22,20 @@ defmodule PerfMon.Websites do
   end
 
   @doc """
+  Return the list of Sites whose timestamp is older than configured time.
+
+  Subtract 5 minutes from the current datetime, and see if it's bigger than
+  last_check fields value. If it is, it means that last_check was more than
+  5 minutes ago and as such needs to be re-fetched.
+  """
+  def list_pending_sites do
+    Repo.all from s in Site,
+      where: s.updated_at < datetime_add(^NaiveDateTime.utc_now(), -1, "minute"),
+      preload: [monitors: [:reports]]
+  end
+
+
+  @doc """
   Gets a single site.
 
   Raises `Ecto.NoResultsError` if the Site does not exist.
@@ -75,6 +89,12 @@ defmodule PerfMon.Websites do
     site
     |> Site.changeset(attrs)
     |> Repo.update()
+  end
+
+  def bump_site_timestamp(%Site{} = site) do
+    site
+    |> Site.changeset(%{})
+    |> Repo.update(force: true)
   end
 
   @doc """

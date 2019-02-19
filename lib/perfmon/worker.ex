@@ -12,8 +12,13 @@ defmodule PerfMon.Worker do
   end
 
   def init(state) do
+    do_work()
     schedule_work()
     {:ok, state}
+  end
+
+  defp schedule_work() do
+    Process.send_after(self(), :work, @periodic_wait)
   end
 
   def handle_info(:work, state) do
@@ -26,17 +31,15 @@ defmodule PerfMon.Worker do
     loop_sites_for_reports()
   end
 
-  defp schedule_work() do
-    Process.send_after(self(), :work, @periodic_wait)
-  end
-
   # Loop through all sites and every monitor of every site
-  def loop_sites_for_reports do
-    sites = Websites.list_sites()
+  defp loop_sites_for_reports do
+    sites = Websites.list_pending_sites()
     for site <- sites do
       for monitor <- site.monitors do
         {:ok, _pid} = Task.Supervisor.start_child(PerfMon.TaskSupervisor, fn ->
           PageSpeed.build_report(site.base_url <> monitor.path, monitor)
+          # TODO: Figure a saner way to do this :( now doing N times....
+          Websites.bump_site_timestamp(site)
         end)
       end
     end
