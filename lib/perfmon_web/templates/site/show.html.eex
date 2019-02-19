@@ -23,7 +23,14 @@
             <span>Monitor reports</span>
             <ul>
                 <%= for report <- monitor.reports do %>
-                    <li><%= link report.data["analysisUTCTimestamp"], to: Routes.report_path(@conn, :show, report) %></li>
+                    <li>
+                        <span>Perf: <%= score(report, "performance") %></span>
+                        <span>SEO: <%= score(report, "seo") %></span>
+                        <span>PWA: <%= score(report, "pwa") %></span>
+                        <span>a11y: <%= score(report, "accessibility") %></span>
+                        <span>BP: <%= score(report, "best-practices") %></span>
+                        <%= link report.data["analysisUTCTimestamp"], to: Routes.report_path(@conn, :show, report) %>
+                    </li>
                 <% end %>
             </ul>
         </li>
