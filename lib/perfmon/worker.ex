@@ -11,7 +11,10 @@ defmodule PerfMon.Worker do
     # Loop through all sites and every monitor of every site
     for site <- sites do
       for monitor <- site.monitors do
-        Task.start(fn() -> build_report(site.base_url <> monitor.path, monitor) end)
+        {:ok, pid} = Task.Supervisor.start_child(PerfMon.TaskSupervisor, fn ->
+          :timer.sleep(1000)
+          build_report(site.base_url <> monitor.path, monitor)
+        end)
       end
     end
   end

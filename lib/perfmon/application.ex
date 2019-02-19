@@ -11,9 +11,10 @@ defmodule PerfMon.Application do
       # Start the Ecto repository
       PerfMon.Repo,
       # Start the endpoint when the application starts
-      PerfMonWeb.Endpoint
+      PerfMonWeb.Endpoint,
       # Starts a worker by calling: PerfMon.Worker.start_link(arg)
       # {PerfMon.Worker, arg},
+      {Task.Supervisor, name: PerfMon.TaskSupervisor, restart: :transient}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
