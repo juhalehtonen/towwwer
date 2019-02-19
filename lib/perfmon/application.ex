@@ -13,7 +13,7 @@ defmodule PerfMon.Application do
       # Start the endpoint when the application starts
       PerfMonWeb.Endpoint,
       # Starts a worker by calling: PerfMon.Worker.start_link(arg)
-      # {PerfMon.Worker, arg},
+      {PerfMon.Worker, %{}},
       {Task.Supervisor, name: PerfMon.TaskSupervisor, restart: :transient}
     ]
 
