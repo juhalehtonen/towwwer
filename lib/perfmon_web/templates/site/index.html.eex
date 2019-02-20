@@ -1,4 +1,6 @@
 <h1>Listing Sites</h1>
+<p>Last automated reports were run on: <%= last_automated_reports() %></p>
+<p>Next automated reports will be run on: <%= next_automated_reports() %></p>
 
 <table>
   <thead>
@@ -8,7 +10,7 @@
     </tr>
   </thead>
   <tbody>
-<%= for site <- @sites do %>
+  <%= for site <- @sites do %>
     <tr>
       <td><%= link site.base_url, to: Routes.site_path(@conn, :show, site) %></td>
       <td>
@@ -16,7 +18,7 @@
         <%= link "Delete", to: Routes.site_path(@conn, :delete, site), method: :delete, data: [confirm: "Are you sure?"] %>
       </td>
     </tr>
-<% end %>
+  <% end %>
   </tbody>
 </table>
 

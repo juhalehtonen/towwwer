@@ -8,13 +8,15 @@ defmodule PerfMon.Worker do
   @periodic_wait 60 * 60 * 12 * 1000
 
   def start_link(args) do
-    GenServer.start_link(__MODULE__, args)
+    GenServer.start_link(__MODULE__, args, name: __MODULE__)
   end
 
   def init(state) do
     do_work()
     schedule_work()
-    {:ok, state}
+
+    new_state = NaiveDateTime.utc_now()
+    {:ok, new_state}
   end
 
   defp schedule_work() do
@@ -24,8 +26,12 @@ defmodule PerfMon.Worker do
   def handle_info(:work, state) do
     spawn_link(&do_work/0)
     schedule_work()
-    {:noreply, state}
+
+    new_state = NaiveDateTime.utc_now()
+    {:noreply, new_state}
   end
+
+  def handle_call(:get_state, _from, state), do: {:reply, state, state}
 
   defp do_work() do
     loop_sites_for_reports()
@@ -38,4 +44,15 @@ defmodule PerfMon.Worker do
       PageSpeed.run_build_task_for_site_monitors(site)
     end
   end
+
+  @doc """
+  Helper function to return the state of the GenServer, representing the
+  last time our automated report generation was run.
+  """
+  def get_state, do: GenServer.call(__MODULE__, :get_state)
+
+  @doc """
+  Return the @periodic_wait between automated runs, defined in milliseconds.
+  """
+  def periodic_wait, do: @periodic_wait
 end
