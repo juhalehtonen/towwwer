@@ -18,8 +18,8 @@ defmodule PerfMonWeb.Router do
 
     get "/", SiteController, :index
     resources "/sites", SiteController
-    resources "/monitors", MonitorController
-    resources "/reports", ReportController
+    resources "/monitors", MonitorController, only: [:show]
+    resources "/reports", ReportController, only: [:show]
   end
 
   # Other scopes may use custom stacks.

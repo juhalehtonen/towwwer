@@ -1,4 +1,4 @@
-<h1>Show Site</h1>
+<h2>Site <%= @site.id %></h2>
 
 <ul>
   <li>
@@ -18,29 +18,33 @@
 </ul>
 
 <h2>Monitors</h2>
-<ul>
-    <%= for monitor <- @site.monitors do %>
-        <li>
-            <%= monitor.path %>
-        </li>
-
-        <li>
-            <span>Monitor reports</span>
-            <ul>
-                <%= for report <- monitor.reports do %>
-                    <li>
-                        <span>Perf: <%= score(report, "performance") %></span>
-                        <span>SEO: <%= score(report, "seo") %></span>
-                        <span>PWA: <%= score(report, "pwa") %></span>
-                        <span>a11y: <%= score(report, "accessibility") %></span>
-                        <span>BP: <%= score(report, "best-practices") %></span>
-                        <%= link report.data["analysisUTCTimestamp"], to: Routes.report_path(@conn, :show, report) %>
-                    </li>
-                <% end %>
-            </ul>
-        </li>
-    <% end %>
-</ul>
+<%= for monitor <- @site.monitors do %>
+    <h3>Path: <%= monitor.path %></h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Performance</th>
+                <th>SEO</th>
+                <th>PWA</th>
+                <th>Accessibility</th>
+                <th>Best practices</th>
+                <th>Report data</th>
+            </tr>
+        </thead>
+        <tbody>
+            <%= for report <- monitor.reports do %>
+                <tr>
+                    <td><%= score(report, "performance") %></td>
+                    <td><%= score(report, "seo") %></td>
+                    <td><%= score(report, "pwa") %></td>
+                    <td><%= score(report, "accessibility") %></td>
+                    <td><%= score(report, "best-practices") %></td>
+                    <td><%= link report.data["analysisUTCTimestamp"], to: Routes.report_path(@conn, :show, report) %></td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+<% end %>
 
 <span><%= link "Edit", to: Routes.site_path(@conn, :edit, @site) %></span>
 <span><%= link "Back", to: Routes.site_path(@conn, :index) %></span>
