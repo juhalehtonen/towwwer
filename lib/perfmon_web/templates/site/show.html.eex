@@ -32,7 +32,7 @@
             </tr>
         </thead>
         <tbody>
-            <%= for report <- monitor.reports do %>
+            <%= for report <- reports_of_monitor(monitor) do %>
                 <tr>
                     <td><%= score(report, "performance") %></td>
                     <td><%= score(report, "seo") %></td>

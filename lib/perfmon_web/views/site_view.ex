@@ -1,6 +1,7 @@
 defmodule PerfMonWeb.SiteView do
   use PerfMonWeb, :view
 
+  # Score extracted from saved lighthouse data
   def score(report, type) when type in ["performance", "seo", "accessibility", "best-practices", "pwa"] do
     case report.data["lighthouseResult"]["categories"][type]["score"] do
       nil -> 0
@@ -24,5 +25,9 @@ defmodule PerfMonWeb.SiteView do
 
     NaiveDateTime.add(NaiveDateTime.utc_now(), wait_minus_diff, :millisecond)
     |> NaiveDateTime.truncate(:second)
+  end
+
+  def reports_of_monitor(monitor) do
+    PerfMon.Websites.list_reports_of_monitor(monitor)
   end
 end

@@ -247,6 +247,14 @@ defmodule PerfMon.Websites do
     Repo.all(Report)
   end
 
+  def list_reports_of_monitor(monitor) do
+    query = from r in Report,
+      where: r.monitor_id == ^monitor.id,
+      order_by: [desc: :inserted_at]
+
+    Repo.all(query)
+  end
+
   @doc """
   Gets a single report.
 
