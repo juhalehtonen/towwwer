@@ -15,11 +15,13 @@ defmodule PerfMon.Tools.PageSpeed do
     case HTTPoison.get(request_url, headers, options) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         {:ok, body}
+
       {:error, %HTTPoison.Error{reason: reason}} ->
         Logger.error({request_url, reason})
         {:error, reason}
     end
   end
+
   def query_pagespeed_api(_url), do: {:error, "URL not a binary"}
 
   @doc """
@@ -31,8 +33,22 @@ defmodule PerfMon.Tools.PageSpeed do
       {:ok, body} ->
         data = Jason.decode!(body)
         Websites.create_report(%{data: data, monitor: monitor})
+
       {:error, reason} ->
         {:error, reason}
+    end
+  end
+
+  @doc """
+  Runs a build task for each monitor under given `site`.
+  """
+  def run_build_task_for_site_monitors(site) when is_map(site) do
+    for monitor <- site.monitors do
+      {:ok, _pid} =
+        Task.Supervisor.start_child(PerfMon.TaskSupervisor, fn ->
+          build_report(site.base_url <> monitor.path, monitor)
+          Websites.bump_site_timestamp(site)
+        end)
     end
   end
 end

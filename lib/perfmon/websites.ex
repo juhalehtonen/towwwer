@@ -3,6 +3,7 @@ defmodule PerfMon.Websites do
   The Websites context.
   """
 
+  require Logger
   import Ecto.Query, warn: false
   alias PerfMon.Repo
   alias PerfMon.Websites.Site
@@ -74,13 +75,9 @@ defmodule PerfMon.Websites do
 
     case changeset do
       {:ok, site} ->
-        for monitor <- site.monitors do
-          {:ok, _pid} = Task.Supervisor.start_child(PerfMon.TaskSupervisor, fn ->
-            PageSpeed.build_report(site.base_url <> monitor.path, monitor)
-          end)
-        end
+        PageSpeed.run_build_task_for_site_monitors(site)
       _ ->
-        :error
+        Logger.info("Failed to create site, so no reports are built.")
     end
 
    changeset

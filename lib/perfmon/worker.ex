@@ -31,17 +31,11 @@ defmodule PerfMon.Worker do
     loop_sites_for_reports()
   end
 
-  # Loop through all sites and every monitor of every site
   defp loop_sites_for_reports do
     sites = Websites.list_pending_sites()
+
     for site <- sites do
-      for monitor <- site.monitors do
-        {:ok, _pid} = Task.Supervisor.start_child(PerfMon.TaskSupervisor, fn ->
-          PageSpeed.build_report(site.base_url <> monitor.path, monitor)
-          # TODO: Figure a saner way to do this :( now doing N times....
-          Websites.bump_site_timestamp(site)
-        end)
-      end
+      PageSpeed.run_build_task_for_site_monitors(site)
     end
   end
 end
