@@ -6,6 +6,7 @@ defmodule PerfMon.Websites do
   import Ecto.Query, warn: false
   alias PerfMon.Repo
   alias PerfMon.Websites.Site
+  alias PerfMon.Tools.PageSpeed
 
   @doc """
   Returns the list of sites.
@@ -67,9 +68,22 @@ defmodule PerfMon.Websites do
 
   """
   def create_site(attrs \\ %{}) do
-    %Site{}
+    changeset = %Site{}
     |> Site.changeset(attrs)
     |> Repo.insert()
+
+    case changeset do
+      {:ok, site} ->
+        for monitor <- site.monitors do
+          {:ok, _pid} = Task.Supervisor.start_child(PerfMon.TaskSupervisor, fn ->
+            PageSpeed.build_report(site.base_url <> monitor.path, monitor)
+          end)
+        end
+      _ ->
+        :error
+    end
+
+   changeset
   end
 
   @doc """
