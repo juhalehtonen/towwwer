@@ -16,7 +16,7 @@ defmodule PerfMonWeb.Router do
   scope "/", PerfMonWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    get "/", SiteController, :index
     resources "/sites", SiteController
     resources "/monitors", MonitorController
     resources "/reports", ReportController
