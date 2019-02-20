@@ -20,4 +20,4 @@
   </tbody>
 </table>
 
-<span><%= link "New Site", to: Routes.site_path(@conn, :new) %></span>
+<span><%= link "New Site", to: Routes.site_path(@conn, :new), class: "button" %></span>
