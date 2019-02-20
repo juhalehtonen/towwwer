@@ -14,7 +14,7 @@ defmodule PerfMon.Application do
       PerfMonWeb.Endpoint,
       {Task.Supervisor, name: PerfMon.TaskSupervisor, restart: :transient},
       # Starts a worker by calling: PerfMon.Worker.start_link(arg)
-      {PerfMon.Worker, %{}},
+      {PerfMon.Worker, NaiveDateTime.utc_now()},
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
