@@ -24,6 +24,8 @@
       </div>
   <% end %>
 
+  <%= link_to_monitor_fields() %>
+
   <div>
     <%= submit "Save" %>
   </div>

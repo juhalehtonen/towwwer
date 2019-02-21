@@ -1,5 +1,7 @@
 defmodule PerfMonWeb.SiteView do
   use PerfMonWeb, :view
+  alias PerfMon.Websites.Site
+  alias PerfMon.Websites.Monitor
 
   # Score extracted from saved lighthouse data
   def score(report, type) when type in ["performance", "seo", "accessibility", "best-practices", "pwa"] do
@@ -33,5 +35,12 @@ defmodule PerfMonWeb.SiteView do
 
   def generate_token do
     PerfMon.Tools.Helpers.random_string(32)
+  end
+
+  def link_to_monitor_fields do
+    changeset = Site.changeset(%Site{monitors: [%Monitor{}]})
+    form = Phoenix.HTML.FormData.to_form(changeset, [])
+    fields = render_to_string(__MODULE__, "monitor_fields.html", f: form)
+    link "Add Monitor", to: "#", "data-template": fields, id: "add_monitor", class: "button button-outline"
   end
 end

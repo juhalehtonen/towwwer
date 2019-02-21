@@ -12,7 +12,7 @@ defmodule PerfMon.Websites.Site do
   end
 
   @doc false
-  def changeset(site, attrs) do
+  def changeset(site, attrs \\ %{}) do
     site
     |> cast(attrs, [:base_url, :token])
     |> cast_assoc(:monitors, required: true)

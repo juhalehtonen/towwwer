@@ -1,0 +1,9 @@
+<%= inputs_for @f, :monitors, fn p -> %>
+    <div id="new-monitor">
+        <div class="form-group">
+            <%= label p, :path, class: "control-label" %>
+            <%= text_input p, :path, class: "form-control" %>
+            <%= error_tag p, :path %>
+        </div>
+    </div>
+<% end %>
