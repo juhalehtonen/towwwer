@@ -11,3 +11,6 @@
 .text-right {
     text-align: right;
 }
+h1 {
+    font-size: 3.8rem !important;
+}
