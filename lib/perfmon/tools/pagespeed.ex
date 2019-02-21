@@ -16,6 +16,10 @@ defmodule PerfMon.Tools.PageSpeed do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         {:ok, body}
 
+      {:ok, %HTTPoison.Response{status_code: 404}} ->
+        Logger.info({request_url, "404"})
+        {:error, "404"}
+
       {:error, %HTTPoison.Error{reason: reason}} ->
         Logger.error({request_url, reason})
         {:error, reason}

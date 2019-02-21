@@ -10,7 +10,7 @@
   <%= error_tag f, :base_url %>
 
   <%= label f, :token %>
-  <%= text_input f, :token %>
+  <%= text_input f, :token, value: generate_token() %>
   <%= error_tag f, :token %>
 
 

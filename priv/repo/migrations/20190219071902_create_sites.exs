@@ -10,6 +10,6 @@ defmodule PerfMon.Repo.Migrations.CreateSites do
     end
 
     create unique_index(:sites, [:base_url])
-    create unique_index(:sites, [:token])
+    # create unique_index(:sites, [:token])
   end
 end

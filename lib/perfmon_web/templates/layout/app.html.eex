@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
   </head>
   <body>
-    <header>
+    <header class="site-header">
       <section class="container">
         <nav role="navigation">
             <h1 class="site-title"><%= link "PerfMon", to: Routes.site_path(@conn, :index) %></h1>
@@ -20,9 +20,13 @@
       </section>
     </header>
     <main role="main" class="container">
-      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-      <%= render @view_module, @view_template, assigns %>
+        <div class="row">
+            <div class="column">
+                <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+                <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+                <%= render @view_module, @view_template, assigns %>
+            </div>
+        </div>
     </main>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </body>

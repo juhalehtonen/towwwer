@@ -30,4 +30,8 @@ defmodule PerfMonWeb.SiteView do
   def reports_of_monitor(monitor) do
     PerfMon.Websites.list_reports_of_monitor(monitor)
   end
+
+  def generate_token do
+    PerfMon.Tools.Helpers.random_string(32)
+  end
 end

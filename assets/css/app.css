@@ -1,4 +1,13 @@
 /* This file is for your main application css. */
 
 @import "./phoenix.css";
-.site-title { font-size: 18px; margin-top: 20px; }
+.site-title { font-size: 18px; margin:0; }
+.site-header {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background-color: #fafafa;
+    margin-bottom: 35px;
+}
+.text-right {
+    text-align: right;
+}

@@ -18,6 +18,5 @@ defmodule PerfMon.Websites.Site do
     |> cast_assoc(:monitors, required: true)
     |> validate_required([:base_url, :token])
     |> unique_constraint(:base_url)
-    |> unique_constraint(:token)
   end
 end
