@@ -25,7 +25,7 @@
 
 <h2>Monitors</h2>
 <%= for monitor <- @site.monitors do %>
-    <h3>Path: <%= monitor.path %></h3>
+    <h3>Path: <a href="<%= @site.base_url <> monitor.path %>" target="_blank"><%= monitor.path %></a></h3>
     <table>
         <thead>
             <tr>
