@@ -4,8 +4,8 @@ defmodule PerfMon.Worker do
   alias PerfMon.Websites
 
   # How long to wait (in milliseconds) between each report creation check.
-  # 60 * 60 * 12 * 1000 = run these every 12 hours
-  @periodic_wait 60 * 60 * 12 * 1000
+  # 60 * 60 * 24 * 1000 = run these every 24 hours
+  @periodic_wait 60 * 60 * 1 * 1000
 
   def start_link(args) do
     GenServer.start_link(__MODULE__, args, name: __MODULE__)

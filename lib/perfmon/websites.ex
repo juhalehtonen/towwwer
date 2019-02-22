@@ -31,7 +31,7 @@ defmodule PerfMon.Websites do
   """
   def list_pending_sites do
     Repo.all from s in Site,
-      where: s.updated_at < datetime_add(^NaiveDateTime.utc_now(), -1, "hour"),
+      where: s.updated_at < datetime_add(^NaiveDateTime.utc_now(), -1, "day"),
       preload: [monitors: [:reports]]
   end
 
