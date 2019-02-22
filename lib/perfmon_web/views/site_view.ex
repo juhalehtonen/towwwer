@@ -11,6 +11,11 @@ defmodule PerfMonWeb.SiteView do
     end
   end
 
+  # Returns total size of monitor from report
+  def total_size(report) do
+    report.data["lighthouseResult"]["audits"]["total-byte-weight"]["displayValue"]
+  end
+
   # Timestamp of when last automated reports were generated
   def last_automated_reports do
     PerfMon.Worker.get_state()

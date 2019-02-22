@@ -34,6 +34,7 @@
                 <th>PWA</th>
                 <th>Accessibility</th>
                 <th>Best practices</th>
+                <th>Total size</th>
                 <th>Report data</th>
             </tr>
         </thead>
@@ -45,10 +46,10 @@
                     <td><%= score(report, "pwa") %></td>
                     <td><%= score(report, "accessibility") %></td>
                     <td><%= score(report, "best-practices") %></td>
+                    <td><%= total_size(report) %></td>
                     <td><%= link report.data["analysisUTCTimestamp"], to: Routes.report_path(@conn, :show, report) %></td>
                 </tr>
             <% end %>
         </tbody>
     </table>
 <% end %>
-
