@@ -7,13 +7,19 @@ defmodule PerfMonWeb.SiteView do
   def score(report, type) when type in ["performance", "seo", "accessibility", "best-practices", "pwa"] do
     case report.data["lighthouseResult"]["categories"][type]["score"] do
       nil -> 0
-      _ -> report.data["lighthouseResult"]["categories"][type]["score"] * 100 |> round()
+      _ -> (report.data["lighthouseResult"]["categories"][type]["score"] * 100) |> round()
     end
   end
 
   # Returns total size of monitor from report
   def total_size(report) do
     report.data["lighthouseResult"]["audits"]["total-byte-weight"]["displayValue"]
+  end
+
+  def first_meaningful_paint(report) do
+    report.data["lighthouseResult"]["audits"]["metrics"]["details"]["items"]
+    |> Enum.at(0)
+    |> Map.get("firstMeaningfulPaint")
   end
 
   # Timestamp of when last automated reports were generated
@@ -46,6 +52,12 @@ defmodule PerfMonWeb.SiteView do
     changeset = Site.changeset(%Site{monitors: [%Monitor{}]})
     form = Phoenix.HTML.FormData.to_form(changeset, [])
     fields = render_to_string(__MODULE__, "monitor_fields.html", f: form)
-    link "Add Monitor", to: "#", "data-template": fields, id: "add_monitor", class: "button button-outline"
+
+    link("Add Monitor",
+      to: "#",
+      "data-template": fields,
+      id: "add_monitor",
+      class: "button button-outline"
+    )
   end
 end

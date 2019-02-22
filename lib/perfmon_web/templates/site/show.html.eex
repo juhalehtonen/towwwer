@@ -35,6 +35,7 @@
                 <th>Accessibility</th>
                 <th>Best practices</th>
                 <th>Total size</th>
+                <th>First meaningful paint</th>
                 <th>Report data</th>
             </tr>
         </thead>
@@ -47,6 +48,7 @@
                     <td><%= score(report, "accessibility") %></td>
                     <td><%= score(report, "best-practices") %></td>
                     <td><%= total_size(report) %></td>
+                    <td><%= first_meaningful_paint(report) %> ms</td>
                     <td><%= link report.data["analysisUTCTimestamp"], to: Routes.report_path(@conn, :show, report) %></td>
                 </tr>
             <% end %>

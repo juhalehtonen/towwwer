@@ -14,3 +14,7 @@
 h1 {
     font-size: 3.8rem !important;
 }
+
+.container {
+  max-width: 1400px !important;
+}
