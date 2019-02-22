@@ -60,4 +60,12 @@ defmodule PerfMonWeb.SiteView do
       class: "button button-outline"
     )
   end
+
+  def color_code_result(result) do
+    cond do
+      result < 45 -> "#FF4136"
+      result > 74 -> "#2ECC40"
+      true        -> "#FF851B"
+    end
+  end
 end
