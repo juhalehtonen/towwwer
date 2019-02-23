@@ -19,7 +19,7 @@ defmodule PerfMon.Websites do
 
   """
   def list_sites do
-    Repo.all(from d in Site, preload: [monitors: [:reports]])
+    Repo.all(from d in Site)
   end
 
   @doc """
