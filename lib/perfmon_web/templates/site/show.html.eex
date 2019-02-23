@@ -26,32 +26,36 @@
 <h2>Monitors</h2>
 <%= for monitor <- @site.monitors do %>
     <h3>Path: <a href="<%= @site.base_url <> monitor.path %>" target="_blank"><%= monitor.path %></a></h3>
-    <table>
-        <thead>
-            <tr>
-                <th>Performance</th>
-                <th>SEO</th>
-                <th>PWA</th>
-                <th>Accessibility</th>
-                <th>Best practices</th>
-                <th>Total size</th>
-                <th>First meaningful paint</th>
-                <th>Report data</th>
-            </tr>
-        </thead>
-        <tbody>
-            <%= for report <- reports_of_monitor(monitor) do %>
-              <tr>
-                <td style="color:<%= score(report, "performance") |> color_code_result() %>;"><%= score(report, "performance") %></td>
-                <td style="color:<%= score(report, "seo") |> color_code_result() %>;"><%= score(report, "seo") %></td>
-                <td style="color:<%= score(report, "pwa") |> color_code_result() %>;"><%= score(report, "pwa") %></td>
-                <td style="color:<%= score(report, "accessibility") |> color_code_result() %>;"><%= score(report, "accessibility") %></td>
-                <td style="color:<%= score(report, "best-practices") |> color_code_result() %>;"><%= score(report, "best-practices") %></td>
-                <td><%= total_size(report) %></td>
-                <td><%= first_meaningful_paint(report) %> ms</td>
-                <td><%= link report.data["analysisUTCTimestamp"], to: Routes.report_path(@conn, :show, report) %></td>
-              </tr>
-            <% end %>
-        </tbody>
-    </table>
+    <%= if report_count(monitor) > 0 do %>
+        <table>
+            <thead>
+                <tr>
+                    <th>Performance</th>
+                    <th>SEO</th>
+                    <th>PWA</th>
+                    <th>Accessibility</th>
+                    <th>Best practices</th>
+                    <th>Total size</th>
+                    <th>First meaningful paint</th>
+                    <th>Report data</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%= for report <- reports_of_monitor(monitor) do %>
+                    <tr>
+                        <td style="color:<%= score(report, "performance") |> color_code_result() %>;"><%= score(report, "performance") %></td>
+                        <td style="color:<%= score(report, "seo") |> color_code_result() %>;"><%= score(report, "seo") %></td>
+                        <td style="color:<%= score(report, "pwa") |> color_code_result() %>;"><%= score(report, "pwa") %></td>
+                        <td style="color:<%= score(report, "accessibility") |> color_code_result() %>;"><%= score(report, "accessibility") %></td>
+                        <td style="color:<%= score(report, "best-practices") |> color_code_result() %>;"><%= score(report, "best-practices") %></td>
+                        <td><%= total_size(report) %></td>
+                        <td><%= first_meaningful_paint(report) %> ms</td>
+                        <td><%= link report.data["analysisUTCTimestamp"], to: Routes.report_path(@conn, :show, report) %></td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+    <%= else %>
+        <p><%= message_no_reports(monitor) %></p>
+    <%= end %>
 <% end %>

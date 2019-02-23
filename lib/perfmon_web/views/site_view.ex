@@ -68,4 +68,15 @@ defmodule PerfMonWeb.SiteView do
       true        -> "#FF851B"
     end
   end
+
+  def report_count(monitor) do
+    monitor |> reports_of_monitor() |> length()
+  end
+
+  def message_no_reports(monitor) do
+    cond do
+      monitor |> report_count() > 0 -> ""
+      true -> "No reports for this monitor have been created yet. Check back later."
+    end
+  end
 end
