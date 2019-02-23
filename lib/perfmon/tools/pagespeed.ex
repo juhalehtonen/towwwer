@@ -48,11 +48,27 @@ defmodule PerfMon.Tools.PageSpeed do
   """
   def run_build_task_for_site_monitors(site) when is_map(site) do
     for monitor <- site.monitors do
-      {:ok, _pid} =
-        Task.Supervisor.start_child(PerfMon.TaskSupervisor, fn ->
-          build_report(site.base_url <> monitor.path, monitor)
-          Websites.bump_site_timestamp(site)
-        end)
+      build_task(site, monitor)
     end
+  end
+
+  @doc """
+  Run a build task for every newly added site monitor, but not the existing
+  ones.
+  """
+  def run_build_task_for_new_site_monitors(site) when is_map(site) do
+    for monitor <- site.monitors do
+      if monitor.updated_at == monitor.inserted_at do
+        build_task(site, monitor)
+      end
+    end
+  end
+
+  defp build_task(site, monitor) do
+    {:ok, _pid} =
+      Task.Supervisor.start_child(PerfMon.TaskSupervisor, fn ->
+        build_report(site.base_url <> monitor.path, monitor)
+        Websites.bump_site_timestamp(site)
+      end)
   end
 end

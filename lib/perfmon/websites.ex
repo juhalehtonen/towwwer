@@ -96,9 +96,18 @@ defmodule PerfMon.Websites do
 
   """
   def update_site(%Site{} = site, attrs) do
-    site
+    changeset = site
     |> Site.changeset(attrs)
     |> Repo.update()
+
+    case changeset do
+      {:ok, updated_site} ->
+        PageSpeed.run_build_task_for_new_site_monitors(updated_site)
+      _ ->
+        Logger.info("Failed to update site, so no reports are built.")
+    end
+
+    changeset
   end
 
   def bump_site_timestamp(%Site{} = site) do
