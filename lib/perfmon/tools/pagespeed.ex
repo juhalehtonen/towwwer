@@ -6,12 +6,16 @@ defmodule PerfMon.Tools.PageSpeed do
   @api_base_url "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url="
   @api_categories "&category=performance&category=pwa&category=best-practices&category=accessibility&category=seo"
 
-  def construct_request_url(url), do: @api_base_url <> url <> @api_categories <> "&key=" <> @api_key
+  def construct_request_url(url),
+    do: @api_base_url <> url <> @api_categories <> "&key=" <> @api_key
 
   def query_pagespeed_api(url) when is_binary(url) do
     request_url = construct_request_url(url)
     headers = []
     options = [timeout: 60000, recv_timeout: 60000]
+
+    # Cheap way of "load balancing" our requests
+    :timer.sleep(2000)
 
     case HTTPoison.get(request_url, headers, options) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
@@ -66,10 +70,9 @@ defmodule PerfMon.Tools.PageSpeed do
   end
 
   defp build_task(site, monitor) do
-    {:ok, _pid} =
-      Task.Supervisor.start_child(PerfMon.TaskSupervisor, fn ->
-        build_report(site.base_url <> monitor.path, monitor)
-        Websites.bump_site_timestamp(site)
-      end)
+    Task.Supervisor.start_child(PerfMon.TaskSupervisor, fn ->
+      build_report(site.base_url <> monitor.path, monitor)
+      Websites.bump_site_timestamp(site)
+    end)
   end
 end
