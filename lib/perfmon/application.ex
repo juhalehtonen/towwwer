@@ -17,6 +17,9 @@ defmodule PerfMon.Application do
       {PerfMon.Worker, NaiveDateTime.utc_now()},
     ]
 
+    # Start the ExternalService fuse
+    ExternalService.start(PerfMon.Tools.ApiClient)
+
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: PerfMon.Supervisor]
