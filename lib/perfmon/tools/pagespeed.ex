@@ -10,7 +10,7 @@ defmodule PerfMon.Tools.PageSpeed do
   def query_pagespeed_api(url) when is_binary(url) do
     request_url = construct_request_url(url)
     headers = []
-    options = [timeout: 30000, recv_timeout: 30000]
+    options = [timeout: 30000, recv_timeout: 60000]
 
     case HTTPoison.get(request_url, headers, options) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
