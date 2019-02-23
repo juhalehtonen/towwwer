@@ -17,10 +17,21 @@
   <h4>Monitors</h4>
   <p>Each monitor represents a specific page or URL path on the website.</p>
   <%= inputs_for f, :monitors, fn p -> %>
-      <div class="form-group">
-          <%= label p, :path %>
-          <%= text_input p, :path %>
-          <%= error_tag p, :path %>
+      <div class="row">
+          <div class="column column-80">
+              <div class="form-group">
+                  <%= label p, :path %>
+                  <%= text_input p, :path %>
+                  <%= error_tag p, :path %>
+              </div>
+          </div>
+
+          <div class="column">
+              <div class="form-group">
+                  <%= label p, :delete, "Delete?", class: "control-label" %>
+                  <%= checkbox p, :delete %> Mark for deletion
+              </div>
+          </div>
       </div>
   <% end %>
 

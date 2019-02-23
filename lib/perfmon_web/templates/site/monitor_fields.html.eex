@@ -1,9 +1,18 @@
 <%= inputs_for @f, :monitors, fn p -> %>
-    <div id="new-monitor">
-        <div class="form-group">
-            <%= label p, :path, class: "control-label" %>
-            <%= text_input p, :path, class: "form-control" %>
-            <%= error_tag p, :path %>
+    <div class="row" id="new-monitor">
+        <div class="column column-80">
+            <div class="form-group">
+                <%= label p, :path, class: "control-label" %>
+                <%= text_input p, :path, class: "form-control" %>
+                <%= error_tag p, :path %>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="form-group">
+                <%= label p, :delete, "Delete?", class: "control-label" %>
+                <%= checkbox p, :delete %> Mark for deletion
+            </div>
         </div>
     </div>
 <% end %>
