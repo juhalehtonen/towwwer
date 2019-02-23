@@ -2,10 +2,11 @@ defmodule PerfMon.Tools.PageSpeed do
   require Logger
   alias PerfMon.Websites
 
+  @api_key Application.get_env(:perfmon, :pagespeed_insights_api_key)
   @api_base_url "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url="
   @api_categories "&category=performance&category=pwa&category=best-practices&category=accessibility&category=seo"
 
-  def construct_request_url(url), do: @api_base_url <> url <> @api_categories
+  def construct_request_url(url), do: @api_base_url <> url <> @api_categories <> "&key=" <> @api_key
 
   def query_pagespeed_api(url) when is_binary(url) do
     request_url = construct_request_url(url)
