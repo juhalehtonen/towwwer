@@ -11,9 +11,13 @@ defmodule PerfMonWeb.SiteController do
   end
 
   def new(conn, _params) do
-    changeset = Websites.change_site(%Site{monitors: [
-                                                  %Monitor{path: "/"}
-                                                ]})
+    changeset =
+      Websites.change_site(%Site{
+        monitors: [
+          %Monitor{path: "/"}
+        ]
+      })
+
     render(conn, "new.html", changeset: changeset)
   end
 
