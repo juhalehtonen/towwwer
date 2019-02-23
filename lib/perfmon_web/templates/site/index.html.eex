@@ -17,17 +17,12 @@
   <thead>
     <tr>
       <th>Base URL</th>
-      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
   <%= for site <- @sites do %>
     <tr>
       <td><%= link site.base_url, to: Routes.site_path(@conn, :show, site) %></td>
-      <td>
-        <%= link "Edit", to: Routes.site_path(@conn, :edit, site) %>
-        <%= link "Delete", to: Routes.site_path(@conn, :delete, site), method: :delete, data: [confirm: "Are you sure?"] %>
-      </td>
     </tr>
   <% end %>
   </tbody>

@@ -5,6 +5,7 @@
     <div class="column text-right">
         <span><%= link "Back", to: Routes.site_path(@conn, :index), class: "button button-outline" %></span>
         <span><%= link "Edit", to: Routes.site_path(@conn, :edit, @site), class: "button" %></span>
+        <span><%= link "Delete", to: Routes.site_path(@conn, :delete, @site), class: "button button-danger", method: :delete, data: [confirm: "Are you sure you want to permanently delete this site?"] %></span>
     </div>
 </div>
 
