@@ -9,5 +9,5 @@
 
 <hr />
 
-<%= render "form.html", Map.put(assigns, :action, Routes.site_path(@conn, :update, @site)) %>
+<%= render "form_edit.html", Map.put(assigns, :action, Routes.site_path(@conn, :update, @site)) %>
 

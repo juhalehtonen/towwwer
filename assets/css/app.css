@@ -18,3 +18,8 @@ h1 {
 .container {
   max-width: 1400px !important;
 }
+
+input[disabled] {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
