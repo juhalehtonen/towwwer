@@ -37,7 +37,9 @@
 
   <%= link_to_monitor_fields() %>
 
+  <hr />
+
   <div>
-    <%= submit "Save" %>
+    <%= submit "Save changes" %>
   </div>
 <% end %>
