@@ -11,7 +11,7 @@ defmodule PerfMon.Worker do
     GenServer.start_link(__MODULE__, args, name: __MODULE__)
   end
 
-  def init(state) do
+  def init(_state) do
     do_work()
     schedule_work()
 
@@ -23,7 +23,7 @@ defmodule PerfMon.Worker do
     Process.send_after(self(), :work, @periodic_wait)
   end
 
-  def handle_info(:work, state) do
+  def handle_info(:work, _state) do
     spawn_link(&do_work/0)
     schedule_work()
 
