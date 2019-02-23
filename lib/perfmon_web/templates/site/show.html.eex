@@ -56,7 +56,7 @@
                 <% end %>
             </tbody>
         </table>
-    <%= else %>
+    <% else %>
         <p><%= message_no_reports(monitor) %></p>
-    <%= end %>
+    <% end %>
 <% end %>

@@ -14,9 +14,6 @@ defmodule PerfMon.Tools.PageSpeed do
     headers = []
     options = [timeout: 60000, recv_timeout: 60000]
 
-    # Cheap way of "load balancing" our requests
-    :timer.sleep(2000)
-
     case HTTPoison.get(request_url, headers, options) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         {:ok, body}
@@ -70,6 +67,10 @@ defmodule PerfMon.Tools.PageSpeed do
   end
 
   defp build_task(site, monitor) do
+    # Cheap way of "load balancing" our requests to avoid hitting the API rate limit.
+    # 5 seconds is just enough to do 20req/100s or 0,2req/1s in the allowed time limit.
+    :timer.sleep(5000)
+
     Task.Supervisor.start_child(PerfMon.TaskSupervisor, fn ->
       build_report(site.base_url <> monitor.path, monitor)
       Websites.bump_site_timestamp(site)
