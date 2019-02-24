@@ -15,6 +15,8 @@ alias PerfMon.Websites
 alias PerfMon.Websites.Site
 alias PerfMon.Websites.Monitor
 
+:observer.start()
+
 site_urls = [
   "http://business3.aalto.fi/",
   "https://armadainteractive.com",
@@ -92,11 +94,9 @@ sites = Enum.map(site_urls, fn(site_url) ->
   %{base_url: site_url, token: PerfMon.Tools.Helpers.random_string(32), monitors: [%{}]}
 end)
 
-pid = Process.spawn(fn ->
-  for site <- sites do
-    Websites.create_site(site)
-  end
-end, [:link])
+for site <- sites do
+  Websites.create_site(site)
+end
 
 receive do
   {:DOWN, ref, :process, object, reason} ->

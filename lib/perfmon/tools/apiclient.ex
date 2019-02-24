@@ -1,10 +1,11 @@
 defmodule PerfMon.Tools.ApiClient do
+  require Logger
   alias PerfMon.Tools.PageSpeed
 
   @fuse_name __MODULE__
   @fuse_options [
-    # Tolerate 30 failures for every 1 second time window.
-    fuse_strategy: {:standard, 30, 1000},
+    # Tolerate 10 failures for every 1 second time window.
+    fuse_strategy: {:standard, 10, 1000},
     # Reset the fuse 5 seconds after it is blown.
     fuse_refresh: 5000,
     # Limit to 60 calls per 100 seconds
@@ -21,8 +22,8 @@ defmodule PerfMon.Tools.ApiClient do
   @retry_opts %ExternalService.RetryOptions{
     # Exponential backoff, 1000ms between retries
     backoff: {:exponential, 1000},
-    # Stop retrying after 240 seconds.
-    expiry: 240_000,
+    # Stop retrying after 30 seconds.
+    expiry: 30000,
   }
 
   def start do
@@ -37,8 +38,8 @@ defmodule PerfMon.Tools.ApiClient do
     url
     |> PageSpeed.query_pagespeed_api()
     |> case do
-         {:error, status_code} when status_code in @retry_errors ->
-           IO.inspect url
+         {:ok_but_error, status_code} when status_code in @retry_errors ->
+           Logger.info "Retrying #{url} due to #{status_code}"
            IO.inspect {:retry, status_code}
          # If not a retriable error, just return the result.
          pagespeed_result ->

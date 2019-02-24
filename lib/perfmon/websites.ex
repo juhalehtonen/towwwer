@@ -75,6 +75,7 @@ defmodule PerfMon.Websites do
 
     case changeset do
       {:ok, site} ->
+        Logger.info("Site created, running build task for monitors")
         PageSpeed.run_build_task_for_site_monitors(site)
       _ ->
         Logger.info("Failed to create site, so no reports are built.")

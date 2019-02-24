@@ -19,7 +19,7 @@ defmodule PerfMon.Tools.PageSpeed do
         {:ok, body}
 
       {:ok, %HTTPoison.Response{status_code: status_code}} ->
-        {:error, status_code}
+        {:ok_but_error, status_code}
 
       {:error, %HTTPoison.Error{reason: reason}} ->
         Logger.error("HTTPoison request failed")
@@ -29,20 +29,6 @@ defmodule PerfMon.Tools.PageSpeed do
 
   def query_pagespeed_api(_url), do: {:error, "URL not a binary"}
 
-  @doc """
-  Constructs and saves a new Report from the JSON response of the
-  PageSpeed API.
-  """
-  def build_report(url, monitor) do
-    case PerfMon.Tools.ApiClient.get(url) do
-      {:ok, body} ->
-        data = Jason.decode!(body)
-        Websites.create_report(%{data: data, monitor: monitor})
-
-      {:error, reason} ->
-        {:error, reason}
-    end
-  end
 
   @doc """
   Runs a build task for each monitor under given `site`.
@@ -70,9 +56,31 @@ defmodule PerfMon.Tools.PageSpeed do
     # 5 seconds is just enough to do 20req/100s or 0,2req/1s in the allowed time limit.
     # :timer.sleep(5000)
 
-    Task.Supervisor.start_child(PerfMon.TaskSupervisor, fn ->
-      build_report(site.base_url <> monitor.path, monitor)
-      Websites.bump_site_timestamp(site)
-    end)
+    # Task.Supervisor.start_child(PerfMon.TaskSupervisor, fn ->
+      # Logger.info("Starting TaskSupervisor child")
+      case build_report(site.base_url <> monitor.path, monitor) do
+        {:ok, _report} ->
+          Logger.info("Created report successfully")
+          Websites.bump_site_timestamp(site)
+        {:error, _changeset} ->
+          Logger.info("Failed to create report for site monitor")
+          :error
+      end
+    # end, shutdown: 60_000)
+  end
+
+  @doc """
+  Constructs and saves a new Report from the JSON response of the
+  PageSpeed API.
+  """
+  def build_report(url, monitor) do
+    case PerfMon.Tools.ApiClient.get(url) do
+      {:ok, body} ->
+        data = Jason.decode!(body)
+        Websites.create_report(%{data: data, monitor: monitor})
+
+      {:error, reason} ->
+        {:error, reason}
+    end
   end
 end
