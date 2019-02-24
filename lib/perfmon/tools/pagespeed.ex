@@ -52,12 +52,8 @@ defmodule PerfMon.Tools.PageSpeed do
   end
 
   defp build_task(site, monitor) do
-    # Cheap way of "load balancing" our requests to avoid hitting the API rate limit.
-    # 5 seconds is just enough to do 20req/100s or 0,2req/1s in the allowed time limit.
-    # :timer.sleep(5000)
-
-    # Task.Supervisor.start_child(PerfMon.TaskSupervisor, fn ->
-      # Logger.info("Starting TaskSupervisor child")
+    Task.Supervisor.start_child(PerfMon.TaskSupervisor, fn ->
+      Logger.info("Starting TaskSupervisor child")
       case build_report(site.base_url <> monitor.path, monitor) do
         {:ok, _report} ->
           Logger.info("Created report successfully")
@@ -66,7 +62,7 @@ defmodule PerfMon.Tools.PageSpeed do
           Logger.info("Failed to create report for site monitor")
           :error
       end
-    # end, shutdown: 60_000)
+    end, shutdown: 60_000)
   end
 
   @doc """

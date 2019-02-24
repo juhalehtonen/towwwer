@@ -4,12 +4,12 @@ defmodule PerfMon.Tools.ApiClient do
 
   @fuse_name __MODULE__
   @fuse_options [
-    # Tolerate 10 failures for every 1 second time window.
-    fuse_strategy: {:standard, 10, 1000},
-    # Reset the fuse 5 seconds after it is blown.
-    fuse_refresh: 5000,
+    # Tolerate 2 failures for every 5 second time window.
+    fuse_strategy: {:standard, 2, 5000},
+    # Reset the fuse 60 seconds after it is blown.
+    fuse_refresh: 60_000,
     # Limit to 60 calls per 100 seconds
-    rate_limit: {60, 100_000}
+    rate_limit: {1, 1000}
   ]
   @retry_errors [
     408, # TIMEOUT
@@ -20,10 +20,10 @@ defmodule PerfMon.Tools.ApiClient do
     504, # DEADLINE_EXCEEDED
   ]
   @retry_opts %ExternalService.RetryOptions{
-    # Exponential backoff, 1000ms between retries
-    backoff: {:exponential, 1000},
-    # Stop retrying after 30 seconds.
-    expiry: 30000,
+    # Exponential backoff, 10000ms between retries
+    backoff: {:exponential, 10_000},
+    # Stop retrying after 60 seconds.
+    expiry: 60_000,
   }
 
   def start do
