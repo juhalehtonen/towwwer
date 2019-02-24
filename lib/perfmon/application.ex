@@ -18,7 +18,7 @@ defmodule PerfMon.Application do
     ]
 
     # Start the ExternalService fuse
-    ExternalService.start(PerfMon.Tools.ApiClient)
+    PerfMon.Tools.ApiClient.start()
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
