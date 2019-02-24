@@ -17,9 +17,10 @@ defmodule PerfMonWeb.SiteView do
   end
 
   def first_meaningful_paint(report) do
-    report.data["lighthouseResult"]["audits"]["metrics"]["details"]["items"]
-    |> Enum.at(0)
-    |> Map.get("firstMeaningfulPaint")
+    case report.data["lighthouseResult"]["audits"]["metrics"]["details"]["items"] do
+      nil -> ""
+      val -> val |> Enum.at(0) |> Map.get("firstMeaningfulPaint")
+    end
   end
 
   # Timestamp of when last automated reports were generated

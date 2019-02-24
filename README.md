@@ -15,6 +15,23 @@ use Mix.Config
 config :perfmon, pagespeed_insights_api_key: "YOUR_API_KEY_HERE"
 ```
 
+Note: you need to have Postgres running to set this up.
+
+## Features
+
+Currently implemented:
+
+  * Unlimited sites (think domain), monitors (paths for a site), and reports (API response data for a monitor)
+  * Automatic daily (or configurable) updates for every site & monitor reports
+  * Rate limiting to respect Google API quotas
+  
+Planned:
+
+  * Slack integration
+  * Viewer for comparing historical data
+  * Friendly API for fetching the most relevant information
+  * More automated tools (WPScan, others)
+
 ## Local Phoenix
 
 To start your Phoenix server:
