@@ -23,6 +23,20 @@ defmodule PerfMonWeb.SiteView do
     end
   end
 
+  def time_to_interactive(report) do
+    case report.data["lighthouseResult"]["audits"]["metrics"]["details"]["items"] do
+      nil -> ""
+      val -> val |> Enum.at(0) |> Map.get("interactive")
+    end
+  end
+
+  def robots_txt(report) do
+    case report.data["lighthouseResult"]["audits"]["robots-txt"]["title"] do
+      nil -> ""
+      val -> val
+    end
+  end
+
   # Timestamp of when last automated reports were generated
   def last_automated_reports do
     PerfMon.Worker.get_state()
