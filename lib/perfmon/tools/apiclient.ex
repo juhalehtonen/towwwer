@@ -9,7 +9,7 @@ defmodule PerfMon.Tools.ApiClient do
     # Reset the fuse 60 seconds after it is blown.
     fuse_refresh: 60_000,
     # Limit to 60 calls per 100 seconds
-    rate_limit: {1, 1000}
+    rate_limit: {1, 1200}
   ]
   @retry_errors [
     408, # TIMEOUT
