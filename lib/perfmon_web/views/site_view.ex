@@ -37,6 +37,13 @@ defmodule PerfMonWeb.SiteView do
     end
   end
 
+  def final_screenshot(report) do
+    case report.data["lighthouseResult"]["audits"]["final-screenshot"]["details"]["data"] do
+      nil -> ""
+      val -> val
+    end
+  end
+
   # Timestamp of when last automated reports were generated
   def last_automated_reports do
     PerfMon.Worker.get_state()
