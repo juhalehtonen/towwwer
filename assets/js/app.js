@@ -34,7 +34,7 @@ if (document.getElementById('add_monitor')) {
 
 
 // PLOTLY
-let drawGraphForMonitor = function(monitor_id, element) {
+let drawGraphForMonitor = function(monitor_id, element, data_type) {
     let url = 'http://localhost:4000/api/v1/monitors/' + monitor_id;
     let xl = [];
     let yl = [];
@@ -49,7 +49,7 @@ let drawGraphForMonitor = function(monitor_id, element) {
         let data = figure.data.reports;
         for (var key in data) {
             xl.push(data[key]["timestamp"]);
-            yl.push(data[key]["performance"]);
+            yl.push(data[key][data_type]);
         }
         let trace = {
             x: xl,
@@ -65,7 +65,7 @@ let loopMonitorsForGraphs = function() {
         let elements = document.getElementsByClassName('js-plotly');
         for (let element of elements) {
             let id = element.getAttribute('data-monitor-id');
-            drawGraphForMonitor(id, element);
+            drawGraphForMonitor(id, element, "performance");
         }
     }
 };
