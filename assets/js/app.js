@@ -34,33 +34,41 @@ if (document.getElementById('add_monitor')) {
 
 
 // PLOTLY
-let drawGraphForMonitor = function(monitor_id) {
-    if (document.getElementById('plotly')) {
-        let plotlyEl = document.getElementById('plotly');
-        let url = 'http://localhost:4000/api/v1/monitors/' + monitor_id;
-        let xl = [];
-        let yl = [];
+let drawGraphForMonitor = function(monitor_id, element) {
+    let url = 'http://localhost:4000/api/v1/monitors/' + monitor_id;
+    let xl = [];
+    let yl = [];
 
-        let layout = {
-            title: "Title",
-            yaxis: {title: "Performance score"},
-            xaxis: {title: "Date"}
+    let layout = {
+        title: "Title",
+        yaxis: {title: "Performance score"},
+        xaxis: {title: "Date"}
+    };
+
+    Plotly.d3.json(url, function(figure) {
+        let data = figure.data.reports;
+        for (var key in data) {
+            xl.push(data[key]["timestamp"]);
+            yl.push(data[key]["performance"]);
+        }
+        let trace = {
+            x: xl,
+            y: yl
         };
 
-        Plotly.d3.json(url, function(figure) {
-            let data = figure.data.reports;
-            for (var key in data) {
-                xl.push(data[key]["timestamp"]);
-                yl.push(data[key]["performance"]);
-            }
-            let trace = {
-                x: xl,
-                y: yl
-            };
+        Plotly.plot(element, [trace], layout);
+    });
+};
 
-            Plotly.plot(plotlyEl, [trace], layout);
-        });
+let loopMonitorsForGraphs = function() {
+    if (document.getElementsByClassName('js-plotly')) {
+        let elements = document.getElementsByClassName('js-plotly');
+        for (let element of elements) {
+            let id = element.getAttribute('data-monitor-id');
+            drawGraphForMonitor(id, element);
+        }
     }
 };
 
-drawGraphForMonitor(2);
+loopMonitorsForGraphs();
+
