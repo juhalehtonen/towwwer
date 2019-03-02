@@ -34,24 +34,33 @@ if (document.getElementById('add_monitor')) {
 
 
 // PLOTLY
+let drawGraphForMonitor = function(monitor_id) {
+    if (document.getElementById('plotly')) {
+        let plotlyEl = document.getElementById('plotly');
+        let url = 'http://localhost:4000/api/v1/monitors/' + monitor_id;
+        let xl = [];
+        let yl = [];
 
-if (document.getElementById('plotly')) {
-    let plotlyEl = document.getElementById('plotly');
-    // let url = 'https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/GDP-data.json';
-    let url = 'http://localhost:4000/api/v1/monitors/1';
-    console.log(url);
-    let xl = [];
-    let yl = [];
-    Plotly.d3.json(url, function(figure){
-        let data = figure.data.reports;
-        console.log(data);
-        for (var key in data) {
-            xl.push(data[key]["timestamp"]);
-            yl.push(data[key]["performance"]);
-        }
-        let trace = {
-            x: xl,
-            y: yl
+        let layout = {
+            title: "Title",
+            yaxis: {title: "Performance score"},
+            xaxis: {title: "Date"}
         };
-        Plotly.plot(plotlyEl, [trace]); });
-}
+
+        Plotly.d3.json(url, function(figure) {
+            let data = figure.data.reports;
+            for (var key in data) {
+                xl.push(data[key]["timestamp"]);
+                yl.push(data[key]["performance"]);
+            }
+            let trace = {
+                x: xl,
+                y: yl
+            };
+
+            Plotly.plot(plotlyEl, [trace], layout);
+        });
+    }
+};
+
+drawGraphForMonitor(2);
