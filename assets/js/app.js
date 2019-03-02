@@ -34,30 +34,52 @@ if (document.getElementById('add_monitor')) {
 
 
 // PLOTLY
-let drawGraphForMonitor = function(monitor_id, element, data_type) {
+let drawGraphForMonitor = function(monitor_id, element) {
     let url = 'http://localhost:4000/api/v1/monitors/' + monitor_id;
-    let xl = [];
-    let yl = [];
+    let perf_xl = [];
+    let perf_yl = [];
+    let bp_xl = [];
+    let bp_yl = [];
+
+    let coordData = {
+        perf_xl: [],
+        perf_yl: [],
+        seo_xl: [],
+        seo_yl: []
+    };
 
     let layout = {
         title: "Title",
-        yaxis: {title: "Performance score"},
-        xaxis: {title: "Date"}
+        yaxis: {title: "Score", type: "linear", range: [0, 100],},
+        xaxis: {title: "Date", type: "date"}
     };
 
     Plotly.d3.json(url, function(figure) {
         let data = figure.data.reports;
         for (var key in data) {
-            xl.push(data[key]["timestamp"]);
-            yl.push(data[key][data_type]);
+            coordData.perf_xl.push(data[key]["timestamp"]);
+            coordData.perf_yl.push(data[key]["performance"]);
+            coordData.seo_xl.push(data[key]["timestamp"]);
+            coordData.seo_yl.push(data[key]["seo"]);
         }
-        let trace = {
-            x: xl,
-            y: yl
-        };
 
-        Plotly.plot(element, [trace], layout);
+        let trace_perf = constructTrace("Performance", coordData.perf_xl, coordData.perf_yl, "#17BECF");
+        let trace_seo = constructTrace("SEO", coordData.seo_xl, coordData.seo_yl, "#000000");
+        Plotly.plot(element, [trace_perf, trace_seo], layout);
     });
+};
+
+let constructTrace = function(name, x, y, color) {
+    const trace = {
+        type: "scatter",
+        mode: "lines",
+        name: name,
+        x: x,
+        y: y,
+        line: {color: color}
+    };
+
+    return trace;
 };
 
 let loopMonitorsForGraphs = function() {
