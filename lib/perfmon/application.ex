@@ -14,9 +14,9 @@ defmodule PerfMon.Application do
       {Rihanna.Supervisor, [postgrex: PerfMon.Repo.config()]},
       # Start the endpoint when the application starts
       PerfMonWeb.Endpoint,
-      {Task.Supervisor, name: PerfMon.TaskSupervisor, restart: :transient},
+      # {Task.Supervisor, name: PerfMon.TaskSupervisor, restart: :transient},
       # Starts a worker by calling: PerfMon.Worker.start_link(arg)
-      {PerfMon.Worker, NaiveDateTime.utc_now()},
+      # {PerfMon.Worker, NaiveDateTime.utc_now()},
     ]
 
     # Start the ExternalService fuse

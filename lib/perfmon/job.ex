@@ -1,5 +1,8 @@
 defmodule PerfMon.Job do
   @behaviour Rihanna.Job
+  require Logger
+  alias PerfMon.Websites
+  alias PerfMon.Tools.PageSpeed
 
   @moduledoc """
   Enqueue job for later execution and return immediately:
@@ -13,17 +16,46 @@ defmodule PerfMon.Job do
   @doc """
   NOTE: `perform/1` is a required callback. It takes exactly one argument. To
   pass multiple arguments, wrap them in a list and destructure in the
-  function head as in this example
-  """
-  def perform([arg1, arg2]) do
-    success? = do_some_work(arg1, arg2)
+  function head as in this example.
 
-    if success? do
-      # job completed successfully
-      :ok
-    else
-      # job execution failed
-      {:error, :failed}
+  This has to return one of: :ok | {:ok, result} | :error | {:error, reason}
+  """
+  def perform([site, monitor]) do
+    success? = do_work(site, monitor)
+
+    case success? do
+      :ok ->
+        Rihanna.schedule(PerfMon.Job, [site, monitor], in: :timer.minutes(5))
+        :ok
+
+      :error ->
+        Rihanna.schedule(PerfMon.Job, [site, monitor], in: :timer.minutes(5))
+        {:error, :failed}
+    end
+  end
+
+  defp do_work(site, monitor) do
+    Logger.info("Doing work for #{site.base_url}")
+
+    case PerfMon.Tools.PageSpeed.build_report(site.base_url <> monitor.path, monitor) do
+      {:ok, _report} ->
+        Logger.info("Created report for #{site.base_url} at #{monitor.path} successfully")
+        Websites.bump_site_timestamp(site)
+        :ok
+
+      {:error, _changeset} ->
+        Logger.info("Failed to create report for #{site.base_url} monitor")
+        :error
+    end
+  end
+
+  # Query all pending sites and run the build task for them.
+  # Should only be called directly from console or something.
+  def loop_sites_for_reports do
+    sites = Websites.list_pending_sites()
+
+    for site <- sites do
+      PageSpeed.run_build_task_for_site_monitors(site)
     end
   end
 end
