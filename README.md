@@ -15,8 +15,6 @@ use Mix.Config
 config :perfmon, pagespeed_insights_api_key: "YOUR_API_KEY_HERE"
 ```
 
-Note: you need to have Postgres running to set this up.
-
 ## Features
 
 Currently implemented:
