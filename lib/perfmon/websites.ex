@@ -175,7 +175,11 @@ defmodule PerfMon.Websites do
       ** (Ecto.NoResultsError)
 
   """
-  def get_monitor!(id), do: Repo.get!(Monitor, id)
+  def get_monitor!(id) do
+    Monitor
+    |> Repo.get!(id)
+    |> Repo.preload([:reports])
+  end
 
   @doc """
   Creates a monitor.

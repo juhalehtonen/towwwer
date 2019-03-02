@@ -13,13 +13,12 @@ defmodule PerfMonWeb.V1.ReportView do
   def render("report.json", %{report: report}) do
     %{
       # id: report.id,
+      timestamp: report.inserted_at,
       performance: score(report, "performance"),
       seo: score(report, "seo"),
       accessibility: score(report, "accessibility"),
       bestPractices: score(report, "best-practices"),
       pwa: score(report, "pwa")
-      # restaurants: render_many(report.restaurants, RestaurantView, "restaurant_ids.json"),
-      # visits: render_many(report.visits, VisitView, "visit_ids.json")
     }
   end
 

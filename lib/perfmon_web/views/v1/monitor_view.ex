@@ -17,7 +17,6 @@ defmodule PerfMonWeb.V1.MonitorView do
       site_id: monitor.site_id,
       path: monitor.path,
       reports: render_many(monitor.reports, ReportView, "report.json"),
-      # visits: render_many(monitor.visits, VisitView, "visit_ids.json")
     }
   end
 end
