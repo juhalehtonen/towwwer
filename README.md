@@ -23,12 +23,12 @@ Currently implemented:
 
   * Unlimited sites (think domain), monitors (paths for a site), and reports (API response data for a monitor)
   * Automatic daily (or configurable) updates for every site & monitor reports
+  * PostgreSQL-backed job queue
   * Rate limiting to respect Google API quotas
+  * Visual viewer for comparing historical data
   
 Planned:
-
   * Slack integration
-  * Viewer for comparing historical data
   * Friendly API for fetching the most relevant information
   * More automated tools (WPScan, others)
 
