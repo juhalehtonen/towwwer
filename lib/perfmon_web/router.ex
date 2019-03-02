@@ -18,12 +18,17 @@ defmodule PerfMonWeb.Router do
 
     get "/", SiteController, :index
     resources "/sites", SiteController
-    resources "/monitors", MonitorController, only: [:show]
-    resources "/reports", ReportController, only: [:show]
+    # resources "/monitors", MonitorController, only: [:show]
+    # resources "/reports", ReportController, only: [:show]
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", PerfMonWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", PerfMonWeb, as: :api do
+    pipe_through :api
+
+    scope "/v1", V1, as: :v1 do
+      resources "/monitors", MonitorController, except: [:new, :edit]
+      resources "/reports", ReportController, except: [:new, :edit]
+    end
+  end
 end

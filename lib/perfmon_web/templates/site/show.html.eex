@@ -44,6 +44,9 @@
                     <th>Screenshot</th>
                 </tr>
             </thead>
+
+            <div id="plotly"></div>
+
             <tbody>
                 <%= for report <- reports_of_monitor(monitor) do %>
                     <tr>
@@ -56,7 +59,7 @@
                         <td><%= first_meaningful_paint(report) %> ms</td>
                         <td><%= time_to_interactive(report) %> ms</td>
                         <td><%= robots_txt(report) %></td>
-                        <td><%= link report.data["analysisUTCTimestamp"], to: Routes.report_path(@conn, :show, report) %></td>
+                        <td><%= link report.data["analysisUTCTimestamp"], to: Routes.api_v1_report_path(@conn, :show, report), target: "_blank" %></td>
                         <td><img src="<%= final_screenshot(report) %>" alt="Screenshot" /></td>
                     </tr>
                 <% end %>
