@@ -25,11 +25,11 @@ defmodule PerfMon.Job do
 
     case success? do
       :ok ->
-        Rihanna.schedule(PerfMon.Job, [site, monitor], in: :timer.minutes(5))
+        Rihanna.schedule(PerfMon.Job, [site, monitor], in: :timer.hours(24))
         :ok
 
       :error ->
-        Rihanna.schedule(PerfMon.Job, [site, monitor], in: :timer.minutes(5))
+        Rihanna.schedule(PerfMon.Job, [site, monitor], in: :timer.hours(1))
         {:error, :failed}
     end
   end
@@ -52,7 +52,7 @@ defmodule PerfMon.Job do
   # Query all pending sites and run the build task for them.
   # Should only be called directly from console or something.
   def loop_sites_for_reports do
-    sites = Websites.list_pending_sites()
+    sites = Websites.list_sites()
 
     for site <- sites do
       PageSpeed.run_build_task_for_site_monitors(site)

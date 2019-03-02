@@ -19,22 +19,9 @@ defmodule PerfMon.Websites do
 
   """
   def list_sites do
-    Repo.all(from d in Site)
-  end
-
-  @doc """
-  Return the list of Sites whose timestamp is older than configured time.
-
-  Subtract N units of time from the current datetime, and see if it's bigger than
-  last_check fields value. If it is, it means that last_check was more than
-  N units of time ago and as such needs to be re-fetched.
-  """
-  def list_pending_sites do
     Repo.all from s in Site,
-      where: s.updated_at < datetime_add(^NaiveDateTime.utc_now(), -1, "day"),
       preload: [monitors: [:reports]]
   end
-
 
   @doc """
   Gets a single site.
