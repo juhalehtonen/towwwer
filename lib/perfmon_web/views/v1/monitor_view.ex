@@ -1,6 +1,7 @@
 defmodule PerfMonWeb.V1.MonitorView do
   use PerfMonWeb, :view
   alias PerfMonWeb.V1.MonitorView
+  alias PerfMonWeb.V1.ReportView
 
   def render("index.json", %{monitors: monitors}) do
     %{data: render_many(monitors, MonitorView, "monitor.json")}
@@ -13,8 +14,9 @@ defmodule PerfMonWeb.V1.MonitorView do
   def render("monitor.json", %{monitor: monitor}) do
     %{
       id: monitor.id,
+      site_id: monitor.site_id,
       path: monitor.path,
-      # restaurants: render_many(monitor.restaurants, RestaurantView, "restaurant_ids.json"),
+      reports: render_many(monitor.reports, ReportView, "report.json"),
       # visits: render_many(monitor.visits, VisitView, "visit_ids.json")
     }
   end
