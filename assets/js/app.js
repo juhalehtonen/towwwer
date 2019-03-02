@@ -42,54 +42,51 @@ let drawGraphForMonitor = function(monitor_id, element) {
     let bp_yl = [];
 
     let coordData = {
-        perf_xl: [],
+        time_xl: [],
         perf_yl: [],
-        seo_xl: [],
         seo_yl: [],
-        bp_xl: [],
         bp_yl: [],
-        acc_xl: [],
         acc_yl: []
     };
 
     let layout = {
         title: "Score over time",
-        yaxis: {title: "Score", type: "linear", range: [0, 100],},
+        yaxis: {title: "Score", type: "linear", range: [0, 105],},
         xaxis: {title: "Date", type: "date"}
+    };
+
+    let config = {
+        displayModeBar: false,
+        responsive: true
     };
 
     Plotly.d3.json(url, function(figure) {
         let data = figure.data.reports;
         for (var key in data) {
-            coordData.perf_xl.push(data[key]["timestamp"]);
+            coordData.time_xl.push(data[key]["timestamp"]);
             coordData.perf_yl.push(data[key]["performance"]);
-
-            coordData.seo_xl.push(data[key]["timestamp"]);
             coordData.seo_yl.push(data[key]["seo"]);
-
-            coordData.bp_xl.push(data[key]["timestamp"]);
             coordData.bp_yl.push(data[key]["best-practices"]);
-
-            coordData.acc_xl.push(data[key]["timestamp"]);
             coordData.acc_yl.push(data[key]["accessibility"]);
         }
 
-        let trace_perf = constructTrace("Performance", coordData.perf_xl, coordData.perf_yl, "#0074D9");
-        let trace_seo = constructTrace("SEO", coordData.seo_xl, coordData.seo_yl, "#3D9970");
-        let trace_bp = constructTrace("Best Practices", coordData.bp_xl, coordData.bp_yl, "#FF851B ");
-        let trace_acc = constructTrace("Accessibility", coordData.acc_xl, coordData.acc_yl, "#F012BE");
-        Plotly.plot(element, [trace_perf, trace_seo, trace_bp, trace_acc], layout);
+        let trace_perf = constructTrace("Performance", coordData.time_xl, coordData.perf_yl, "#0074D9");
+        let trace_seo = constructTrace("SEO", coordData.time_xl, coordData.seo_yl, "#3D9970");
+        let trace_bp = constructTrace("Best Practices", coordData.time_xl, coordData.bp_yl, "#FF851B ");
+        let trace_acc = constructTrace("Accessibility", coordData.time_xl, coordData.acc_yl, "#F012BE");
+
+        Plotly.plot(element, [trace_perf, trace_seo, trace_bp, trace_acc], layout, config);
     });
 };
 
 let constructTrace = function(name, x, y, color) {
     const trace = {
         type: "scatter",
-        mode: "lines",
+        mode: "lines+markers",
         name: name,
         x: x,
         y: y,
-        line: {color: color}
+        line: {color: color, dash: "solid", width: 1},
     };
 
     return trace;
