@@ -29,13 +29,12 @@ defmodule PerfMon.Tools.PageSpeed do
 
   def query_pagespeed_api(_url), do: {:error, "URL not a binary"}
 
-
   @doc """
   Runs a build task for each monitor under given `site`.
   """
   def run_build_task_for_site_monitors(site) when is_map(site) do
     for monitor <- site.monitors do
-      build_task(site, monitor)
+      Rihanna.schedule(PerfMon.Job, [site, monitor], in: :timer.seconds(5))
     end
   end
 
@@ -46,28 +45,16 @@ defmodule PerfMon.Tools.PageSpeed do
   def run_build_task_for_new_site_monitors(site) when is_map(site) do
     for monitor <- site.monitors do
       if monitor.updated_at == monitor.inserted_at do
-        build_task(site, monitor)
+        Rihanna.schedule(PerfMon.Job, [site, monitor], in: :timer.seconds(5))
       end
     end
-  end
-
-  defp build_task(site, monitor) do
-    Task.Supervisor.start_child(PerfMon.TaskSupervisor, fn ->
-      Logger.info("Starting TaskSupervisor child")
-      case build_report(site.base_url <> monitor.path, monitor) do
-        {:ok, _report} ->
-          Logger.info("Created report successfully")
-          Websites.bump_site_timestamp(site)
-        {:error, _changeset} ->
-          Logger.info("Failed to create report for site monitor")
-          :error
-      end
-    end, shutdown: 60_000)
   end
 
   @doc """
   Constructs and saves a new Report from the JSON response of the
   PageSpeed API.
+
+  TODO: Consider moving this elsewhere for a nicer API
   """
   def build_report(url, monitor) do
     case PerfMon.Tools.ApiClient.get(url) do

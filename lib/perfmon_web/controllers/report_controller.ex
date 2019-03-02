@@ -27,10 +27,8 @@ defmodule PerfMonWeb.ReportController do
   end
 
   def show(conn, %{"id" => id}) do
-    # TODO: Render the html here and create a separate API for JSON
-    report = Websites.get_report!(id) |> Map.from_struct() |> Map.drop([:__struct__, :__meta__])
-    json(conn, report.data)
-    # render(conn, "show.html", report: report)
+    report = Websites.get_report!(id)
+    render(conn, "show.html", report: report)
   end
 
   def edit(conn, %{"id" => id}) do

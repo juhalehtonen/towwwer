@@ -44,7 +44,8 @@ defmodule PerfMon.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:httpoison, "~> 1.5"},
-      {:external_service, "~> 0.9.1"}
+      {:external_service, "~> 0.9.1"},
+      {:rihanna, ">= 0.0.0"}
     ]
   end
 
