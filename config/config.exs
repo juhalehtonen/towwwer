@@ -26,6 +26,10 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+# Configure Rihanna
+config :rihanna,
+  producer_postgres_connection: {Ecto, PerfMon.Repo}
+
 # Shared secrets usable for any environment, such as API keys
 import_config "shared.secret.exs"
 

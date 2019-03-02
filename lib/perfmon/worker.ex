@@ -34,6 +34,7 @@ defmodule PerfMon.Worker do
   def handle_call(:get_state, _from, state), do: {:reply, state, state}
 
   defp do_work() do
+    # Startup work should only run once
     loop_sites_for_reports()
   end
 
