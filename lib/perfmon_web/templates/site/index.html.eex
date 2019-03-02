@@ -1,8 +1,6 @@
 <div class="row">
     <div class="column">
         <h1>Listing Sites</h1>
-        <p>Last automated reports were checked on: <%= last_automated_reports() %></p>
-        <p>Next automated reports will be checked on: <%= next_automated_reports() %></p>
     </div>
     <div class="column text-right">
         <span><%= link "New Site", to: Routes.site_path(@conn, :new), class: "button" %></span>
