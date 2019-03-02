@@ -16,13 +16,31 @@ import "phoenix_html";
 // Local files can be imported directly using relative paths, for example:
 // import socket from "./socket"
 
-var el = document.getElementById('add_monitor');
-el.onclick = function(e){
-    e.preventDefault();
-    var el = document.getElementById('add_monitor');
-    let time = new Date().getTime();
-    let template = el.getAttribute('data-template');
-    var uniq_template = template.replace(/\[0]/g, `[${time}]`);
-    uniq_template = uniq_template.replace(/\[0]/g, `_${time}_`);
-    this.insertAdjacentHTML('beforebegin', uniq_template);
-};
+import * as Plotly from 'plotly.js';
+
+// Add monitors
+if (document.getElementById('add_monitor')) {
+    let el = document.getElementById('add_monitor');
+    el.onclick = function(e){
+        e.preventDefault();
+        var el = document.getElementById('add_monitor');
+        let time = new Date().getTime();
+        let template = el.getAttribute('data-template');
+        var uniq_template = template.replace(/\[0]/g, `[${time}]`);
+        uniq_template = uniq_template.replace(/\[0]/g, `_${time}_`);
+        this.insertAdjacentHTML('beforebegin', uniq_template);
+    };
+}
+
+
+// PLOTLY
+
+if (document.getElementById('plotly')) {
+    let plotlyEl = document.getElementById('plotly');
+    Plotly.plot( plotlyEl, [{
+        x: [1, 2, 3, 4, 5],
+        y: [1, 2, 4, 8, 16] }],
+                 {margin: { t: 0 } },
+                 {showSendToCloud:true}
+               );
+}

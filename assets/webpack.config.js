@@ -19,8 +19,16 @@ module.exports = (env, options) => ({
     filename: 'app.js',
     path: path.resolve(__dirname, '../priv/static/js')
   },
+  resolve: {
+    extensions: ['.wasm', '.mjs', '.js', '.json']
+  },
   module: {
     rules: [
+      {
+        test: /\.mjs$/,
+        type: 'javascript/auto',
+        loader: 'ify-loader'
+      },
       {
         test: /\.js$/,
         exclude: /node_modules/,
