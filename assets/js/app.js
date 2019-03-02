@@ -37,15 +37,17 @@ if (document.getElementById('add_monitor')) {
 
 if (document.getElementById('plotly')) {
     let plotlyEl = document.getElementById('plotly');
-
-    let url = 'https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/GDP-data.json';
+    // let url = 'https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/GDP-data.json';
+    let url = 'http://localhost:4000/api/v1/monitors/1';
+    console.log(url);
     let xl = [];
     let yl = [];
     Plotly.d3.json(url, function(figure){
-        let data = figure.data;
-        for (var i=0; i< data.length; i++) {
-            xl.push(data[i][0]);
-            yl.push(data[i][1]);
+        let data = figure.data.reports;
+        console.log(data);
+        for (var key in data) {
+            xl.push(data[key]["timestamp"]);
+            yl.push(data[key]["performance"]);
         }
         let trace = {
             x: xl,
