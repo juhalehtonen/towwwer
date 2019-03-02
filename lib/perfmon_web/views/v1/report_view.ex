@@ -17,7 +17,7 @@ defmodule PerfMonWeb.V1.ReportView do
       performance: score(report, "performance"),
       seo: score(report, "seo"),
       accessibility: score(report, "accessibility"),
-      bestPractices: score(report, "best-practices"),
+      "best-practices": score(report, "best-practices"),
       pwa: score(report, "pwa")
     }
   end
