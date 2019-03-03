@@ -12,13 +12,15 @@ defmodule PerfMonWeb.V1.ReportView do
 
   def render("report.json", %{report: report}) do
     %{
-      # id: report.id,
+      id: report.id,
+      monitor_id: report.monitor_id,
       timestamp: report.inserted_at,
       performance: score(report, "performance"),
       seo: score(report, "seo"),
       accessibility: score(report, "accessibility"),
       "best-practices": score(report, "best-practices"),
-      pwa: score(report, "pwa")
+      pwa: score(report, "pwa"),
+      issues: extract_issues(report)
     }
   end
 
@@ -28,5 +30,13 @@ defmodule PerfMonWeb.V1.ReportView do
       nil -> 0
       _ -> (report.data["lighthouseResult"]["categories"][type]["score"] * 100) |> round()
     end
+  end
+
+  # Do not show issues with passing scores, or those that are not applicable
+  defp extract_issues(report) do
+    report.data["lighthouseResult"]["audits"]
+    |> Enum.reject(fn({desc, item}) -> item["score"] == 1 end)
+    |> Enum.reject(fn({desc, item}) -> item["scoreDisplayMode"] == "notApplicable" end)
+    |> Map.new()
   end
 end
