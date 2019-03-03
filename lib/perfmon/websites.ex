@@ -19,7 +19,8 @@ defmodule PerfMon.Websites do
 
   """
   def list_sites do
-    Repo.all from s in Site
+    Repo.all from s in Site,
+      order_by: s.base_url
   end
 
   @doc """
