@@ -16,8 +16,8 @@ import "phoenix_html";
 // Local files can be imported directly using relative paths, for example:
 // import socket from "./socket"
 
-import Swup from 'swup';
-const swup = new Swup();
+// import Swup from 'swup';
+// const swup = new Swup();
 import * as Plotly from 'plotly.js';
 
 let setupMonitorAdd = function() {
@@ -106,11 +106,32 @@ let loopMonitorsForGraphs = function() {
     }
 };
 
+let loopReportsForIssues = function() {
+    if (document.getElementsByClassName('js-report')) {
+        let elements = document.getElementsByClassName('js-report');
+        for (let element of elements) {
+            let id = element.getAttribute('data-report-id');
+            drawMonitorIssues(id);
+        }
+    }
+};
 
+let drawMonitorIssues = function(report_id) {
+    let url = 'http://localhost:4000/api/v1/reports/' + report_id;
+    fetch(url).then(response => {
+        response.json().then(json => {
+            let data = json.data.issues;
+            console.log(data);
+        });
+    });
+};
+
+loopReportsForIssues();
 loopMonitorsForGraphs();
 setupMonitorAdd();
 // trigger page view for swup
-swup.on('pageView', function () {
-    loopMonitorsForGraphs();
-    setupMonitorAdd();
-});
+// swup.on('pageView', function () {
+//     loopMonitorsForGraphs();
+//     loopReportsForIssues();
+//     setupMonitorAdd();
+// });

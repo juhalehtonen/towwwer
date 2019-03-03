@@ -44,7 +44,7 @@ defmodule PerfMon.Job do
         :ok
 
       {:error, _changeset} ->
-        Logger.info("Failed to create report for #{site.base_url} monitor")
+        Logger.info("Failed to create report for #{site.base_url} monitor #{monitor.path}")
         :error
     end
   end
@@ -52,7 +52,7 @@ defmodule PerfMon.Job do
   # Query all pending sites and run the build task for them.
   # Should only be called directly from console or something.
   def loop_sites_for_reports do
-    sites = Websites.list_sites()
+    sites = Websites.list_sites_with_preloads()
 
     for site <- sites do
       PageSpeed.run_build_task_for_site_monitors(site)

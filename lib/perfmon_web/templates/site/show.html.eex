@@ -43,7 +43,7 @@
 
             <tbody>
                 <%= for report <- reports_of_monitor(monitor) do %>
-                    <tr>
+                    <tr class="js-report" data-report-id="<%= report.id %>">
                         <td style="color:<%= score(report, "performance") |> color_code_result() %>;"><%= score(report, "performance") %></td>
                         <td style="color:<%= score(report, "seo") |> color_code_result() %>;"><%= score(report, "seo") %></td>
                         <td style="color:<%= score(report, "pwa") |> color_code_result() %>;"><%= score(report, "pwa") %></td>

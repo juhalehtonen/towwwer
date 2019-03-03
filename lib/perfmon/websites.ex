@@ -19,6 +19,13 @@ defmodule PerfMon.Websites do
 
   """
   def list_sites do
+    Repo.all from s in Site
+  end
+
+  @doc """
+  Same as list_sites/0 but preloads associations.
+  """
+  def list_sites_with_preloads do
     Repo.all from s in Site,
       preload: [monitors: [:reports]]
   end
