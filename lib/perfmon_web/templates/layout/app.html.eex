@@ -20,7 +20,7 @@
       </section>
     </header>
 
-    <main role="main" class="container">
+    <main role="main" class="container transition-fade" id="swup">
         <div class="row">
             <div class="column">
                 <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>

@@ -1,24 +1,16 @@
 <div class="row">
-    <div class="column">
+    <div class="column column-50">
         <h1><a href="<%= @site.base_url %>" title="Open website in new tab" target="_blank"><%= @site.base_url %> (ID: <%= @site.id %>)</a></h1>
+        <p>Last update: <%= @site.updated_at %></p>
     </div>
-    <div class="column text-right">
+    <div class="column column-20">
+        <h4>Token for API requests:</h4>
+        <input type="text" value="<%= @site.token %>" readonly />
+    </div>
+    <div class="column column-30 text-right">
         <span><%= link "Back", to: Routes.site_path(@conn, :index), class: "button button-outline" %></span>
         <span><%= link "Edit", to: Routes.site_path(@conn, :edit, @site), class: "button" %></span>
         <span><%= link "Delete", to: Routes.site_path(@conn, :delete, @site), class: "button button-danger", method: :delete, data: [confirm: "Are you sure you want to permanently delete this site?"] %></span>
-    </div>
-</div>
-
-<hr />
-
-<div class="row">
-    <div class="column">
-        <h4>Last updated at:</h4>
-        <p><%= @site.updated_at %></p>
-    </div>
-    <div class="column">
-        <h4>Token for API requests:</h4>
-        <input type="text" value="<%= @site.token %>" readonly />
     </div>
 </div>
 
@@ -29,7 +21,7 @@
     <h3>Path: <a href="<%= @site.base_url <> monitor.path %>" target="_blank"><%= monitor.path %></a></h3>
 
     <%= if report_count(monitor) > 0 do %>
-        <div class="js-plotly" data-monitor-id="<%= monitor.id %>"></div>
+        <div class="c-graph"><div class="js-plotly" data-monitor-id="<%= monitor.id %>"></div></div>
 
         <table>
             <thead>
@@ -62,7 +54,7 @@
                         <td><%= time_to_interactive(report) %> ms</td>
                         <td><%= robots_txt(report) %></td>
                         <td><%= link report.data["analysisUTCTimestamp"], to: Routes.api_v1_report_path(@conn, :show, report), target: "_blank" %></td>
-                        <td><img src="<%= final_screenshot(report) %>" alt="Screenshot" /></td>
+                        <td><a title="Open screenshot in new tab" href="<%= final_screenshot(report) %>" target="_blank"><img src="<%= final_screenshot(report) %>" alt="Screenshot" /></a></td>
                     </tr>
                 <% end %>
             </tbody>

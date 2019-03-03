@@ -24,3 +24,27 @@ input[disabled] {
     cursor: not-allowed;
 }
 
+.transition-fade {
+    transition: .15s ease-in;
+    opacity: 1;
+}
+html.is-animating .transition-fade{
+    opacity: 0;
+}
+
+table img {
+    max-height: 50px;
+}
+
+table img:hover {
+    opacity: 0.85;
+}
+
+.c-graph {
+    border: 1px solid #f0f0f0;
+    margin-bottom: 2rem;
+}
+
+td, th {
+    border-bottom-color: #f0f0f0 !important;
+}
