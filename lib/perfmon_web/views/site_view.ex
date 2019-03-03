@@ -14,6 +14,7 @@ defmodule PerfMonWeb.SiteView do
   # Returns total size of monitor from report
   def total_size(report) do
     report.data["lighthouseResult"]["audits"]["total-byte-weight"]["displayValue"]
+    |> String.replace("Total size was", "")
   end
 
   def first_meaningful_paint(report) do
