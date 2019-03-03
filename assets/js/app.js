@@ -20,19 +20,21 @@ import Swup from 'swup';
 const swup = new Swup();
 import * as Plotly from 'plotly.js';
 
-// Add monitors
-if (document.getElementById('add_monitor')) {
-    let el = document.getElementById('add_monitor');
-    el.onclick = function(e){
-        e.preventDefault();
-        var el = document.getElementById('add_monitor');
-        let time = new Date().getTime();
-        let template = el.getAttribute('data-template');
-        var uniq_template = template.replace(/\[0]/g, `[${time}]`);
-        uniq_template = uniq_template.replace(/\[0]/g, `_${time}_`);
-        this.insertAdjacentHTML('beforebegin', uniq_template);
-    };
-}
+let setupMonitorAdd = function() {
+    // Add monitors
+    if (document.getElementById('add_monitor')) {
+        let el = document.getElementById('add_monitor');
+        el.onclick = function(e){
+            e.preventDefault();
+            var el = document.getElementById('add_monitor');
+            let time = new Date().getTime();
+            let template = el.getAttribute('data-template');
+            var uniq_template = template.replace(/\[0]/g, `[${time}]`);
+            uniq_template = uniq_template.replace(/\[0]/g, `_${time}_`);
+            this.insertAdjacentHTML('beforebegin', uniq_template);
+        };
+    }
+};
 
 
 // PLOTLY
@@ -106,7 +108,9 @@ let loopMonitorsForGraphs = function() {
 
 
 loopMonitorsForGraphs();
+setupMonitorAdd();
 // trigger page view for swup
 swup.on('pageView', function () {
     loopMonitorsForGraphs();
+    setupMonitorAdd();
 });
