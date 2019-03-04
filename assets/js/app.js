@@ -39,7 +39,7 @@ let setupMonitorAdd = function() {
 
 // PLOTLY
 let drawGraphForMonitor = function(monitor_id, element) {
-    let url = 'http://localhost:4000/api/v1/monitors/' + monitor_id;
+    let url = '/api/v1/monitors/' + monitor_id;
     let perf_xl = [];
     let perf_yl = [];
     let bp_xl = [];
@@ -117,7 +117,7 @@ let loopReportsForIssues = function() {
 };
 
 let drawMonitorIssues = function(report_id) {
-    let url = 'http://localhost:4000/api/v1/reports/' + report_id;
+    let url = '/api/v1/reports/' + report_id;
     fetch(url).then(response => {
         response.json().then(json => {
             let data = json.data.issues;
