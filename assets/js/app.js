@@ -121,7 +121,9 @@ let drawMonitorIssues = function(report_id) {
     fetch(url).then(response => {
         response.json().then(json => {
             let data = json.data.issues;
+            let wpscan = json.data["interesting-findings"];
             console.log(data);
+            console.log(wpscan);
         });
     });
 };
