@@ -2,6 +2,10 @@
 
 PerfMon is a tool for monitoring, collecting and presenting website performance data collected from Google PageSpeed Insights API.
 
+## Requirements
+
+WPScan needs to be installed and available. This means you also need Ruby and RubyGems.
+
 ## Configuration
 
 While the PageSpeed Insights API can be used without an API key, you will want to use one for anything more than a single Site + Monitor combination.
