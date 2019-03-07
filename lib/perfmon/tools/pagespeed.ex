@@ -60,7 +60,9 @@ defmodule PerfMon.Tools.PageSpeed do
     case PerfMon.Tools.ApiClient.get(url) do
       {:ok, body} ->
         data = Jason.decode!(body)
-        Websites.create_report(%{data: data, monitor: monitor})
+        {:ok, cmd} = PerfMon.Tools.WPScan.run(url)
+        wpscan_data = Jason.decode!(cmd)
+        Websites.create_report(%{data: data, wpscan_data: wpscan_data, monitor: monitor})
 
       {:error, reason} ->
         {:error, reason}
