@@ -7,7 +7,9 @@ defmodule PerfMon.Websites do
   import Ecto.Query, warn: false
   alias PerfMon.Repo
   alias PerfMon.Websites.Site
+  alias PerfMon.Websites.Monitor
   alias PerfMon.Tools.Helpers
+  alias PerfMon.Websites.Report
 
   @doc """
   Returns the list of sites.
@@ -29,6 +31,16 @@ defmodule PerfMon.Websites do
   def list_sites_with_preloads do
     Repo.all from s in Site,
       preload: [monitors: [:reports]]
+  end
+
+  @doc """
+  Same as list_sites_with_preloads/0 but only loads the latest report,
+  and only includes monitors with path of "/".
+  """
+  def list_sites_with_latest_root_report do
+    reports_query = from r in Report, distinct: r.monitor_id, order_by: [desc: r.updated_at]
+    monitors_query = from m in Monitor, distinct: m.site_id, where: m.path == "/", preload: [reports: ^reports_query]
+    Repo.all from s in Site, preload: [monitors: ^monitors_query]
   end
 
   @doc """
@@ -141,7 +153,6 @@ defmodule PerfMon.Websites do
     Site.changeset(site, %{})
   end
 
-  alias PerfMon.Websites.Monitor
 
   @doc """
   Returns the list of monitors.
@@ -241,7 +252,6 @@ defmodule PerfMon.Websites do
     Monitor.changeset(monitor, %{})
   end
 
-  alias PerfMon.Websites.Report
 
   @doc """
   Returns the list of reports.
