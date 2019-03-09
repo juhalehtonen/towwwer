@@ -27,6 +27,7 @@ defmodule PerfMonWeb.Router do
     pipe_through :api
 
     scope "/v1", V1, as: :v1 do
+      resources "/sites", SiteController, except: [:new, :edit]
       resources "/monitors", MonitorController, except: [:new, :edit]
       resources "/reports", ReportController, except: [:new, :edit]
     end
