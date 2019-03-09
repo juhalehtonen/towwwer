@@ -45,8 +45,17 @@ defmodule PerfMonWeb.SiteView do
     end
   end
 
+  def wpscan_findings(monitor) do
+    report = Enum.at(monitor.reports, 0)
+    report.wpscan_data["interesting_findings"]
+  end
+
   def reports_of_monitor(monitor) do
     PerfMon.Websites.list_reports_of_monitor(monitor)
+  end
+
+  def first_report(monitor) do
+    Enum.at(monitor.reports, 0)
   end
 
   def generate_token do
@@ -85,3 +94,4 @@ defmodule PerfMonWeb.SiteView do
     end
   end
 end
+

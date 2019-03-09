@@ -6,7 +6,7 @@ defmodule PerfMonWeb.SiteController do
   alias PerfMon.Websites.Monitor
 
   def index(conn, _params) do
-    sites = Websites.list_sites()
+    sites = Websites.list_sites_with_latest_root_report()
     render(conn, "index.html", sites: sites)
   end
 

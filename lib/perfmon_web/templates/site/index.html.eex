@@ -1,6 +1,7 @@
 <div class="row">
     <div class="column">
         <h1>Listing Sites</h1>
+        <p>The listing view here displays the statistics for the root path ("/") for the latest report. <br>For detailed information on a specific site, visit the site-specific view.</p>
     </div>
     <div class="column text-right">
         <span><%= link "New Site", to: Routes.site_path(@conn, :new), class: "button" %></span>
@@ -13,13 +14,37 @@
   <thead>
     <tr>
       <th>Base URL</th>
+      <th>Performance</th>
+      <th>SEO</th>
+      <th>PWA</th>
+      <th>Accessibility</th>
+      <th>Best practices</th>
+      <th>Total size</th>
+      <th>First meaningful paint</th>
+      <th>Time to interactive</th>
+      <th>WPScan findings</th>
     </tr>
   </thead>
   <tbody>
-  <%= for site <- @sites do %>
-    <tr>
-      <td><%= link site.base_url, to: Routes.site_path(@conn, :show, site) %></td>
-    </tr>
-  <% end %>
+      <%= for site <- @sites do %>
+          <%= for monitor <- site.monitors do %>
+              <tr>
+                  <td><%= link site.base_url, to: Routes.site_path(@conn, :show, site) %></td>
+                  <%= if first_report(monitor) != nil do %>
+                      <td style="color:<%= score(first_report(monitor), "performance") |> color_code_result() %>;"><%= score(first_report(monitor), "performance") %></td>
+                      <td style="color:<%= score(first_report(monitor), "seo") |> color_code_result() %>;"><%= score(first_report(monitor), "seo") %></td>
+                      <td style="color:<%= score(first_report(monitor), "pwa") |> color_code_result() %>;"><%= score(first_report(monitor), "pwa") %></td>
+                      <td style="color:<%= score(first_report(monitor), "accessibility") |> color_code_result() %>;"><%= score(first_report(monitor), "accessibility") %></td>
+                      <td style="color:<%= score(first_report(monitor), "best-practices") |> color_code_result() %>;"><%= score(first_report(monitor), "best-practices") %></td>
+                      <td><%= total_size(first_report(monitor)) %></td>
+                      <td><%= first_meaningful_paint(first_report(monitor)) %> ms</td>
+                      <td><%= time_to_interactive(first_report(monitor)) %> ms</td>
+                      <%= if wpscan_findings(monitor) != nil do %>
+                          <td><%= Enum.count(wpscan_findings(monitor)) %></td>
+                      <%= end %>
+                  <%= end %>
+              </tr>
+          <%= end %>
+      <% end %>
   </tbody>
 </table>
