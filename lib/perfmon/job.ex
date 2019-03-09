@@ -2,7 +2,7 @@ defmodule PerfMon.Job do
   @behaviour Rihanna.Job
   require Logger
   alias PerfMon.Websites
-  alias PerfMon.Tools.PageSpeed
+  alias PerfMon.Tools.Helpers
 
   @moduledoc """
   Enqueue job for later execution and return immediately:
@@ -37,7 +37,7 @@ defmodule PerfMon.Job do
   defp do_work(site, monitor) do
     Logger.info("Doing work for #{site.base_url}")
 
-    case PerfMon.Tools.PageSpeed.build_report(site.base_url <> monitor.path, monitor) do
+    case Helpers.build_report(site.base_url <> monitor.path, monitor) do
       {:ok, _report} ->
         Logger.info("Created report for #{site.base_url} at #{monitor.path} successfully")
         Websites.bump_site_timestamp(site)
@@ -50,12 +50,13 @@ defmodule PerfMon.Job do
   end
 
   # Query all pending sites and run the build task for them.
-  # Should only be called directly from console or something.
+  # Should only be called directly from console when initially setting things up.
+  # Afterwards the jobs should already be enqueued and stored in PostgreSQL.
   def loop_sites_for_reports do
     sites = Websites.list_sites_with_preloads()
 
     for site <- sites do
-      PageSpeed.run_build_task_for_site_monitors(site)
+      Helpers.run_build_task_for_site_monitors(site)
     end
   end
 end
