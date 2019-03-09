@@ -37,10 +37,10 @@ defmodule PerfMonWeb.V1.ReportView do
   # require manual checking, or are purely informative.
   defp extract_issues(report) do
     report.data["lighthouseResult"]["audits"]
-    |> Enum.reject(fn({desc, item}) -> item["score"] == 1 end)
-    |> Enum.reject(fn({desc, item}) -> item["scoreDisplayMode"] == "notApplicable" end)
-    |> Enum.reject(fn({desc, item}) -> item["scoreDisplayMode"] == "manual" end)
-    |> Enum.reject(fn({desc, item}) -> item["scoreDisplayMode"] == "informative" end)
+    |> Enum.reject(fn({_desc, item}) -> item["score"] == 1 end)
+    |> Enum.reject(fn({_desc, item}) -> item["scoreDisplayMode"] == "notApplicable" end)
+    |> Enum.reject(fn({_desc, item}) -> item["scoreDisplayMode"] == "manual" end)
+    |> Enum.reject(fn({_desc, item}) -> item["scoreDisplayMode"] == "informative" end)
     |> Map.new()
   end
 end
