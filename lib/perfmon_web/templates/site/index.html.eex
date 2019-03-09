@@ -4,7 +4,6 @@
     </div>
     <div class="column text-right">
         <span><%= link "New Site", to: Routes.site_path(@conn, :new), class: "button" %></span>
-        <button class="button" id="panic">Omg</button>
     </div>
 </div>
 

@@ -128,22 +128,6 @@ let drawMonitorIssues = function(report_id) {
     });
 };
 
-let drawWPScanIssues = function() {
-    let url = '/api/v1/reports/';
-    fetch(url).then(response => {
-        response.json().then(json => {
-            const data = json.data.filter(report => report["interesting-findings"] !== null).map(report => report["interesting-findings"]);
-            console.log(data);
-        });
-    });
-};
-
-
-if (document.getElementById('panic')) {
-    let element = document.getElementById('panic');
-    element.addEventListener('click', drawWPScanIssues());
-}
-
 loopReportsForIssues();
 loopMonitorsForGraphs();
 setupMonitorAdd();

@@ -52,3 +52,19 @@ td, th {
 .c-insights-table {
     table-layout: fixed;
 }
+
+.navigation_list {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.navigation_list a {
+    display: inline;
+    list-style: none;
+    margin: 0 20px;
+}
+
+.navigation_list a.active {
+    border-bottom: 1px solid #9b4dca;
+}
