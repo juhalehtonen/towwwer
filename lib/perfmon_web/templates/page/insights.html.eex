@@ -35,9 +35,9 @@
                                 <% end %>
                             </td>
                         </tr>
-                    <%= end %>
+                    <% end %>
                 </tbody>
             </table>
-        <%= end %>
-    <%= end %>
-<%= end %>
+        <% end %>
+    <% end %>
+<% end %>
