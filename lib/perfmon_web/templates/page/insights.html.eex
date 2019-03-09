@@ -9,17 +9,24 @@
 
 <hr />
 
-<h2>Sites that have succesfully ran WPScan and have issues</h2>
+<h2>Sites that were successfully scanned with WPScan and have issues</h2>
 
 <%= for site <- @sites do %>
     <%= for monitor <- site.monitors do %>
         <%= if findings(monitor) != nil do %>
             <h3><%= site.base_url %></h3>
-            <table>
+            <table class="c-insights-table">
+                <tr>
+                    <th>Type</th>
+                    <th>URL</th>
+                    <th>Interesting entries</th>
+                </tr>
                 <%= for finding <- findings(monitor) do %>
                     <tr id="<%= site.id %>">
                         <td><%= finding["type"] %></td>
-                        <td><%= finding["url"] %></td>
+                        <td>
+                            <a target="_blank" href="<%= finding["url"] %>"><%= finding["url"] %></a>
+                        </td>
                         <td>
                             <%= for entry <- finding["interesting_entries"] do %>
                                 <%= entry %> <br />

@@ -48,3 +48,7 @@ table img:hover {
 td, th {
     border-bottom-color: #f0f0f0 !important;
 }
+
+.c-insights-table {
+    table-layout: fixed;
+}
