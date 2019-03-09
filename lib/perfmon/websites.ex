@@ -7,7 +7,7 @@ defmodule PerfMon.Websites do
   import Ecto.Query, warn: false
   alias PerfMon.Repo
   alias PerfMon.Websites.Site
-  alias PerfMon.Tools.PageSpeed
+  alias PerfMon.Tools.Helpers
 
   @doc """
   Returns the list of sites.
@@ -71,7 +71,7 @@ defmodule PerfMon.Websites do
     case changeset do
       {:ok, site} ->
         Logger.info("Site created, running build task for monitors")
-        PageSpeed.run_build_task_for_site_monitors(site)
+        Helpers.run_build_task_for_site_monitors(site)
       _ ->
         Logger.info("Failed to create site, so no reports are built.")
     end
@@ -98,7 +98,7 @@ defmodule PerfMon.Websites do
 
     case changeset do
       {:ok, updated_site} ->
-        PageSpeed.run_build_task_for_new_site_monitors(updated_site)
+        Helpers.run_build_task_for_new_site_monitors(updated_site)
       _ ->
         Logger.info("Failed to update site, so no reports are built.")
     end

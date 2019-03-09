@@ -20,7 +20,8 @@ defmodule PerfMonWeb.V1.ReportView do
       accessibility: score(report, "accessibility"),
       "best-practices": score(report, "best-practices"),
       pwa: score(report, "pwa"),
-      issues: extract_issues(report)
+      issues: extract_issues(report),
+      "interesting-findings": report.wpscan_data["interesting_findings"]
     }
   end
 

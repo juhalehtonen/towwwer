@@ -1,6 +1,5 @@
 defmodule PerfMon.Tools.PageSpeed do
   require Logger
-  alias PerfMon.Websites
 
   @api_key Application.get_env(:perfmon, :pagespeed_insights_api_key)
   @api_base_url "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url="
@@ -28,42 +27,4 @@ defmodule PerfMon.Tools.PageSpeed do
   end
 
   def query_pagespeed_api(_url), do: {:error, "URL not a binary"}
-
-  @doc """
-  Runs a build task for each monitor under given `site`.
-  """
-  def run_build_task_for_site_monitors(site) when is_map(site) do
-    for monitor <- site.monitors do
-      Rihanna.schedule(PerfMon.Job, [site, monitor], in: :timer.seconds(5))
-    end
-  end
-
-  @doc """
-  Run a build task for every newly added site monitor, but not the existing
-  ones.
-  """
-  def run_build_task_for_new_site_monitors(site) when is_map(site) do
-    for monitor <- site.monitors do
-      if monitor.updated_at == monitor.inserted_at do
-        Rihanna.schedule(PerfMon.Job, [site, monitor], in: :timer.seconds(5))
-      end
-    end
-  end
-
-  @doc """
-  Constructs and saves a new Report from the JSON response of the
-  PageSpeed API.
-
-  TODO: Consider moving this elsewhere for a nicer API
-  """
-  def build_report(url, monitor) do
-    case PerfMon.Tools.ApiClient.get(url) do
-      {:ok, body} ->
-        data = Jason.decode!(body)
-        Websites.create_report(%{data: data, monitor: monitor})
-
-      {:error, reason} ->
-        {:error, reason}
-    end
-  end
 end

@@ -5,6 +5,7 @@ defmodule PerfMon.Websites.Report do
 
   schema "reports" do
     field :data, :map
+    field :wpscan_data, :map
     belongs_to :monitor, Monitor
 
     timestamps()
@@ -13,8 +14,7 @@ defmodule PerfMon.Websites.Report do
   @doc false
   def changeset(report, attrs) do
     report
-    |> cast(attrs, [:data])
-    |> validate_required([:data])
+    |> cast(attrs, [:data, :wpscan_data])
     |> put_assoc(:monitor, attrs.monitor)
   end
 end
