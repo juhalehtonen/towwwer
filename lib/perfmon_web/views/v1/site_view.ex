@@ -15,6 +15,7 @@ defmodule PerfMonWeb.V1.SiteView do
   def render("site.json", %{site: site}) do
     %{
       id: site.id,
+      base_url: site.base_url,
       monitors: render_many(site.monitors, MonitorView, "monitor.json"),
     }
   end

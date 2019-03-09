@@ -17,6 +17,7 @@ defmodule PerfMonWeb.Router do
     pipe_through :browser
 
     get "/", SiteController, :index
+    get "/insights", PageController, :insights
     resources "/sites", SiteController
     # resources "/monitors", MonitorController, only: [:show]
     # resources "/reports", ReportController, only: [:show]
