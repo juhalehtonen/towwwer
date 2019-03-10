@@ -41,10 +41,10 @@
                       <td><%= time_to_interactive(first_report(monitor)) %> ms</td>
                       <%= if wpscan_findings(monitor) != nil do %>
                           <td><%= Enum.count(wpscan_findings(monitor)) %></td>
-                      <%= end %>
-                  <%= end %>
+                      <% end %>
+                  <% end %>
               </tr>
-          <%= end %>
+          <% end %>
       <% end %>
   </tbody>
 </table>

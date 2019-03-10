@@ -45,7 +45,8 @@ defmodule Towwwer.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:httpoison, "~> 1.5"},
       {:external_service, "~> 0.9.1"},
-      {:rihanna, ">= 0.0.0"}
+      {:rihanna, ">= 0.0.0"},
+      {:dialyxir, "~> 1.0.0-rc.4", only: [:dev], runtime: false}
     ]
   end
 
