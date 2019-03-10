@@ -10,6 +10,7 @@ defmodule Towwwer.Tools.Helpers do
   @doc """
   Generate a random URL-friendly string of given `length`.
   """
+  @spec random_string(integer()) :: String.t()
   def random_string(length) do
     :crypto.strong_rand_bytes(length) |> Base.url_encode64() |> binary_part(0, length)
   end
@@ -18,6 +19,7 @@ defmodule Towwwer.Tools.Helpers do
   Constructs and saves a new Report from the JSON based on the response of
   the PageSpeed API and WPScan results.
   """
+  @spec build_report(String.t(), map()) :: {:ok, map()} | {:error, String.t()}
   def build_report(url, monitor) do
     case ApiClient.get(url) do
       {:ok, body} ->

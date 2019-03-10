@@ -6,7 +6,9 @@ defmodule Towwwer.Tools.WPScan do
 
   @doc """
   Run WPScan against the given `url` with default settings.
+  TODO: Check if System.cmd actually runs properly.
   """
+  @spec run(String.t()) :: {:ok, any()}
   def run(url) when is_binary(url) do
     {cmd, _} = System.cmd("wpscan", ["--no-banner", "--force", "--format", "json", "--url", url], parallelism: true)
     {:ok, cmd}

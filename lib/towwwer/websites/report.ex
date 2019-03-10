@@ -12,6 +12,7 @@ defmodule Towwwer.Websites.Report do
   end
 
   @doc false
+  @spec changeset(any(), any()) :: map() | :invalid | any()
   def changeset(report, attrs) do
     report
     |> cast(attrs, [:data, :wpscan_data])
