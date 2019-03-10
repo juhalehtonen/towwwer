@@ -68,3 +68,9 @@ td, th {
 .navigation_list a.active {
     border-bottom: 1px solid #9b4dca;
 }
+
+.c-site-index thead {
+    position: sticky;
+    top: 0;
+    background: #fff;
+}

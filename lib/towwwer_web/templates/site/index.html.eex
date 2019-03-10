@@ -10,7 +10,7 @@
 
 <hr />
 
-<table>
+<table class="c-site-index">
   <thead>
     <tr>
       <th>Base URL</th>
