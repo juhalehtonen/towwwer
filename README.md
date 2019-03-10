@@ -2,9 +2,15 @@
 
 Towwwer is a tool for monitoring, collecting and presenting website performance data collected from Google PageSpeed Insights API.
 
+Additionally, Towwwer can run [WPScan](https://github.com/wpscanteam/wpscan) against the monitored websites and keep track of which security issues are found. WPScan is a separate project, and their license details differ from those of Towwwer.
+
 ## Requirements
 
-WPScan needs to be installed and available. This means you also need Ruby and RubyGems.
+To run Towwwer, you need:
+
+  * Elixir (or a release built for your system with ERTS bundled in)
+  * PostgreSQL (for storing the reports & job queue)
+  * Ruby and RubyGems (for installing WPScan)
 
 ## Configuration
 
@@ -19,6 +25,8 @@ use Mix.Config
 config :towwwer, pagespeed_insights_api_key: "YOUR_API_KEY_HERE"
 ```
 
+NOTE: You can use different configurations for different environments. The shared config is included for all environments by default.
+
 ## Features
 
 Currently implemented:
@@ -26,13 +34,13 @@ Currently implemented:
   * Unlimited sites (think domain), monitors (paths for a site), and reports (API response data for a monitor)
   * Automatic daily (or configurable) updates for every site & monitor reports
   * PostgreSQL-backed job queue
+  * WPScan security scans alongside PageSpeed Insights
   * Rate limiting to respect Google API quotas
   * Visual viewer for comparing historical data
   
 Planned:
   * Slack integration
   * Friendly API for fetching the most relevant information
-  * More automated tools (WPScan, others)
 
 ## Local Phoenix
 
@@ -47,4 +55,4 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 ## License
 
-Towwwer is licensed under the MIT License.
+Towwwer is licensed under the [MIT License](LICENSE).
