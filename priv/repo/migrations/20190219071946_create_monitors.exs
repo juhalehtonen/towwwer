@@ -1,4 +1,4 @@
-defmodule PerfMon.Repo.Migrations.CreateMonitors do
+defmodule Towwwer.Repo.Migrations.CreateMonitors do
   use Ecto.Migration
 
   def change do

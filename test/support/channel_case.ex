@@ -1,4 +1,4 @@
-defmodule PerfMonWeb.ChannelCase do
+defmodule TowwwerWeb.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -21,15 +21,15 @@ defmodule PerfMonWeb.ChannelCase do
       use Phoenix.ChannelTest
 
       # The default endpoint for testing
-      @endpoint PerfMonWeb.Endpoint
+      @endpoint TowwwerWeb.Endpoint
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(PerfMon.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Towwwer.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(PerfMon.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(Towwwer.Repo, {:shared, self()})
     end
 
     :ok

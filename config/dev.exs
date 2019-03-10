@@ -6,7 +6,7 @@ use Mix.Config
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
-config :perfmon, PerfMonWeb.Endpoint,
+config :towwwer, TowwwerWeb.Endpoint,
   http: [port: 4000],
   debug_errors: true,
   code_reloader: true,
@@ -46,13 +46,13 @@ config :perfmon, PerfMonWeb.Endpoint,
 # different ports.
 
 # Watch static and templates for browser reloading.
-config :perfmon, PerfMonWeb.Endpoint,
+config :towwwer, TowwwerWeb.Endpoint,
   live_reload: [
     patterns: [
       ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
       ~r{priv/gettext/.*(po)$},
-      ~r{lib/perfmon_web/views/.*(ex)$},
-      ~r{lib/perfmon_web/templates/.*(eex)$}
+      ~r{lib/towwwer_web/views/.*(ex)$},
+      ~r{lib/towwwer_web/templates/.*(eex)$}
     ]
   ]
 
@@ -67,9 +67,9 @@ config :phoenix, :stacktrace_depth, 20
 config :phoenix, :plug_init_mode, :runtime
 
 # Configure your database
-config :perfmon, PerfMon.Repo,
+config :towwwer, Towwwer.Repo,
   username: "postgres",
   password: "postgres",
-  database: "perfmon_dev",
+  database: "towwwer_dev",
   hostname: "localhost",
   pool_size: 10

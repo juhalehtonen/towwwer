@@ -1,4 +1,4 @@
-defmodule PerfMon.DataCase do
+defmodule Towwwer.DataCase do
   @moduledoc """
   This module defines the setup for tests requiring
   access to the application's data layer.
@@ -16,20 +16,20 @@ defmodule PerfMon.DataCase do
 
   using do
     quote do
-      alias PerfMon.Repo
+      alias Towwwer.Repo
 
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
-      import PerfMon.DataCase
+      import Towwwer.DataCase
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(PerfMon.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Towwwer.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(PerfMon.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(Towwwer.Repo, {:shared, self()})
     end
 
     :ok

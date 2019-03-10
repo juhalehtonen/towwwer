@@ -1,10 +1,10 @@
-defmodule PerfMon.WebsitesTest do
-  use PerfMon.DataCase
+defmodule Towwwer.WebsitesTest do
+  use Towwwer.DataCase
 
-  alias PerfMon.Websites
+  alias Towwwer.Websites
 
   describe "sites" do
-    alias PerfMon.Websites.Site
+    alias Towwwer.Websites.Site
 
     @valid_attrs %{name: "some name", token: "some token"}
     @update_attrs %{name: "some updated name", token: "some updated token"}
@@ -65,7 +65,7 @@ defmodule PerfMon.WebsitesTest do
   end
 
   describe "monitors" do
-    alias PerfMon.Websites.Monitor
+    alias Towwwer.Websites.Monitor
 
     @valid_attrs %{path: "some path"}
     @update_attrs %{path: "some updated path"}
@@ -124,7 +124,7 @@ defmodule PerfMon.WebsitesTest do
   end
 
   describe "reports" do
-    alias PerfMon.Websites.Report
+    alias Towwwer.Websites.Report
 
     @valid_attrs %{data: %{}}
     @update_attrs %{data: %{}}

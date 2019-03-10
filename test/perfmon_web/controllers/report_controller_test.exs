@@ -1,7 +1,7 @@
-defmodule PerfMonWeb.ReportControllerTest do
-  use PerfMonWeb.ConnCase
+defmodule TowwwerWeb.ReportControllerTest do
+  use TowwwerWeb.ConnCase
 
-  alias PerfMon.Websites
+  alias Towwwer.Websites
 
   @create_attrs %{data: %{}}
   @update_attrs %{data: %{}}

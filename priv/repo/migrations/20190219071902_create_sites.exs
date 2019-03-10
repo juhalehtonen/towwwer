@@ -1,4 +1,4 @@
-defmodule PerfMon.Repo.Migrations.CreateSites do
+defmodule Towwwer.Repo.Migrations.CreateSites do
   use Ecto.Migration
 
   def change do

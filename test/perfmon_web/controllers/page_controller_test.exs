@@ -1,5 +1,5 @@
-defmodule PerfMonWeb.PageControllerTest do
-  use PerfMonWeb.ConnCase
+defmodule TowwwerWeb.PageControllerTest do
+  use TowwwerWeb.ConnCase
 
   test "GET /", %{conn: conn} do
     conn = get(conn, "/")

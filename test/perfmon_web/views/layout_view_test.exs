@@ -1,3 +1,3 @@
-defmodule PerfMonWeb.LayoutViewTest do
-  use PerfMonWeb.ConnCase, async: true
+defmodule TowwwerWeb.LayoutViewTest do
+  use TowwwerWeb.ConnCase, async: true
 end

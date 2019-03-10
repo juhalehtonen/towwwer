@@ -1,9 +1,9 @@
-defmodule PerfMon.MixProject do
+defmodule Towwwer.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :perfmon,
+      app: :towwwer,
       version: "0.1.0",
       elixir: "~> 1.5",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -19,7 +19,7 @@ defmodule PerfMon.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {PerfMon.Application, []},
+      mod: {Towwwer.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end

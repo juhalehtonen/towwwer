@@ -1,6 +1,6 @@
-# PerfMon
+# Towwwer
 
-PerfMon is a tool for monitoring, collecting and presenting website performance data collected from Google PageSpeed Insights API.
+Towwwer is a tool for monitoring, collecting and presenting website performance data collected from Google PageSpeed Insights API.
 
 ## Requirements
 
@@ -16,7 +16,7 @@ Configure the PageSpeed Insights API key by creating a `config/shared.secret.exs
 use Mix.Config
 
 # Configure PageSpeeds Insights API
-config :perfmon, pagespeed_insights_api_key: "YOUR_API_KEY_HERE"
+config :towwwer, pagespeed_insights_api_key: "YOUR_API_KEY_HERE"
 ```
 
 ## Features
@@ -47,4 +47,4 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 ## License
 
-PerfMon is licensed under the MIT License.
+Towwwer is licensed under the MIT License.

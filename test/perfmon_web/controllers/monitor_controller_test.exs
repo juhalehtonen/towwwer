@@ -1,7 +1,7 @@
-defmodule PerfMonWeb.MonitorControllerTest do
-  use PerfMonWeb.ConnCase
+defmodule TowwwerWeb.MonitorControllerTest do
+  use TowwwerWeb.ConnCase
 
-  alias PerfMon.Websites
+  alias Towwwer.Websites
 
   @create_attrs %{path: "some path"}
   @update_attrs %{path: "some updated path"}

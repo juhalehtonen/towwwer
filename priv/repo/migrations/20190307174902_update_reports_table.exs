@@ -1,4 +1,4 @@
-defmodule PerfMon.Repo.Migrations.UpdateReportsTable do
+defmodule Towwwer.Repo.Migrations.UpdateReportsTable do
   use Ecto.Migration
 
   def change do

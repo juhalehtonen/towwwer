@@ -1,3 +1,3 @@
-defmodule PerfMon.CreateRihannaJobs do
+defmodule Towwwer.CreateRihannaJobs do
   use Rihanna.Migration
 end
