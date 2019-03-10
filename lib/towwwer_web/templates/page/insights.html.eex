@@ -3,9 +3,6 @@
         <h1>Insights</h1>
         <p>Sites that were successfully scanned by WPScan, and for which it found something to report.</p>
     </div>
-    <div class="column column-50 text-right">
-        <span><%= link "Back", to: Routes.site_path(@conn, :index), class: "button button-outline" %></span>
-    </div>
 </div>
 
 <hr />
