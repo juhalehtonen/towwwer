@@ -1,73 +1,72 @@
 <div class="row">
-    <div class="column column-50">
-        <h1>Insights</h1>
-        <p>Sites that were successfully scanned by WPScan, and for which it found something to report.</p>
-    </div>
+  <div class="column column-50">
+    <h1>Insights</h1>
+    <p>Sites that were successfully scanned by WPScan, and for which it found something to report.</p>
+  </div>
 </div>
 
 <hr />
 
 <%= for site <- @sites do %>
-    <%= for monitor <- site.monitors do %>
-        <%= if findings(monitor) != nil do %>
-          <h3><%= site.base_url %></h3>
+  <%= for monitor <- site.monitors do %>
+    <%= if findings(monitor) != nil do %>
+      <h3><%= site.base_url %>: <span>WP <%= core_version(monitor) %></span></h3>
 
-          <div class="row">
-            <div class="column">
-              <%= if core_vulns(monitor) != [] do %>
-              <h4>Core vulns</h4>
-              <%= for vuln <- core_vulns(monitor) do %>
-                <%= vuln["title"] %><br />
-              <% end %>
-        <% end %>
-            </div>
-            <div class="column">
-              <%= if vulns(monitor) != [] do %>
+      <div class="row" style="margin-bottom:10px;">
+        <div class="column">
+          <%= if core_vulns(monitor) != [] do %>
+            <h4>Core vulns</h4>
+            <%= for vuln <- core_vulns(monitor) do %>
+              <a href="<%= Enum.at(vuln["references"]["url"], 0) %>" title="_blank"><%= vuln["title"] %></a><br />
+            <% end %>
+          <% end %>
+        </div>
+        <div class="column">
+          <%= if vulns(monitor) != [] do %>
+            <h4>Plugin vulns</h4>
+            <%= for vuln <- vulns(monitor) do %>
+              <%= vuln["title"] %><br />
+            <% end %>
+          <% end %>
+        </div>
 
-              <h4>Plugin vulns</h4>
-              <%= for vuln <- vulns(monitor) do %>
-                <%= vuln["title"] %><br />
-              <% end %>
+      </div>
+
+      <h4>Interesting entries</h4>
+      <table class="c-insights-table">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>URL</th>
+            <th>Interesting entries</th>
+          </tr>
+        </thead>
+        <tbody>
+
+
+          <%= for vuln <- vulns(monitor) do %>
+            <tr id="<%= site.id %>">
+              <td>
+                Vulnerability in plugin detected, tell Juha to finish this code.
+              </td>
+            </tr>
+          <% end %>
+
+          <%= for finding <- findings(monitor) do %>
+            <tr id="<%= site.id %>">
+              <td><%= finding["type"] %></td>
+              <td>
+                <a target="_blank" href="<%= finding["url"] %>"><%= finding["url"] %></a>
+              </td>
+              <td>
+                <%= for entry <- finding["interesting_entries"] do %>
+                  <%= entry %> <br />
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
     <% end %>
-            </div>
-
-          </div>
-
-          <h4>Interesting entries</h4>
-          <table class="c-insights-table">
-            <thead>
-              <tr>
-                <th>Type</th>
-                <th>URL</th>
-                        <th>Interesting entries</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-
-                  <%= for vuln <- vulns(monitor) do %>
-                    <tr id="<%= site.id %>">
-                      <td>
-                        Vulnerability in plugin detected, tell Juha to finish this code.
-                      </td>
-                    </tr>
-                  <% end %>
-
-                    <%= for finding <- findings(monitor) do %>
-                        <tr id="<%= site.id %>">
-                            <td><%= finding["type"] %></td>
-                            <td>
-                                <a target="_blank" href="<%= finding["url"] %>"><%= finding["url"] %></a>
-                            </td>
-                            <td>
-                              <%= for entry <- finding["interesting_entries"] do %>
-                                <%= entry %> <br />
-                              <% end %>
-                            </td>
-                        </tr>
-                    <% end %>
-                </tbody>
-            </table>
-        <% end %>
-    <% end %>
+  <% end %>
 <% end %>
