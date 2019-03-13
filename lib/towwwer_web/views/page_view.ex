@@ -27,14 +27,28 @@ defmodule TowwwerWeb.PageView do
     end
   end
 
+  def vuln_url(vuln) do
+    if Map.get(vuln, "references") do
+      vuln
+      |> Map.get("references")
+      |> Map.get("url")
+      |> Enum.at(0)
+    else
+      ""
+    end
+  end
+
   def vulns(monitor) do
     report = Enum.at(monitor.reports, 0)
 
     report.wpscan_data["plugins"]
     |> Enum.filter(fn({_plugin_name, plugin_data}) ->
-      current_plugin_version = plugin_data["version"]
-      current_vulnerabilities = current_plugin_version["vulnerabilities"]
-      current_vulnerabilities != [] && current_vulnerabilities != nil
+      if plugin_data["vulnerabilities"] do
+        vulns = plugin_data["vulnerabilities"]
+        vulns != [] && vulns != nil
+      else
+        false
+      end
     end)
   end
 end

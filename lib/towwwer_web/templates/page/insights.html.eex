@@ -15,7 +15,7 @@
       <div class="row" style="margin-bottom:10px;">
         <div class="column">
           <%= if core_vulns(monitor) != [] do %>
-            <h4>Core vulns</h4>
+            <h4>Possible core vulns</h4>
             <%= for vuln <- core_vulns(monitor) do %>
               <a href="<%= Enum.at(vuln["references"]["url"], 0) %>" title="_blank"><%= vuln["title"] %></a><br />
             <% end %>
@@ -23,9 +23,12 @@
         </div>
         <div class="column">
           <%= if vulns(monitor) != [] do %>
-            <h4>Plugin vulns</h4>
-            <%= for vuln <- vulns(monitor) do %>
-              <%= vuln["title"] %><br />
+            <h4>Possible plugin vulns</h4>
+            <%= for {vuln_name, vuln_data} <- vulns(monitor) do %>
+              <span><strong><%= vuln_name %> (<%= vuln_data["version"]["number"] %>)</strong></span><br />
+              <%= for vulnerability <- vuln_data["vulnerabilities"] do %>
+                <span><a href="<%= vuln_url(vulnerability) %>" target="_blank"><%= vulnerability["title"] %> (fixed in: <%= vulnerability["fixed_in"] %>)</a></span><br />
+             <% end %>
             <% end %>
           <% end %>
         </div>
@@ -42,16 +45,6 @@
           </tr>
         </thead>
         <tbody>
-
-
-          <%= for vuln <- vulns(monitor) do %>
-            <tr id="<%= site.id %>">
-              <td>
-                Vulnerability in plugin detected, tell Juha to finish this code.
-              </td>
-            </tr>
-          <% end %>
-
           <%= for finding <- findings(monitor) do %>
             <tr id="<%= site.id %>">
               <td><%= finding["type"] %></td>
