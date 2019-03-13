@@ -12,28 +12,63 @@
     <%= if findings(monitor) != nil do %>
       <h3><%= site.base_url %>: <span>WP <%= core_version(monitor) %></span></h3>
 
-      <div class="row" style="margin-bottom:10px;">
-        <div class="column">
-          <%= if core_vulns(monitor) != [] do %>
-            <h4>Possible core vulns</h4>
-            <%= for vuln <- core_vulns(monitor) do %>
-              <a href="<%= Enum.at(vuln["references"]["url"], 0) %>" title="_blank"><%= vuln["title"] %></a><br />
-            <% end %>
-          <% end %>
-        </div>
-        <div class="column">
-          <%= if vulns(monitor) != [] do %>
-            <h4>Possible plugin vulns</h4>
-            <%= for {vuln_name, vuln_data} <- vulns(monitor) do %>
-              <span><strong><%= vuln_name %> (<%= vuln_data["version"]["number"] %>)</strong></span><br />
-              <%= for vulnerability <- vuln_data["vulnerabilities"] do %>
-                <span><a href="<%= vuln_url(vulnerability) %>" target="_blank"><%= vulnerability["title"] %> (fixed in: <%= vulnerability["fixed_in"] %>)</a></span><br />
-             <% end %>
-            <% end %>
-          <% end %>
-        </div>
+      <%= if core_vulns(monitor) != [] do %>
+          <h4>WP Core</h4>
+          <table class="c-insights-table">
+              <thead>
+                  <tr>
+                      <th>Vulnerability</th>
+                      <th>References</th>
+                      <th>Fixed in</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <%= for vuln <- core_vulns(monitor) do %>
+                      <tr>
+                          <td>
+                              <%= vuln["title"] %>
+                          </td>
+                          <td>
+                              <%= for url <- vuln["references"]["url"] do %>
+                                  <a href="<%= url %> %>" title="_blank"><%= url %></a><br />
+                              <% end %>
+                          </td>
+                          <td>
+                              <%= vuln["fixed_in"] %>
+                          </td>
+                      </tr>
+                  <% end %>
+              </tbody>
+          </table>
+      <% end %>
 
-      </div>
+
+      <%= if vulns(monitor) != [] do %>
+          <h4>Plugins</h4>
+          <table class="c-insights-table">
+              <thead>
+                  <tr>
+                      <th>Plugin</th>
+                      <th>Version</th>
+                      <th>Vulnerabilities</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <%= for {vuln_name, vuln_data} <- vulns(monitor) do %>
+                      <tr>
+                          <td><%= vuln_name %></td>
+                          <td><%= vuln_data["version"]["number"] %></td>
+                          <td>
+                              <%= for vulnerability <- vuln_data["vulnerabilities"] do %>
+                                  <span><a href="<%= vuln_url(vulnerability) %>" target="_blank"><%= vulnerability["title"] %></a>  (fixed in: <%= vulnerability["fixed_in"] %>)</span> <br />
+                              <% end %>
+                          </td>
+                      </tr>
+                  <% end %>
+              </tbody>
+          </table>
+      <% end %>
+
 
       <h4>Interesting entries</h4>
       <table class="c-insights-table">
