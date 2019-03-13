@@ -20,6 +20,24 @@
                     </tr>
                 </thead>
                 <tbody>
+
+                  <%= for vuln <- core_vulns(monitor) do %>
+                    <tr id="<%= site.id %>">
+                      <td>
+                        Vulnerability in core detected, tell Juha to finish this code.
+                      </td>
+                    </tr>
+                  <% end %>
+
+
+                  <%= for vuln <- vulns(monitor) do %>
+                    <tr id="<%= site.id %>">
+                      <td>
+                        Vulnerability in plugin detected, tell Juha to finish this code.
+                      </td>
+                    </tr>
+                  <% end %>
+
                     <%= for finding <- findings(monitor) do %>
                         <tr id="<%= site.id %>">
                             <td><%= finding["type"] %></td>
