@@ -24,22 +24,23 @@ defmodule Towwwer.Tools.Helpers do
     case ApiClient.get(url) do
       {:ok, body} ->
         data = Jason.decode!(body)
-
-        # Only run WPScan against the root path, as the other paths are redundant.
-        wpscan_data =
-          case monitor.path do
-            "/" ->
-              {:ok, cmd} = WPScan.run(url)
-              Jason.decode!(cmd)
-
-            _ ->
-              nil
-          end
-
+        wpscan_data = build_wpscan_data(url, monitor)
         Websites.create_report(%{data: data, wpscan_data: wpscan_data, monitor: monitor})
 
       {:error, reason} ->
         {:error, reason}
+    end
+  end
+
+  # Only run WPScan against the root path, as the other paths are redundant.
+  defp build_wpscan_data(url, monitor) do
+    case monitor.path do
+      "/" ->
+        {:ok, cmd} = WPScan.run(url)
+        Jason.decode!(cmd)
+
+      _ ->
+        nil
     end
   end
 

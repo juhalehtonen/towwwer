@@ -10,7 +10,7 @@ defmodule Towwwer.Tools.WPScan do
   """
   @spec run(String.t()) :: {:ok, any()}
   def run(url) when is_binary(url) do
-    {cmd, _} = System.cmd("wpscan", ["--no-banner", "--force", "---no-update", "--format", "json", "--url", url], parallelism: true)
+    {cmd, _} = System.cmd("wpscan", ["--no-banner", "--force", "--no-update", "--format", "json", "--url", url], parallelism: true)
     {:ok, cmd}
   end
   def run(_url), do: {:error, "URL not a binary"}
