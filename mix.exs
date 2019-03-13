@@ -7,6 +7,7 @@ defmodule Towwwer.MixProject do
       version: "0.1.0",
       elixir: "~> 1.5",
       elixirc_paths: elixirc_paths(Mix.env()),
+      dialyzer: [plt_add_deps: :transitive],
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
@@ -46,7 +47,7 @@ defmodule Towwwer.MixProject do
       {:httpoison, "~> 1.5"},
       {:external_service, "~> 0.9.1"},
       {:rihanna, ">= 0.0.0"},
-      {:dialyxir, "~> 1.0.0-rc.4", only: [:dev], runtime: false}
+      {:dialyxir, "~> 0.5", only: [:dev], runtime: false}
     ]
   end
 

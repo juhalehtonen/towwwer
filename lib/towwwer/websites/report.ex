@@ -12,9 +12,14 @@ defmodule Towwwer.Websites.Report do
   end
 
   @doc false
-  def changeset(report, attrs) do
+  def changeset(report, attrs = %{monitor: _monitor}) do
     report
     |> cast(attrs, [:data, :wpscan_data])
     |> put_assoc(:monitor, attrs.monitor)
+  end
+  def changeset(report, attrs) do
+    report
+    |> cast(attrs, [:data, :wpscan_data])
+    |> add_error(:no_monitor, "No monitor provided")
   end
 end
