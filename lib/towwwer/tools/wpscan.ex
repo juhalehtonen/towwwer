@@ -10,9 +10,77 @@ defmodule Towwwer.Tools.WPScan do
   """
   @spec run(map(), String.t()) :: {:ok, any()} | {:error, String.t()}
   def run(site, url) when is_map(site) and is_binary(url) do
-    # TODO: Check if site has wp_content_dir or wp_plugins_dir set, and use them.
-    {cmd, _} = System.cmd("wpscan", ["--no-banner", "--force", "--no-update", "--format", "json", "--url", url], parallelism: true)
+    construct_wpscan_command(site, url)
+  end
+
+  def run(_site, _url), do: {:error, "URL not a binary"}
+
+  # Helper to construct the WPScan command
+  @spec construct_wpscan_command(map(), String.t()) :: tuple()
+  defp construct_wpscan_command(site, url) do
+    {cmd, _} =
+      cond do
+        site.wp_content_dir != nil && site.wp_plugins_dir != nil ->
+          System.cmd(
+            "wpscan",
+            [
+              "--no-banner",
+              "--force",
+              "--no-update",
+              "--format",
+              "json",
+              "--wp-content-dir",
+              site.wp_content_dir,
+              "--wp-plugins-dir",
+              site.wp_plugins_dir,
+              "--url",
+              url
+            ],
+            parallelism: true
+          )
+
+        site.wp_content_dir != nil ->
+          System.cmd(
+            "wpscan",
+            [
+              "--no-banner",
+              "--force",
+              "--no-update",
+              "--format",
+              "json",
+              "--wp-content-dir",
+              site.wp_content_dir,
+              "--url",
+              url
+            ],
+            parallelism: true
+          )
+
+        site.wp_plugins_dir != nil ->
+          System.cmd(
+            "wpscan",
+            [
+              "--no-banner",
+              "--force",
+              "--no-update",
+              "--format",
+              "json",
+              "--wp-plugins-dir",
+              site.wp_plugins_dir,
+              "--url",
+              url
+            ],
+            parallelism: true
+          )
+
+        true ->
+          System.cmd(
+            "wpscan",
+            ["--no-banner", "--force", "--no-update", "--format", "json", "--url", url],
+            parallelism: true
+          )
+      end
+
     {:ok, cmd}
   end
-  def run(_site, _url), do: {:error, "URL not a binary"}
 end
