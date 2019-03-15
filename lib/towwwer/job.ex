@@ -14,9 +14,8 @@ defmodule Towwwer.Job do
   """
 
   @doc """
-  NOTE: `perform/1` is a required callback. It takes exactly one argument. To
-  pass multiple arguments, wrap them in a list and destructure in the
-  function head as in this example.
+  NOTE: `perform/1` is a required callback. It takes exactly one argument. To pass
+  multiple arguments, wrap them in a list and destructure in the function head.
 
   This has to return one of: :ok | {:ok, result} | :error | {:error, reason}
   """
