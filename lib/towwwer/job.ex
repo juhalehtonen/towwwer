@@ -20,6 +20,7 @@ defmodule Towwwer.Job do
 
   This has to return one of: :ok | {:ok, result} | :error | {:error, reason}
   """
+  @spec perform([map() | map()]) :: :ok | {:error, :failed}
   def perform([site, monitor]) do
     success? = do_work(site, monitor)
 
