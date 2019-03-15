@@ -8,9 +8,10 @@ defmodule Towwwer.Job do
   Enqueue job for later execution and return immediately:
   Rihanna.enqueue(Towwwer.Job, [arg1, arg2])
 
-  To implement a recurring job have the job reschedule itself after completion
-  and Postgres’ ACID guarantees will ensure that it continues running. You will
-  need to enqueue the job manually the first time from the console.
+  A recurring job is implemented by having the job reschedule itself after completion
+  and Postgres’ ACID guarantees will ensure that it continues running.
+
+  NOTE: You will need to enqueue the job manually the first time from the console.
   """
 
   @doc """
