@@ -16,6 +16,7 @@ defmodule Towwwer.Tools.WPScan do
   def run(_site, _url), do: {:error, "URL not a binary"}
 
   # Helper to construct the WPScan command
+  # TODO: Just construct the param list, not the whole command
   @spec construct_wpscan_command(map(), String.t()) :: tuple()
   defp construct_wpscan_command(site, url) do
     {cmd, _} =
