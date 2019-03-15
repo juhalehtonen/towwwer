@@ -21,7 +21,8 @@ defmodule Towwwer.Tools.WPScan do
   defp construct_wpscan_command(site, url) do
     {cmd, _} =
       cond do
-        site.wp_content_dir != nil && site.wp_plugins_dir != nil ->
+        site.wp_content_dir != nil && site.wp_content_dir != "" && site.wp_plugins_dir != nil &&
+            site.wp_plugins_dir != "" ->
           System.cmd(
             "wpscan",
             [
@@ -40,7 +41,7 @@ defmodule Towwwer.Tools.WPScan do
             parallelism: true
           )
 
-        site.wp_content_dir != nil ->
+        site.wp_content_dir != nil && site.wp_content_dir != "" ->
           System.cmd(
             "wpscan",
             [
@@ -57,7 +58,7 @@ defmodule Towwwer.Tools.WPScan do
             parallelism: true
           )
 
-        site.wp_plugins_dir != nil ->
+        site.wp_plugins_dir != nil && site.wp_plugins_dir != "" ->
           System.cmd(
             "wpscan",
             [
