@@ -19,12 +19,14 @@ defmodule Towwwer.Tools.Helpers do
   Constructs and saves a new Report from the JSON based on the response of
   the PageSpeed API and WPScan results.
   """
-  @spec build_report(String.t(), map()) :: {:ok, map()} | {:error, String.t()}
-  def build_report(url, monitor) do
+  @spec build_report(map(), map()) :: {:ok, map()} | {:error, String.t()}
+  def build_report(site, monitor) do
+    url = site.base_url <> monitor.path
+
     case ApiClient.get(url) do
       {:ok, body} ->
         data = Jason.decode!(body)
-        wpscan_data = build_wpscan_data(url, monitor)
+        wpscan_data = build_wpscan_data(site, monitor)
         Websites.create_report(%{data: data, wpscan_data: wpscan_data, monitor: monitor})
 
       {:error, reason} ->
@@ -33,10 +35,12 @@ defmodule Towwwer.Tools.Helpers do
   end
 
   # Only run WPScan against the root path, as the other paths are redundant.
-  defp build_wpscan_data(url, monitor) do
+  defp build_wpscan_data(site, monitor) do
+    url = site.base_url <> monitor.path
+
     case monitor.path do
       "/" ->
-        {:ok, cmd} = WPScan.run(url)
+        {:ok, cmd} = WPScan.run(site, url)
         Jason.decode!(cmd)
 
       _ ->

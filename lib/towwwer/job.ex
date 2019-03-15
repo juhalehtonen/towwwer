@@ -37,7 +37,7 @@ defmodule Towwwer.Job do
   defp do_work(site, monitor) do
     Logger.info("Doing work for #{site.base_url}")
 
-    case Helpers.build_report(site.base_url <> monitor.path, monitor) do
+    case Helpers.build_report(site, monitor) do
       {:ok, _report} ->
         Logger.info("Created report for #{site.base_url} at #{monitor.path} successfully")
         Websites.bump_site_timestamp(site)
