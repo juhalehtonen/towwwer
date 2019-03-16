@@ -34,6 +34,7 @@ defmodule Towwwer.Tools.ApiClient do
     ExternalService.call(Towwwer.Tools.ApiClient, @retry_opts, fn -> try_get(url) end)
   end
 
+  @spec try_get(String.t()) :: {:retry, integer()} | any()
   defp try_get(url) do
     url
     |> PageSpeed.query_pagespeed_api()

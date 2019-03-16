@@ -20,6 +20,7 @@ defmodule Towwwer.Websites do
       [%Site{}, ...]
 
   """
+  @spec list_sites() :: [%Site{}]
   def list_sites do
     Repo.all from s in Site,
       order_by: s.base_url
@@ -28,6 +29,7 @@ defmodule Towwwer.Websites do
   @doc """
   Same as list_sites/0 but preloads associations.
   """
+  @spec list_sites_with_preloads() :: [%Site{}]
   def list_sites_with_preloads do
     Repo.all from s in Site,
       preload: [monitors: [:reports]]
@@ -37,6 +39,7 @@ defmodule Towwwer.Websites do
   Same as list_sites_with_preloads/0 but only loads the latest report,
   and only includes monitors with path of "/".
   """
+  @spec list_sites_with_latest_root_report() :: [%Site{}]
   def list_sites_with_latest_root_report do
     reports_query = from r in Report, distinct: r.monitor_id, order_by: [desc: r.updated_at]
     monitors_query = from m in Monitor, distinct: m.site_id, where: m.path == "/", preload: [reports: ^reports_query]
@@ -57,6 +60,7 @@ defmodule Towwwer.Websites do
       ** (Ecto.NoResultsError)
 
   """
+  @spec get_site!(integer()) :: %Site{}
   def get_site!(id) do
     Site
     |> Repo.get!(id)
@@ -75,6 +79,7 @@ defmodule Towwwer.Websites do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec create_site(map()) :: {:ok, %Site{}} | {:error, %Ecto.Changeset{}}
   def create_site(attrs \\ %{}) do
     changeset = %Site{}
     |> Site.changeset(attrs)
