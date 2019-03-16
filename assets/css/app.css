@@ -78,3 +78,10 @@ td, th {
 .c-insights-table + h3 {
     margin-top: 2.5em;
 }
+
+.c-site-logo {
+    float: left;
+    font-size: 25px !important;
+    vertical-align: middle;
+    margin: 0;
+}
