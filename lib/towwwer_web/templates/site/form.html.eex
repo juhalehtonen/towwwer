@@ -12,12 +12,10 @@
   <%= error_tag f, :base_url %>
 
   <%= label f, :wp_content_dir %>
-  <p>If left empty, uses WP defaults.</p>
   <%= text_input f, :wp_content_dir %>
   <%= error_tag f, :wp_content_dir %>
 
   <%= label f, :wp_plugins_dir %>
-  <p>If left empty, uses WP defaults.</p>
   <%= text_input f, :wp_plugins_dir %>
   <%= error_tag f, :wp_plugins_dir %>
 

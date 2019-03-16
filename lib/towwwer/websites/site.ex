@@ -18,7 +18,7 @@ defmodule Towwwer.Websites.Site do
     site
     |> cast(attrs, [:base_url, :token, :wp_plugins_dir, :wp_content_dir])
     |> cast_assoc(:monitors, required: true)
-    |> validate_required([:base_url, :token])
+    |> validate_required([:base_url, :token, :wp_plugins_dir, :wp_content_dir])
     |> unique_constraint(:base_url)
   end
 end

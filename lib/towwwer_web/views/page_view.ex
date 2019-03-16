@@ -28,7 +28,7 @@ defmodule TowwwerWeb.PageView do
   end
 
   def vuln_url(vuln) do
-    if Map.get(vuln, "references") do
+    if Map.get(vuln, "references") |> Map.get("url") do
       vuln
       |> Map.get("references")
       |> Map.get("url")

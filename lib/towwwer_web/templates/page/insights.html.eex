@@ -1,100 +1,109 @@
 <div class="row">
-  <div class="column column-50">
-    <h1>Insights</h1>
-    <p>Sites that were successfully scanned by WPScan, and for which it found something to report.</p>
-  </div>
+    <div class="column column-50">
+        <h1>Insights</h1>
+        <p>Sites that were successfully scanned by WPScan, and for which it found something to report.</p>
+    </div>
 </div>
 
 <hr />
 
 <%= for site <- @sites do %>
-  <%= for monitor <- site.monitors do %>
-    <%= if findings(monitor) != nil do %>
-      <h3><%= site.base_url %>: <span>WP <%= core_version(monitor) %></span></h3>
+    <%= if site.monitors do %>
+        <%= for monitor <- site.monitors do %>
+            <%= if findings(monitor) != nil do %>
+                <h3><%= site.base_url %>: <span>WP <%= core_version(monitor) %></span></h3>
 
-      <%= if core_vulns(monitor) != [] do %>
-          <h4>WP Core</h4>
-          <table class="c-insights-table">
-              <thead>
-                  <tr>
-                      <th>Vulnerability</th>
-                      <th>References</th>
-                      <th>Fixed in</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <%= for vuln <- core_vulns(monitor) do %>
-                      <tr>
-                          <td>
-                              <%= vuln["title"] %>
-                          </td>
-                          <td>
-                              <%= for url <- vuln["references"]["url"] do %>
-                                  <a href="<%= url %> %>" title="_blank"><%= url %></a><br />
-                              <% end %>
-                          </td>
-                          <td>
-                              <%= vuln["fixed_in"] %>
-                          </td>
-                      </tr>
-                  <% end %>
-              </tbody>
-          </table>
-      <% end %>
-
-
-      <%= if vulns(monitor) != [] do %>
-          <h4>Plugins</h4>
-          <table class="c-insights-table">
-              <thead>
-                  <tr>
-                      <th>Plugin</th>
-                      <th>Version</th>
-                      <th>Vulnerabilities</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <%= for {vuln_name, vuln_data} <- vulns(monitor) do %>
-                      <tr>
-                          <td><%= vuln_name %></td>
-                          <td><%= vuln_data["version"]["number"] %></td>
-                          <td>
-                              <%= for vulnerability <- vuln_data["vulnerabilities"] do %>
-                                  <span><a href="<%= vuln_url(vulnerability) %>" target="_blank"><%= vulnerability["title"] %></a>  (fixed in: <%= vulnerability["fixed_in"] %>)</span> <br />
-                              <% end %>
-                          </td>
-                      </tr>
-                  <% end %>
-              </tbody>
-          </table>
-      <% end %>
-
-
-      <h4>Interesting entries</h4>
-      <table class="c-insights-table">
-        <thead>
-          <tr>
-            <th>Type</th>
-            <th>URL</th>
-            <th>Interesting entries</th>
-          </tr>
-        </thead>
-        <tbody>
-          <%= for finding <- findings(monitor) do %>
-            <tr id="<%= site.id %>">
-              <td><%= finding["type"] %></td>
-              <td>
-                <a target="_blank" href="<%= finding["url"] %>"><%= finding["url"] %></a>
-              </td>
-              <td>
-                <%= for entry <- finding["interesting_entries"] do %>
-                  <%= entry %> <br />
+                <%= if core_vulns(monitor) != [] do %>
+                    <h4>WP Core</h4>
+                    <table class="c-insights-table">
+                        <thead>
+                            <tr>
+                                <th>Vulnerability</th>
+                                <th>References</th>
+                                <th>Fixed in</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%= for vuln <- core_vulns(monitor) do %>
+                                <tr>
+                                    <td>
+                                        <%= vuln["title"] %>
+                                    </td>
+                                    <td>
+                                        <%= for url <- vuln["references"]["url"] do %>
+                                            <a href="<%= url %> %>" title="_blank"><%= url %></a><br />
+                                        <% end %>
+                                    </td>
+                                    <td>
+                                        <%= vuln["fixed_in"] %>
+                                    </td>
+                                </tr>
+                            <% end %>
+                        </tbody>
+                    </table>
                 <% end %>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+
+
+                <%= if vulns(monitor) != [] && vulns(monitor) != nil do %>
+                    <h4>Plugins</h4>
+                    <table class="c-insights-table">
+                        <thead>
+                            <tr>
+                                <th>Plugin</th>
+                                <th>Version</th>
+                                <th>Vulnerabilities</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%= for {vuln_name, vuln_data} <- vulns(monitor) do %>
+                                <tr>
+                                    <td><%= vuln_name %></td>
+                                    <td><%= vuln_data["version"]["number"] %></td>
+                                    <%= if vuln_data["vulnerabilities"] do %>
+                                        <td>
+                                            <%= for vulnerability <- vuln_data["vulnerabilities"] do %>
+                                                <span>
+                                                    <a href="<%= vuln_url(vulnerability) %>" target="_blank">
+                                                        <%= vulnerability["title"] %>
+                                                    </a>  (fixed in: <%= vulnerability["fixed_in"] %>)
+                                                </span>
+                                                <br />
+                                            <% end %>
+                                        </td>
+                                    <% end %>
+                                </tr>
+                            <% end %>
+                        </tbody>
+                    </table>
+                <% end %>
+
+
+                <h4>Interesting entries</h4>
+                <table class="c-insights-table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>URL</th>
+                            <th>Interesting entries</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%= for finding <- findings(monitor) do %>
+                            <tr id="<%= site.id %>">
+                                <td><%= finding["type"] %></td>
+                                <td>
+                                    <a target="_blank" href="<%= finding["url"] %>"><%= finding["url"] %></a>
+                                </td>
+                                <td>
+                                    <%= for entry <- finding["interesting_entries"] do %>
+                                        <%= entry %> <br />
+                                    <% end %>
+                                </td>
+                            </tr>
+                        <% end %>
+                    </tbody>
+                </table>
+            <% end %>
+        <% end %>
     <% end %>
-  <% end %>
 <% end %>
