@@ -108,6 +108,7 @@ defmodule Towwwer.Websites do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec update_site(%Site{}, map()) :: {:ok, %Site{}} | {:error, %Ecto.Changeset{}}
   def update_site(%Site{} = site, attrs) do
     changeset = site
     |> Site.changeset(attrs)
@@ -123,6 +124,7 @@ defmodule Towwwer.Websites do
     changeset
   end
 
+  @spec bump_site_timestamp(%Site{}) :: %Site{}
   def bump_site_timestamp(%Site{} = site) do
     site
     |> Site.changeset(%{})
@@ -141,6 +143,7 @@ defmodule Towwwer.Websites do
       {:error, %Ecto.Changeset{}}
 
   """
+  @spec delete_site(%Site{}) :: {:ok, %Site{}}
   def delete_site(%Site{} = site) do
     Repo.delete(site)
   end
@@ -154,6 +157,7 @@ defmodule Towwwer.Websites do
       %Ecto.Changeset{source: %Site{}}
 
   """
+  @spec change_site(%Site{}) :: %Ecto.Changeset{}
   def change_site(%Site{} = site) do
     Site.changeset(site, %{})
   end
