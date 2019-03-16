@@ -3,8 +3,8 @@ defmodule TowwwerWeb.ReportControllerTest do
 
   alias Towwwer.Websites
 
-  @create_attrs %{data: %{}}
-  @update_attrs %{data: %{}}
+  @create_attrs %{data: %{}, monitor: %Towwwer.Websites.Monitor{}}
+  @update_attrs %{data: %{}, monitor: %Towwwer.Websites.Monitor{}}
   @invalid_attrs %{data: nil}
 
   def fixture(:report) do

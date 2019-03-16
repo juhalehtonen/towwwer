@@ -6,9 +6,9 @@ defmodule Towwwer.WebsitesTest do
   describe "sites" do
     alias Towwwer.Websites.Site
 
-    @valid_attrs %{name: "some name", token: "some token"}
-    @update_attrs %{name: "some updated name", token: "some updated token"}
-    @invalid_attrs %{name: nil, token: nil}
+    @valid_attrs %{base_url: "someurl", token: "sometoken", wp_content_dir: "dir", wp_plugins_dir: "dir", monitors: [%Towwwer.Websites.Monitor{}]}
+    @update_attrs %{base_url: "someupdatedurl", token: "someupdatedtoken", wp_content_dir: "dir", wp_plugins_dir: "dir", monitors: [%Towwwer.Websites.Monitor{}]}
+    @invalid_attrs %{base_url: nil, token: nil, wp_content_dir: nil, wp_plugins_dir: nil}
 
     def site_fixture(attrs \\ %{}) do
       {:ok, site} =
@@ -31,8 +31,8 @@ defmodule Towwwer.WebsitesTest do
 
     test "create_site/1 with valid data creates a site" do
       assert {:ok, %Site{} = site} = Websites.create_site(@valid_attrs)
-      assert site.name == "some name"
-      assert site.token == "some token"
+      assert site.base_url == "someurl"
+      assert site.token == "sometoken"
     end
 
     test "create_site/1 with invalid data returns error changeset" do
@@ -42,8 +42,8 @@ defmodule Towwwer.WebsitesTest do
     test "update_site/2 with valid data updates the site" do
       site = site_fixture()
       assert {:ok, %Site{} = site} = Websites.update_site(site, @update_attrs)
-      assert site.name == "some updated name"
-      assert site.token == "some updated token"
+      assert site.base_url == "someupdatedurl"
+      assert site.token == "someupdatedtoken"
     end
 
     test "update_site/2 with invalid data returns error changeset" do
@@ -126,8 +126,8 @@ defmodule Towwwer.WebsitesTest do
   describe "reports" do
     alias Towwwer.Websites.Report
 
-    @valid_attrs %{data: %{}}
-    @update_attrs %{data: %{}}
+    @valid_attrs %{data: %{}, wpscan_data: %{}, monitor: %Towwwer.Websites.Monitor{path: "/"}}
+    @update_attrs %{data: %{}, wpscan_data: %{}, monitor: %Towwwer.Websites.Monitor{path: "/"}}
     @invalid_attrs %{data: nil}
 
     def report_fixture(attrs \\ %{}) do
