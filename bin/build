@@ -13,6 +13,9 @@ mkdir -p /opt/build/rel/artifacts
 mix local.rebar --force
 mix local.hex --if-missing --force
 
+which nodejs
+nodejs --version
+
 export MIX_ENV=prod
 
 # Fetch deps and compile
@@ -23,6 +26,7 @@ mix do clean, compile --force
 # Build frontend stuff
 cd assets
 npm install
+nodejs ./node_modules/webpack/bin/webpack.js --mode="production"
 cd ..
 mix phx.digest
 
