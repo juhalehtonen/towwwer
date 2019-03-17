@@ -47,6 +47,7 @@ defmodule Towwwer.MixProject do
       {:httpoison, "~> 1.5"},
       {:external_service, "~> 0.9.1"},
       {:rihanna, ">= 0.0.0"},
+      {:distillery, "~> 2.0"},
       {:dialyxir, "~> 1.0.0-rc.4", only: [:dev], runtime: false}
     ]
   end
