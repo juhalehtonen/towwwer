@@ -4,6 +4,8 @@
 # ONLY include PRODUCTION RELEASE configuration here, and
 # REMEMBER to change everything to their correct values.
 
+# RENAME me to runtime_config.exs to use me
+
 # General application configuration
 use Mix.Config
 

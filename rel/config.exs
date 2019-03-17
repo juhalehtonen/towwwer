@@ -40,10 +40,10 @@ environment :prod do
   set cookie: :crypto.hash(:sha256, Towwwer.Tools.Helpers.random_string(32)) |> Base.encode16 |> String.to_atom
   set vm_args: "rel/vm.args"
   set config_providers: [
-    {Mix.Releases.Config.Providers.Elixir, ["${RELEASE_ROOT_DIR}/etc/config.exs"]}
+    {Mix.Releases.Config.Providers.Elixir, ["${RELEASE_ROOT_DIR}/etc/runtime_config.exs"]}
   ]
   set overlays: [
-    {:copy, "rel/config/config.exs", "etc/config.exs"}
+    {:copy, "rel/config/runtime_config.exs", "etc/runtime_config.exs.sample"}
   ]
 end
 
