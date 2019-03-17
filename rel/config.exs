@@ -37,7 +37,7 @@ end
 environment :prod do
   set include_erts: true
   set include_src: false
-  set cookie: :"yBOJ>nGdi3lzg=}/ax:*Y?~22L[0ITa=YDaJfYW7dHj!Av=0wnmy3Vm.Ud<OKe_t"
+  set cookie: :crypto.hash(:sha256, Towwwer.Tools.Helpers.random_string(32)) |> Base.encode16 |> String.to_atom
   set vm_args: "rel/vm.args"
 end
 
