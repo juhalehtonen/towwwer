@@ -45,6 +45,9 @@ After which you should see your release tarball in `rel/artifacts`.
 
 If you add dependencies that require system packages, you will need to update the Dockerfile for the build container, and rerun the docker build command to update it.
 
+Test localy "deployment": `cp rel/artifacts/towwwer-0.1.0.tar.gz /tmp/test/`
+Start the release with: `cd /tmp/test && tar -xf towwwer-0.1.0.tar.gz && ./bin/towwwer start`
+
 ## Features
 
 Currently implemented:
