@@ -44,6 +44,7 @@ npm-debug.log
 # Distillery release artifacts (the actual built releases)
 /rel/artifacts
 
-# Cache directories for Mix and Hex
+# Cache directories for Mix and Hex and Npm
 .mix
 .hex
+.npm
