@@ -9,9 +9,9 @@ use Mix.Config
 
 # Endpoint configuration
 config :towwwer, TowwwerWeb.Endpoint,
-  secret_key_base: "abcdefg",
+  secret_key_base: "REPLACEMEabcdet45u8tuu549ty5rdy77tghtfghhg7dt9g78th7t89hf78hgt89fgh7f89gh89dfhg7gfg",
   http: [:inet6, port: 4000],
-  url: [host: "example.com", port: 4000],
+  url: [host: "localhost", port: 4000],
   server: true,
   root: ".",
   cache_static_manifest: "priv/static/cache_manifest.json"
@@ -27,4 +27,4 @@ config :towwwer, Towwwer.Repo,
   pool_size: 15
 
 # Configure PageSpeeds Insights API
-config :towwwer, pagespeed_insights_api_key: "123"
+config :towwwer, pagespeed_insights_api_key: "REPLACEME"
