@@ -19,6 +19,13 @@ export MIX_ENV=prod
 mix deps.get
 # Run an explicit clean to remove any build artifacts from the host
 mix do clean, compile --force
+
+# Build frontend stuff
+cd assets
+npm install
+cd ..
+mix phx.digest
+
 # Build the release
 mix release
 # Copy tarball to output
