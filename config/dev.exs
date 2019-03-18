@@ -73,3 +73,6 @@ config :towwwer, Towwwer.Repo,
   database: "towwwer_dev",
   hostname: "localhost",
   pool_size: 10
+
+# Shared secrets usable for any environment, such as API keys
+import_config "shared.secret.exs"

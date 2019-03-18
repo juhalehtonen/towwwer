@@ -40,3 +40,11 @@ npm-debug.log
 # secrets files as long as you replace their contents by environment
 # variables.
 /config/*.secret.exs
+
+# Distillery release artifacts (the actual built releases)
+/rel/artifacts
+
+# Cache directories for Mix and Hex and Npm
+.mix
+.hex
+.npm

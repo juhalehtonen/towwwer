@@ -27,6 +27,27 @@ config :towwwer, pagespeed_insights_api_key: "YOUR_API_KEY_HERE"
 
 NOTE: You can use different configurations for different environments. The shared config is included for all environments by default.
 
+## Deployment
+
+Towwwer uses Distillery to build releases for production. See the [Distillery docs](https://hexdocs.pm/distillery) for more details.
+
+Steps taken to produce a new deployment:
+
+```
+# To build the Docker image
+docker build -t elixir-ubuntu:latest .
+
+# To build the release
+docker run -v $(pwd):/opt/build --rm -it elixir-ubuntu:latest /opt/build/bin/build
+```
+
+After which you should see your release tarball in `rel/artifacts`.
+
+If you add dependencies that require system packages, you will need to update the Dockerfile for the build container, and rerun the docker build command to update it.
+
+Test localy "deployment": `cp rel/artifacts/towwwer-0.1.0.tar.gz /tmp/test/`
+Start the release with: `cd /tmp/test && tar -xf towwwer-0.1.0.tar.gz && ./bin/towwwer start`
+
 ## Features
 
 Currently implemented:

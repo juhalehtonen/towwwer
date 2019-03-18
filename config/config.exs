@@ -31,8 +31,6 @@ config :rihanna,
   producer_postgres_connection: {Ecto, Towwwer.Repo},
   dispatcher_max_concurrency: 100
 
-# Shared secrets usable for any environment, such as API keys
-import_config "shared.secret.exs"
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
