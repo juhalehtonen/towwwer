@@ -29,7 +29,7 @@ config :phoenix, :json_library, Jason
 # Configure Rihanna
 config :rihanna,
   producer_postgres_connection: {Ecto, Towwwer.Repo},
-  dispatcher_max_concurrency: 100
+  dispatcher_max_concurrency: 10
 
 
 # Import environment specific config. This must remain at the bottom

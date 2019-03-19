@@ -48,3 +48,5 @@ npm-debug.log
 .mix
 .hex
 .npm
+
+.config
