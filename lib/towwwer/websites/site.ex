@@ -6,8 +6,8 @@ defmodule Towwwer.Websites.Site do
   schema "sites" do
     field :base_url, :string
     field :token, :string
-    field :wp_content_dir, :string
-    field :wp_plugins_dir, :string
+    field :wp_content_dir, :string, default: "wp-content"
+    field :wp_plugins_dir, :string, default: "wp-content/plugins"
     has_many :monitors, Monitor
 
     timestamps()
