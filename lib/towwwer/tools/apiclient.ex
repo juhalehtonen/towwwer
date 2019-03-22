@@ -41,7 +41,7 @@ defmodule Towwwer.Tools.ApiClient do
     |> case do
          {:ok_but_error, status_code} when status_code in @retry_errors ->
            Logger.info "Retrying #{url} due to #{status_code}"
-           IO.inspect {:retry, status_code}
+           {:retry, status_code}
          # If not a retriable error, just return the result.
          pagespeed_result ->
            pagespeed_result
