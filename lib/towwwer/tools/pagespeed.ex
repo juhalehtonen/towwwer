@@ -13,17 +13,18 @@ defmodule Towwwer.Tools.PageSpeed do
   def query_pagespeed_api(url) when is_binary(url) do
     request_url = construct_request_url(url)
     headers = []
-    options = [timeout: 60000, recv_timeout: 60000]
+    options = [timeout: 90000, recv_timeout: 90000]
 
     case HTTPoison.get(request_url, headers, options) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         {:ok, body}
 
       {:ok, %HTTPoison.Response{status_code: status_code}} ->
+        Logger.info("HTTPoison request succeeded for #{request_url} but got status code: #{status_code}")
         {:ok_but_error, status_code}
 
       {:error, %HTTPoison.Error{reason: reason}} ->
-        Logger.error("HTTPoison request failed")
+        Logger.error("HTTPoison request failed for #{request_url}: #{reason}")
         {:error, reason}
     end
   end
