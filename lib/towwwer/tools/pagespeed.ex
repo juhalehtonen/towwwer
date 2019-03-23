@@ -9,9 +9,9 @@ defmodule Towwwer.Tools.PageSpeed do
     @api_base_url <> url <> @api_categories <> "&strategy=" <> strategy <> "&key=" <> api_key()
   end
 
-  @spec query_pagespeed_api(String.t()) :: {:ok, map()} | {:ok_but_error, integer()} | {:error, String.t()}
-  def query_pagespeed_api(url) when is_binary(url) do
-    request_url = construct_request_url(url)
+  @spec query_pagespeed_api(String.t(), String.t()) :: {:ok, map()} | {:ok_but_error, integer()} | {:error, String.t()}
+  def query_pagespeed_api(url, strategy) when is_binary(url) and strategy in ["desktop", "mobile"] do
+    request_url = construct_request_url(url, strategy)
     headers = []
     options = [timeout: 90000, recv_timeout: 90000]
 

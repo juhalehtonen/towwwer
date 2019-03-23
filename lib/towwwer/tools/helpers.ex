@@ -23,14 +23,19 @@ defmodule Towwwer.Tools.Helpers do
   def build_report(site, monitor) do
     url = site.base_url <> monitor.path
 
-    case ApiClient.get(url) do
-      {:ok, body} ->
-        data = Jason.decode!(body)
-        wpscan_data = build_wpscan_data(site, monitor)
-        Websites.create_report(%{data: data, wpscan_data: wpscan_data, monitor: monitor})
-
-      {:error, reason} ->
-        {:error, reason}
+    with {:ok, body_d} <- ApiClient.get(url, "desktop"),
+         {:ok, body_m} <- ApiClient.get(url, "mobile"),
+         data_d <- Jason.decode!(body_d),
+         data_m <- Jason.decode!(body_m),
+         wpscan_data <- build_wpscan_data(site, monitor) do
+      Websites.create_report(%{
+        data: data_d,
+        mobile_data: data_m,
+        wpscan_data: wpscan_data,
+        monitor: monitor
+      })
+    else
+      {:error, reason} -> {:error, reason}
     end
   end
 

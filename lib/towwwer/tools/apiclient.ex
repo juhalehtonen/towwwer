@@ -30,17 +30,16 @@ defmodule Towwwer.Tools.ApiClient do
     ExternalService.start(@fuse_name, @fuse_options)
   end
 
-  def get(url) do
-    ExternalService.call(Towwwer.Tools.ApiClient, @retry_opts, fn -> try_get(url) end)
+  def get(url, strategy) when strategy in ["desktop", "mobile"] do
+    ExternalService.call(Towwwer.Tools.ApiClient, @retry_opts, fn -> try_get(url, strategy) end)
   end
 
-  @spec try_get(String.t()) :: {:retry, integer()} | any()
-  defp try_get(url) do
-    url
-    |> PageSpeed.query_pagespeed_api()
+  @spec try_get(String.t(), String.t()) :: {:retry, integer()} | any()
+  defp try_get(url, strategy) when strategy in ["desktop", "mobile"] do
+    PageSpeed.query_pagespeed_api(url, strategy)
     |> case do
          {:ok_but_error, status_code} when status_code in @retry_errors ->
-           Logger.info "Retrying #{url} due to #{status_code}"
+           Logger.info "Retrying #{url} due to #{status_code} with strategy of #{strategy}"
            {:retry, status_code}
          # If not a retriable error, just return the result.
          pagespeed_result ->

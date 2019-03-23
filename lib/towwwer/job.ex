@@ -41,7 +41,7 @@ defmodule Towwwer.Job do
 
   @spec do_work(map(), map()) :: :ok | :error
   defp do_work(site, monitor) do
-    Logger.info("Doing work for #{site.base_url}")
+    Logger.info("Doing work for #{site.base_url} at #{monitor.path}")
 
     case Helpers.build_report(site, monitor) do
       {:ok, _report} ->
