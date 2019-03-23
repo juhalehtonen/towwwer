@@ -4,9 +4,9 @@ defmodule Towwwer.Tools.PageSpeed do
   @api_base_url "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url="
   @api_categories "&category=performance&category=pwa&category=best-practices&category=accessibility&category=seo"
 
-  @spec construct_request_url(String.t()) :: String.t()
-  def construct_request_url(url) do
-    @api_base_url <> url <> @api_categories <> "&key=" <> api_key()
+  @spec construct_request_url(String.t(), String.t()) :: String.t()
+  def construct_request_url(url, strategy \\ "desktop") when strategy in ["desktop", "mobile"] do
+    @api_base_url <> url <> @api_categories <> "&strategy=" <> strategy <> "&key=" <> api_key()
   end
 
   @spec query_pagespeed_api(String.t()) :: {:ok, map()} | {:ok_but_error, integer()} | {:error, String.t()}
