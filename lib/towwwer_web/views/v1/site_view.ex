@@ -1,7 +1,6 @@
 defmodule TowwwerWeb.V1.SiteView do
   use TowwwerWeb, :view
   alias TowwwerWeb.V1.SiteView
-  alias TowwwerWeb.V1.ReportView
   alias TowwwerWeb.V1.MonitorView
 
   def render("index.json", %{sites: sites}) do
