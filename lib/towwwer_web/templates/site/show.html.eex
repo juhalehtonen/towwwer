@@ -44,14 +44,61 @@
             <tbody>
                 <%= for report <- reports_of_monitor(monitor) do %>
                     <tr class="js-report" data-report-id="<%= report.id %>">
-                        <td style="color:<%= score(report, "performance") |> color_code_result() %>;"><%= score(report, "performance") %></td>
-                        <td style="color:<%= score(report, "seo") |> color_code_result() %>;"><%= score(report, "seo") %></td>
-                        <td style="color:<%= score(report, "pwa") |> color_code_result() %>;"><%= score(report, "pwa") %></td>
-                        <td style="color:<%= score(report, "accessibility") |> color_code_result() %>;"><%= score(report, "accessibility") %></td>
-                        <td style="color:<%= score(report, "best-practices") |> color_code_result() %>;"><%= score(report, "best-practices") %></td>
+                        <td>
+                            <span style="color:<%= score(report, "performance", "desktop") |> color_code_result() %>;">
+                                <%= score(report, "performance", "desktop") %>
+                            </span>
+                            <span style="color:<%= score(report, "performance", "mobile") |> color_code_result() %>;">
+                                <%= score(report, "performance", "mobile") %>
+                            </span>
+                        </td>
+
+                        <td>
+                            <span style="color:<%= score(report, "seo", "desktop") |> color_code_result() %>;">
+                                <%= score(report, "seo", "desktop") %>
+                            </span>
+                            <span style="color:<%= score(report, "seo", "mobile") |> color_code_result() %>;">
+                                <%= score(report, "seo", "mobile") %>
+                            </span>
+                        </td>
+
+                        <td>
+                            <span style="color:<%= score(report, "pwa", "desktop") |> color_code_result() %>;">
+                                <%= score(report, "pwa", "desktop") %>
+                            </span>
+                            <span style="color:<%= score(report, "pwa", "mobile") |> color_code_result() %>;">
+                                <%= score(report, "pwa", "mobile") %>
+                            </span>
+                        </td>
+
+                        <td>
+                            <span style="color:<%= score(report, "accessibility", "desktop") |> color_code_result() %>;">
+                                <%= score(report, "accessibility", "desktop") %>
+                            </span>
+                            <span style="color:<%= score(report, "accessibility", "mobile") |> color_code_result() %>;">
+                                <%= score(report, "accessibility", "mobile") %>
+                            </span>
+                        </td>
+
+                        <td>
+                            <span style="color:<%= score(report, "best-practices", "desktop") |> color_code_result() %>;">
+                                <%= score(report, "best-practices", "desktop") %>
+                            </span>
+                            <span style="color:<%= score(report, "best-practices", "mobile") |> color_code_result() %>;">
+                                <%= score(report, "best-practices", "mobile") %>
+                            </span>
+                        </td>
+
                         <td><%= total_size(report) %></td>
-                        <td><%= first_meaningful_paint(report) %> ms</td>
-                        <td><%= time_to_interactive(report) %> ms</td>
+
+                        <td>
+                            <%= first_meaningful_paint(report, "desktop") %>ms
+                            <%= first_meaningful_paint(report, "mobile") %>ms
+                        </td>
+                        <td>
+                            <%= time_to_interactive(report, "desktop") %>ms
+                            <%= time_to_interactive(report, "mobile") %>ms
+                        </td>
                         <td><%= robots_txt(report) %></td>
                         <td><%= link report.data["analysisUTCTimestamp"], to: Routes.api_v1_report_path(@conn, :show, report), target: "_blank", "data-no-swup": "" %></td>
                         <td><a title="Open screenshot in new tab" href="<%= final_screenshot(report) %>" data-no-swup target="_blank"><img src="<%= final_screenshot(report) %>" alt="Screenshot" /></a></td>

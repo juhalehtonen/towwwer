@@ -4,10 +4,20 @@ defmodule TowwwerWeb.SiteView do
   alias Towwwer.Websites.Monitor
 
   # Score extracted from saved lighthouse data
-  def score(report, type) when type in ["performance", "seo", "accessibility", "best-practices", "pwa"] do
-    case report.data["lighthouseResult"]["categories"][type]["score"] do
-      nil -> 0
-      _ -> (report.data["lighthouseResult"]["categories"][type]["score"] * 100) |> round()
+  def score(report, type, strategy \\ "desktop")
+      when type in ["performance", "seo", "accessibility", "best-practices", "pwa"] and strategy in ["desktop", "mobile"] do
+
+    case strategy do
+      "desktop" ->
+        case report.data["lighthouseResult"]["categories"][type]["score"] do
+          nil -> 0
+          _ -> (report.data["lighthouseResult"]["categories"][type]["score"] * 100) |> round()
+        end
+      "mobile" ->
+        case report.mobile_data["lighthouseResult"]["categories"][type]["score"] do
+          nil -> 0
+          _ -> (report.mobile_data["lighthouseResult"]["categories"][type]["score"] * 100) |> round()
+        end
     end
   end
 
@@ -17,17 +27,33 @@ defmodule TowwwerWeb.SiteView do
     |> String.replace("Total size was", "")
   end
 
-  def first_meaningful_paint(report) do
-    case report.data["lighthouseResult"]["audits"]["metrics"]["details"]["items"] do
-      nil -> ""
-      val -> val |> Enum.at(0) |> Map.get("firstMeaningfulPaint")
+  def first_meaningful_paint(report, strategy \\ "desktop") when strategy in ["desktop", "mobile"] do
+    case strategy do
+      "desktop" ->
+        case report.data["lighthouseResult"]["audits"]["metrics"]["details"]["items"] do
+          nil -> ""
+          val -> val |> Enum.at(0) |> Map.get("firstMeaningfulPaint")
+        end
+      "mobile" ->
+        case report.mobile_data["lighthouseResult"]["audits"]["metrics"]["details"]["items"] do
+          nil -> ""
+          val -> val |> Enum.at(0) |> Map.get("firstMeaningfulPaint")
+        end
     end
   end
 
-  def time_to_interactive(report) do
-    case report.data["lighthouseResult"]["audits"]["metrics"]["details"]["items"] do
-      nil -> ""
-      val -> val |> Enum.at(0) |> Map.get("interactive")
+  def time_to_interactive(report, strategy \\ "desktop") when strategy in ["desktop", "mobile"] do
+    case strategy do
+      "desktop" ->
+        case report.data["lighthouseResult"]["audits"]["metrics"]["details"]["items"] do
+          nil -> ""
+          val -> val |> Enum.at(0) |> Map.get("interactive")
+        end
+      "mobile" ->
+        case report.mobile_data["lighthouseResult"]["audits"]["metrics"]["details"]["items"] do
+          nil -> ""
+          val -> val |> Enum.at(0) |> Map.get("interactive")
+        end
     end
   end
 
@@ -79,7 +105,7 @@ defmodule TowwwerWeb.SiteView do
     cond do
       result < 45 -> "#FF4136"
       result > 74 -> "#2ECC40"
-      true        -> "#FF851B"
+      true -> "#FF851B"
     end
   end
 
@@ -94,4 +120,3 @@ defmodule TowwwerWeb.SiteView do
     end
   end
 end
-
