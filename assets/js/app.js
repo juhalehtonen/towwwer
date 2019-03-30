@@ -16,8 +16,6 @@ import "phoenix_html";
 // Local files can be imported directly using relative paths, for example:
 // import socket from "./socket"
 
-// import Swup from 'swup';
-// const swup = new Swup();
 import * as Plotly from 'plotly.js';
 
 let setupMonitorAdd = function() {
@@ -131,9 +129,7 @@ let drawMonitorIssues = function(report_id) {
 loopReportsForIssues();
 loopMonitorsForGraphs();
 setupMonitorAdd();
-// trigger page view for swup
-// swup.on('pageView', function () {
-//     loopMonitorsForGraphs();
-//     loopReportsForIssues();
-//     setupMonitorAdd();
-// });
+
+import LiveSocket from "phoenix_live_view";
+let liveSocket = new LiveSocket("/live");
+liveSocket.connect();

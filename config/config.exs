@@ -16,7 +16,10 @@ config :towwwer, TowwwerWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "h/NPnWwIeIciKK9rSRyREk2lii7roCVWsOTgR861gx6TO/m1ScnEMMFTySJ02/cc",
   render_errors: [view: TowwwerWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: Towwwer.PubSub, adapter: Phoenix.PubSub.PG2]
+  pubsub: [name: Towwwer.PubSub, adapter: Phoenix.PubSub.PG2],
+  live_view: [
+    signing_salt: "LRD4E0DGMXBWY8K2fnGtwSzfwQv/7FiD"
+  ]
 
 # Configures Elixir's Logger
 config :logger, :console,
@@ -25,6 +28,10 @@ config :logger, :console,
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
+
+# Enable LiveView templates
+config :phoenix,
+  template_engines: [leex: Phoenix.LiveView.Engine]
 
 # Configure Rihanna
 config :rihanna,

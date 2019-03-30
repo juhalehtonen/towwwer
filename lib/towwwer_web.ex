@@ -42,6 +42,9 @@ defmodule TowwwerWeb do
       import TowwwerWeb.ErrorHelpers
       import TowwwerWeb.Gettext
       alias TowwwerWeb.Router.Helpers, as: Routes
+
+      # Import LiveView functions
+      import Phoenix.LiveView, only: [live_render: 2, live_render: 3]
     end
   end
 
@@ -50,6 +53,9 @@ defmodule TowwwerWeb do
       use Phoenix.Router
       import Plug.Conn
       import Phoenix.Controller
+
+      # Import LiveView functions
+      import Phoenix.LiveView.Router
     end
   end
 

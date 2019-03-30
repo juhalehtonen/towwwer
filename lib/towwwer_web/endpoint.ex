@@ -5,6 +5,9 @@ defmodule TowwwerWeb.Endpoint do
     websocket: true,
     longpoll: false
 
+  # Expose the LiveView socket
+  socket "/live", Phoenix.LiveView.Socket
+
   # Serve at "/" the static files from "priv/static" directory.
   #
   # You should set gzip to true if you are running phx.digest

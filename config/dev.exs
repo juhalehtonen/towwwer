@@ -52,7 +52,8 @@ config :towwwer, TowwwerWeb.Endpoint,
       ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
       ~r{priv/gettext/.*(po)$},
       ~r{lib/towwwer_web/views/.*(ex)$},
-      ~r{lib/towwwer_web/templates/.*(eex)$}
+      ~r{lib/towwwer_web/templates/.*(eex)$},
+      ~r{lib/towwwer_web/live/.*(ex)$}
     ]
   ]
 

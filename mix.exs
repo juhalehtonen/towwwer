@@ -34,7 +34,7 @@ defmodule Towwwer.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.4.0"},
+      {:phoenix, "~> 1.4.0", override: true},
       {:phoenix_pubsub, "~> 1.1"},
       {:phoenix_ecto, "~> 4.0"},
       {:ecto_sql, "~> 3.0"},
@@ -48,6 +48,7 @@ defmodule Towwwer.MixProject do
       {:external_service, "~> 0.9.1"},
       {:rihanna, ">= 0.0.0"},
       {:distillery, "~> 2.0"},
+      {:phoenix_live_view, github: "phoenixframework/phoenix_live_view"},
       {:dialyxir, "~> 1.0.0-rc.4", only: [:dev], runtime: false}
     ]
   end
