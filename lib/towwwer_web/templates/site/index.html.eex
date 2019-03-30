@@ -10,6 +10,8 @@
 
 <hr />
 
+<%= live_render(@conn, TowwwerWeb.SiteTableLive) %>
+
 <table class="c-site-index">
   <thead>
     <tr>
