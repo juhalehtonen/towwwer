@@ -1,13 +1,11 @@
-<div class="row">
-    <div class="column">
-        <h1>Edit Site</h1>
-    </div>
-    <div class="column text-right">
-        <span><%= link "Back", to: Routes.site_path(@conn, :show, @site), class: "button button-outline" %></span>
+<div class="l-heading">
+    <div class="l-heading__left"><h2>Edit site <%= @site.base_url %></h2></div>
+    <div class="l-heading__right">
+        <%= link "Back", to: Routes.site_path(@conn, :show, @site), class: "c-btn c-btn--secondary" %>
     </div>
 </div>
 
-<hr />
 
 <%= render "form_edit.html", Map.put(assigns, :action, Routes.site_path(@conn, :update, @site)) %>
+
 
