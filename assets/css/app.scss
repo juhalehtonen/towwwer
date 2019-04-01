@@ -445,6 +445,14 @@ h6 {
             color: $color-white;
         }
     }
+    &--danger {
+        border-color: red;
+        background: red;
+        color: $color-white;
+        &:hover {
+            background: darken(red, 25%);
+        }
+    }
 }
 
 .l-heading {
@@ -452,6 +460,13 @@ h6 {
     flex: 1;
     width: 100%;
     margin-top: $spacing-regular;
+    margin-bottom: $spacing-regular;
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
     &__right {
         margin-left: auto;
     }
