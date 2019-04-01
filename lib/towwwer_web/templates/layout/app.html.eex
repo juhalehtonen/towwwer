@@ -6,33 +6,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Towwwer · Automated performance, SEO and accessibility monitoring for websites</title>
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
-    <!-- TODO: Get some real styles someday -->
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
-    <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
-    <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
   </head>
   <body>
-    <header class="site-header">
-      <section class="container">
-        <nav role="navigation" class="clearfix">
-            <h1 class="c-site-logo"><%= link "Towwwer", to: Routes.site_path(@conn, :index) %></h1>
-            <ul class="navigation_list">
-                <%= link "Sites", to: Routes.site_path(@conn, :index), class: active_class(@conn, Routes.site_path(@conn, :index)) %>
-                <%= link "Insights", to: Routes.page_path(@conn, :insights), class: active_class(@conn, Routes.page_path(@conn, :insights)) %>
-            </ul>
-        </nav>
-      </section>
-    </header>
 
-    <main role="main" class="container transition-fade">
-        <div class="row">
-            <div class="column">
-                <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-                <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-                <%= render @view_module, @view_template, assigns %>
-            </div>
-        </div>
-    </main>
+      <div class="l-site-container">
+          <div class="l-site-navigation">
+              <h3 class="c-site-logo"><%= link "Towwwer", to: Routes.site_path(@conn, :index) %></h3>
+              <ul class="c-site-navigation">
+                  <li class="c-site-navigation__item <%= active_class(@conn, Routes.site_path(@conn, :index)) %>">
+                      <%= link "Performance", to: Routes.site_path(@conn, :index) %>
+                  </li>
+                  <li class="c-site-navigation__item <%= active_class(@conn, Routes.page_path(@conn, :insights)) %>">
+                      <%= link "Security", to: Routes.page_path(@conn, :insights) %>
+                  </li>
+              </ul>
+              <div class="l-site-navigation__footer">
+                  <div class="c-profile">
+                      <p class="c-profile__name">Username</p>
+                      <span class="c-profile__logout">
+                          <a href="#">Log out</a>
+                      </span>
+                  </div>
+              </div>
+          </div>
+          <div class="l-site-content">
+              <div class="c-site-content">
+
+                  <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+                  <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+                  <%= render @view_module, @view_template, assigns %>
+              </div>
+          </div>
+      </div>
+
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>

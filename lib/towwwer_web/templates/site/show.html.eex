@@ -3,11 +3,7 @@
         <h1><a href="<%= @site.base_url %>" title="Open website in new tab" target="_blank"><%= @site.base_url %></a></h1>
         <p>Last update: <%= @site.updated_at %></p>
     </div>
-    <div class="column column-20">
-        <h4>Token for API requests:</h4>
-        <input type="text" value="<%= @site.token %>" readonly />
-    </div>
-    <div class="column column-30 text-right">
+    <div class="column column-50 text-right">
         <span><%= link "Back", to: Routes.site_path(@conn, :index), class: "button button-outline" %></span>
         <span><%= link "Edit", to: Routes.site_path(@conn, :edit, @site), class: "button" %></span>
         <span><%= link "Delete", to: Routes.site_path(@conn, :delete, @site), class: "button button-danger", method: :delete, data: [confirm: "Are you sure you want to permanently delete this site? All data will be forever lost!"] %></span>
