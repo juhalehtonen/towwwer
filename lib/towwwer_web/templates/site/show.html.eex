@@ -35,19 +35,19 @@
                 <div class="c-site-table__row">
                     <div class="c-site-table__cell">
                         <div class="c-site-table__cell-row">
-                            <span class="c-mark c-mark--positive"></span> <%= score(report, "performance") %>
+                            <span class="c-mark c-mark--positive" style="background-color:<%= score(report, "performance", "desktop") |> color_code_result() %>;"></span> <%= score(report, "performance") %>
                         </div>
                         <div class="c-site-table__cell-row">
-                            <span class="c-mark c-mark--positive"></span> <%= score(report, "performance", "mobile") %>
+                            <span class="c-mark c-mark--positive" style="background-color:<%= score(report, "performance", "mobile") |> color_code_result() %>;"></span> <%= score(report, "performance", "mobile") %>
                         </div>
                     </div>
 
                     <div class="c-site-table__cell">
                         <div class="c-site-table__cell-row">
-                            <span class="c-mark c-mark--positive"></span> <%= score(report, "seo") %>
+                            <span class="c-mark c-mark--positive" style="background-color:<%= score(report, "seo", "desktop") |> color_code_result() %>;"></span> <%= score(report, "seo") %>
                         </div>
                         <div class="c-site-table__cell-row">
-                            <span class="c-mark c-mark--positive"></span> <%= score(report, "seo", "mobile") %>
+                            <span class="c-mark c-mark--positive" style="background-color:<%= score(report, "seo", "mobile") |> color_code_result() %>;"></span> <%= score(report, "seo", "mobile") %>
                         </div>
                     </div>
 
@@ -56,25 +56,25 @@
                             <span class="c-mark c-mark--positive" style="background-color:<%= score(report, "pwa") |> color_code_result() %>;"></span> <%= score(report, "pwa") %>
                         </div>
                         <div class="c-site-table__cell-row">
-                            <span class="c-mark c-mark--positive"></span> <%= score(report, "pwa", "mobile") %>
+                            <span class="c-mark c-mark--positive" style="background-color:<%= score(report, "pwa", "mobile") |> color_code_result() %>;"></span> <%= score(report, "pwa", "mobile") %>
                         </div>
                     </div>
 
                     <div class="c-site-table__cell">
                         <div class="c-site-table__cell-row">
-                            <span class="c-mark c-mark--positive"></span> <%= score(report, "accessibility") %>
+                            <span class="c-mark c-mark--positive" style="background-color:<%= score(report, "accessibility", "desktop") |> color_code_result() %>;"></span> <%= score(report, "accessibility") %>
                         </div>
                         <div class="c-site-table__cell-row">
-                            <span class="c-mark c-mark--positive"></span> <%= score(report, "accessibility", "mobile") %>
+                            <span class="c-mark c-mark--positive" style="background-color:<%= score(report, "accessibility", "mobile") |> color_code_result() %>;"></span> <%= score(report, "accessibility", "mobile") %>
                         </div>
                     </div>
 
                     <div class="c-site-table__cell">
                         <div class="c-site-table__cell-row">
-                            <span class="c-mark c-mark--positive"></span> <%= score(report, "best-practices") %>
+                            <span class="c-mark c-mark--positive" style="background-color:<%= score(report, "best-practices", "desktop") |> color_code_result() %>;"></span> <%= score(report, "best-practices") %>
                         </div>
                         <div class="c-site-table__cell-row">
-                            <span class="c-mark c-mark--positive"></span> <%= score(report, "best-practices", "mobile") %>
+                            <span class="c-mark c-mark--positive" style="background-color:<%= score(report, "best-practices", "mobile") |> color_code_result() %>;"></span> <%= score(report, "best-practices", "mobile") %>
                         </div>
                     </div>
 

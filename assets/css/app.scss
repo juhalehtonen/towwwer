@@ -501,14 +501,4 @@ h6 {
     border-radius: 50%;
     display: inline-block;
     vertical-align: middle;
-
-    &--positive {
-        background: green;
-    }
-    &--neutral {
-        background: gold;
-    }
-    &--negative {
-        background: red;
-    }
 }
