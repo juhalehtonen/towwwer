@@ -35,19 +35,19 @@
                 <%= if first_report(monitor) != nil do %>
                     <div class="c-site-table__cell">
                         <div class="c-site-table__cell-row">
-                            <span class="c-mark c-mark--positive"></span> <%= score(first_report(monitor), "performance") %>
+                            <span class="c-mark c-mark--positive" style="background-color:<%= score(first_report(monitor), "performance", "desktop") |> color_code_result() %>;"></span> <%= score(first_report(monitor), "performance") %>
                         </div>
                         <div class="c-site-table__cell-row">
-                            <span class="c-mark c-mark--positive"></span> <%= score(first_report(monitor), "performance", "mobile") %>
+                            <span class="c-mark c-mark--positive" style="background-color:<%= score(first_report(monitor), "performance", "mobile") |> color_code_result() %>;"></span> <%= score(first_report(monitor), "performance", "mobile") %>
                         </div>
                     </div>
 
                     <div class="c-site-table__cell">
                         <div class="c-site-table__cell-row">
-                            <span class="c-mark c-mark--positive"></span> <%= score(first_report(monitor), "seo") %>
+                            <span class="c-mark c-mark--positive" style="background-color:<%= score(first_report(monitor), "seo", "desktop") |> color_code_result() %>;"></span> <%= score(first_report(monitor), "seo") %>
                         </div>
                         <div class="c-site-table__cell-row">
-                            <span class="c-mark c-mark--positive"></span> <%= score(first_report(monitor), "seo", "mobile") %>
+                            <span class="c-mark c-mark--positive" style="background-color:<%= score(first_report(monitor), "seo", "mobile") |> color_code_result() %>;"></span> <%= score(first_report(monitor), "seo", "mobile") %>
                         </div>
                     </div>
 
@@ -56,25 +56,25 @@
                             <span class="c-mark c-mark--positive" style="background-color:<%= score(first_report(monitor), "pwa") |> color_code_result() %>;"></span> <%= score(first_report(monitor), "pwa") %>
                         </div>
                         <div class="c-site-table__cell-row">
-                            <span class="c-mark c-mark--positive"></span> <%= score(first_report(monitor), "pwa", "mobile") %>
+                            <span class="c-mark c-mark--positive" style="background-color:<%= score(first_report(monitor), "pwa", "mobile") |> color_code_result() %>;"></span> <%= score(first_report(monitor), "pwa", "mobile") %>
                         </div>
                     </div>
 
                     <div class="c-site-table__cell">
                         <div class="c-site-table__cell-row">
-                            <span class="c-mark c-mark--positive"></span> <%= score(first_report(monitor), "accessibility") %>
+                            <span class="c-mark c-mark--positive" style="background-color:<%= score(first_report(monitor), "accessibility", "desktop") |> color_code_result() %>;"></span> <%= score(first_report(monitor), "accessibility") %>
                         </div>
                         <div class="c-site-table__cell-row">
-                            <span class="c-mark c-mark--positive"></span> <%= score(first_report(monitor), "accessibility", "mobile") %>
+                            <span class="c-mark c-mark--positive" style="background-color:<%= score(first_report(monitor), "accessibility", "mobile") |> color_code_result() %>;"></span> <%= score(first_report(monitor), "accessibility", "mobile") %>
                         </div>
                     </div>
 
                     <div class="c-site-table__cell">
                         <div class="c-site-table__cell-row">
-                            <span class="c-mark c-mark--positive"></span> <%= score(first_report(monitor), "best-practices") %>
+                            <span class="c-mark c-mark--positive" style="background-color:<%= score(first_report(monitor), "best-practices", "desktop") |> color_code_result() %>;"></span> <%= score(first_report(monitor), "best-practices") %>
                         </div>
                         <div class="c-site-table__cell-row">
-                            <span class="c-mark c-mark--positive"></span> <%= score(first_report(monitor), "best-practices", "mobile") %>
+                            <span class="c-mark c-mark--positive" style="background-color:<%= score(first_report(monitor), "best-practices", "mobile") |> color_code_result() %>;"></span> <%= score(first_report(monitor), "best-practices", "mobile") %>
                         </div>
                     </div>
 
