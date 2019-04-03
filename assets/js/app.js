@@ -66,8 +66,10 @@ let drawGraphForMonitor = function(monitor_id, element) {
 
     Plotly.d3.json(url, function(figure) {
         let data = figure.data.reports;
+
         for (var key in data) {
-            coordData.time_xl.push(data[key]["timestamp"]);
+            let dateNoTime = data[key]["timestamp"].split('T')[0];
+            coordData.time_xl.push(dateNoTime);
             coordData.perf_yl.push(data[key]["performance"]);
             coordData.seo_yl.push(data[key]["seo"]);
             coordData.bp_yl.push(data[key]["best-practices"]);
@@ -81,6 +83,8 @@ let drawGraphForMonitor = function(monitor_id, element) {
 
         Plotly.plot(element, [trace_perf, trace_seo, trace_bp, trace_acc], layout, config);
     });
+
+    console.log(coordData.time_xl);
 };
 
 let constructTrace = function(name, x, y, color) {
@@ -122,8 +126,6 @@ let drawMonitorIssues = function(report_id) {
         response.json().then(json => {
             let data = json.data.issues;
             let wpscan = json.data["interesting-findings"];
-            console.log(data);
-            console.log(wpscan);
         });
     });
 };
@@ -131,9 +133,3 @@ let drawMonitorIssues = function(report_id) {
 loopReportsForIssues();
 loopMonitorsForGraphs();
 setupMonitorAdd();
-// trigger page view for swup
-// swup.on('pageView', function () {
-//     loopMonitorsForGraphs();
-//     loopReportsForIssues();
-//     setupMonitorAdd();
-// });

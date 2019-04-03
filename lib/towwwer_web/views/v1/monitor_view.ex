@@ -16,7 +16,7 @@ defmodule TowwwerWeb.V1.MonitorView do
       id: monitor.id,
       site_id: monitor.site_id,
       path: monitor.path,
-      reports: render_many(monitor.reports, ReportView, "report.json"),
+      reports: render_many(Enum.sort(monitor.reports), ReportView, "report.json"),
     }
   end
 end
