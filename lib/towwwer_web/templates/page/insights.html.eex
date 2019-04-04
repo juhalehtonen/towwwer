@@ -1,11 +1,9 @@
-<div class="row">
-    <div class="column column-50">
-        <h1>Insights</h1>
+<div class="l-heading">
+    <div class="l-heading__left">
+        <h2>Insights</h2>
         <p>Sites that were successfully scanned by WPScan, and for which it found something to report.</p>
     </div>
 </div>
-
-<hr />
 
 <%= for site <- @sites do %>
     <%= if site.monitors do %>

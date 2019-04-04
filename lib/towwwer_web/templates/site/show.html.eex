@@ -1,111 +1,129 @@
-<div class="row">
-    <div class="column column-50">
-        <h1><a href="<%= @site.base_url %>" title="Open website in new tab" target="_blank"><%= @site.base_url %></a></h1>
+<div class="l-heading">
+    <div class="l-heading__left">
+        <h2><a href="<%= @site.base_url %>" title="Open website in new tab" target="_blank"><%= @site.base_url %></a></h2>
         <p>Last update: <%= @site.updated_at %></p>
     </div>
-    <div class="column column-20">
-        <h4>Token for API requests:</h4>
-        <input type="text" value="<%= @site.token %>" readonly />
-    </div>
-    <div class="column column-30 text-right">
-        <span><%= link "Back", to: Routes.site_path(@conn, :index), class: "button button-outline" %></span>
-        <span><%= link "Edit", to: Routes.site_path(@conn, :edit, @site), class: "button" %></span>
-        <span><%= link "Delete", to: Routes.site_path(@conn, :delete, @site), class: "button button-danger", method: :delete, data: [confirm: "Are you sure you want to permanently delete this site? All data will be forever lost!"] %></span>
+    <div class="l-heading__right">
+        <%= link "Back", to: Routes.site_path(@conn, :index), class: "c-btn c-btn--secondary" %>
+        <%= link "Edit", to: Routes.site_path(@conn, :edit, @site), class: "c-btn" %>
+        <%= link "Delete", to: Routes.site_path(@conn, :delete, @site), class: "c-btn c-btn--danger", method: :delete, data: [confirm: "Are you sure you want to permanently delete this site? All data will be forever lost!"] %>
     </div>
 </div>
 
-<hr />
-
-<h2>Monitors</h2>
 <%= for monitor <- @site.monitors do %>
     <h3>Path: <a href="<%= @site.base_url <> monitor.path %>" target="_blank"><%= monitor.path %></a></h3>
 
     <%= if report_count(monitor) > 0 do %>
         <div class="c-graph"><div class="js-plotly" data-monitor-id="<%= monitor.id %>"></div></div>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Performance</th>
-                    <th>SEO</th>
-                    <th>PWA</th>
-                    <th>Accessibility</th>
-                    <th>Best practices</th>
-                    <th>Total size</th>
-                    <th>First meaningful paint</th>
-                    <th>Time to interactive</th>
-                    <th>Robots.txt</th>
-                    <th>Report data</th>
-                    <th>Screenshot</th>
-                </tr>
-            </thead>
+
+        <div class="c-site-table">
+            <div class="c-site-table__head">
+                <div class="c-site-table__cell">Perf</div>
+                <div class="c-site-table__cell">SEO</div>
+                <div class="c-site-table__cell">PWA</div>
+                <div class="c-site-table__cell">a11y</div>
+                <div class="c-site-table__cell">BP</div>
+                <div class="c-site-table__cell">Weight</div>
+                <div class="c-site-table__cell">FMP</div>
+                <div class="c-site-table__cell">TTI</div>
+                <div class="c-site-table__cell">Time</div>
+                <div class="c-site-table__cell">Img</div>
+            </div>
 
 
-            <tbody>
-                <%= for report <- reports_of_monitor(monitor) do %>
-                    <tr class="js-report" data-report-id="<%= report.id %>">
-                        <td>
-                            <span style="color:<%= score(report, "performance", "desktop") |> color_code_result() %>;">
-                                <%= score(report, "performance", "desktop") %>
-                            </span>
-                            <span style="color:<%= score(report, "performance", "mobile") |> color_code_result() %>;">
-                                <%= score(report, "performance", "mobile") %>
-                            </span>
-                        </td>
+            <%= for report <- reports_of_monitor(monitor) do %>
+                <div class="c-site-table__row">
+                    <div class="c-site-table__cell">
+                        <div class="c-site-table__cell-row">
+                            <span class="c-mark c-mark--positive" style="background-color:<%= score(report, "performance", "desktop") |> color_code_result() %>;"></span> <%= score(report, "performance") %>
+                        </div>
+                        <div class="c-site-table__cell-row">
+                            <span class="c-mark c-mark--positive" style="background-color:<%= score(report, "performance", "mobile") |> color_code_result() %>;"></span> <%= score(report, "performance", "mobile") %>
+                        </div>
+                    </div>
 
-                        <td>
-                            <span style="color:<%= score(report, "seo", "desktop") |> color_code_result() %>;">
-                                <%= score(report, "seo", "desktop") %>
-                            </span>
-                            <span style="color:<%= score(report, "seo", "mobile") |> color_code_result() %>;">
-                                <%= score(report, "seo", "mobile") %>
-                            </span>
-                        </td>
+                    <div class="c-site-table__cell">
+                        <div class="c-site-table__cell-row">
+                            <span class="c-mark c-mark--positive" style="background-color:<%= score(report, "seo", "desktop") |> color_code_result() %>;"></span> <%= score(report, "seo") %>
+                        </div>
+                        <div class="c-site-table__cell-row">
+                            <span class="c-mark c-mark--positive" style="background-color:<%= score(report, "seo", "mobile") |> color_code_result() %>;"></span> <%= score(report, "seo", "mobile") %>
+                        </div>
+                    </div>
 
-                        <td>
-                            <span style="color:<%= score(report, "pwa", "desktop") |> color_code_result() %>;">
-                                <%= score(report, "pwa", "desktop") %>
-                            </span>
-                            <span style="color:<%= score(report, "pwa", "mobile") |> color_code_result() %>;">
-                                <%= score(report, "pwa", "mobile") %>
-                            </span>
-                        </td>
+                    <div class="c-site-table__cell">
+                        <div class="c-site-table__cell-row">
+                            <span class="c-mark c-mark--positive" style="background-color:<%= score(report, "pwa") |> color_code_result() %>;"></span> <%= score(report, "pwa") %>
+                        </div>
+                        <div class="c-site-table__cell-row">
+                            <span class="c-mark c-mark--positive" style="background-color:<%= score(report, "pwa", "mobile") |> color_code_result() %>;"></span> <%= score(report, "pwa", "mobile") %>
+                        </div>
+                    </div>
 
-                        <td>
-                            <span style="color:<%= score(report, "accessibility", "desktop") |> color_code_result() %>;">
-                                <%= score(report, "accessibility", "desktop") %>
-                            </span>
-                            <span style="color:<%= score(report, "accessibility", "mobile") |> color_code_result() %>;">
-                                <%= score(report, "accessibility", "mobile") %>
-                            </span>
-                        </td>
+                    <div class="c-site-table__cell">
+                        <div class="c-site-table__cell-row">
+                            <span class="c-mark c-mark--positive" style="background-color:<%= score(report, "accessibility", "desktop") |> color_code_result() %>;"></span> <%= score(report, "accessibility") %>
+                        </div>
+                        <div class="c-site-table__cell-row">
+                            <span class="c-mark c-mark--positive" style="background-color:<%= score(report, "accessibility", "mobile") |> color_code_result() %>;"></span> <%= score(report, "accessibility", "mobile") %>
+                        </div>
+                    </div>
 
-                        <td>
-                            <span style="color:<%= score(report, "best-practices", "desktop") |> color_code_result() %>;">
-                                <%= score(report, "best-practices", "desktop") %>
-                            </span>
-                            <span style="color:<%= score(report, "best-practices", "mobile") |> color_code_result() %>;">
-                                <%= score(report, "best-practices", "mobile") %>
-                            </span>
-                        </td>
+                    <div class="c-site-table__cell">
+                        <div class="c-site-table__cell-row">
+                            <span class="c-mark c-mark--positive" style="background-color:<%= score(report, "best-practices", "desktop") |> color_code_result() %>;"></span> <%= score(report, "best-practices") %>
+                        </div>
+                        <div class="c-site-table__cell-row">
+                            <span class="c-mark c-mark--positive" style="background-color:<%= score(report, "best-practices", "mobile") |> color_code_result() %>;"></span> <%= score(report, "best-practices", "mobile") %>
+                        </div>
+                    </div>
 
-                        <td><%= total_size(report) %></td>
+                    <div class="c-site-table__cell">
+                        <div class="c-site-table__cell-row">
+                            <%= total_size(report) %>
+                        </div>
+                        <div class="c-site-table__cell-row">
+                        </div>
+                    </div>
 
-                        <td>
-                            <%= first_meaningful_paint(report, "desktop") %>ms
-                            <%= first_meaningful_paint(report, "mobile") %>ms
-                        </td>
-                        <td>
-                            <%= time_to_interactive(report, "desktop") %>ms
-                            <%= time_to_interactive(report, "mobile") %>ms
-                        </td>
-                        <td><%= robots_txt(report) %></td>
-                        <td><%= link report.data["analysisUTCTimestamp"], to: Routes.api_v1_report_path(@conn, :show, report), target: "_blank", "data-no-swup": "" %></td>
-                        <td><a title="Open screenshot in new tab" href="<%= final_screenshot(report) %>" data-no-swup target="_blank"><img src="<%= final_screenshot(report) %>" alt="Screenshot" /></a></td>
-                    </tr>
-                <% end %>
-            </tbody>
-        </table>
+                    <div class="c-site-table__cell">
+                        <div class="c-site-table__cell-row">
+                            <%= first_meaningful_paint(report) %> ms
+                        </div>
+                        <div class="c-site-table__cell-row">
+                            <%= first_meaningful_paint(report, "mobile") %> ms
+                        </div>
+                    </div>
+
+                    <div class="c-site-table__cell">
+                        <div class="c-site-table__cell-row">
+                            <%= time_to_interactive(report) %> ms
+                        </div>
+                        <div class="c-site-table__cell-row">
+                            <%= time_to_interactive(report, "mobile") %> ms
+                        </div>
+                    </div>
+
+                    <div class="c-site-table__cell">
+                        <div class="c-site-table__cell-row">
+                            <%= report.inserted_at %>
+                        </div>
+                        <div class="c-site-table__cell-row">
+                        </div>
+                    </div>
+
+                    <div class="c-site-table__cell">
+                      <div class="c-site-table__cell-row">
+                        <a title="Open screenshot in new tab" href="<%= final_screenshot(report) %>" data-no-swup target="_blank"><img src="<%= final_screenshot(report) %>" alt="Screenshot" /></a>
+                      </div>
+                      <div class="c-site-table__cell-row">
+                      </div>
+                    </div>
+                </div>
+            <% end %>
+        </div>
+
     <% else %>
         <p><%= message_no_reports(monitor) %></p>
     <% end %>

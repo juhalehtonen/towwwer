@@ -1,53 +1,49 @@
-<%= form_for @changeset, @action, ["data-swup-form": "lul"], fn f -> %>
-  <%= if @changeset.action do %>
-    <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below.</p>
+<%= form_for @changeset, @action, ["class": "c-site-form"], fn f -> %>
+    <%= if @changeset.action do %>
+        <div class="c-alert c-alert--negative">
+            <p>Oops, something went wrong! Please check the errors below.</p>
+        </div>
+    <% end %>
+
+    <h4>Basic information</h4>
+    <%= label f, :base_url %>
+    <%= text_input f, :base_url %>
+    <%= error_tag f, :base_url %>
+
+    <%= label f, :wp_content_dir %>
+    <%= text_input f, :wp_content_dir %>
+    <%= error_tag f, :wp_content_dir %>
+
+    <%= label f, :wp_plugins_dir %>
+    <%= text_input f, :wp_plugins_dir %>
+    <%= error_tag f, :wp_plugins_dir %>
+
+    <%= text_input f, :token, type: "hidden" %>
+    <%= error_tag f, :token %>
+
+    <h4>Monitors</h4>
+    <%= inputs_for f, :monitors, fn p -> %>
+        <div class="row">
+            <div class="column column-80">
+                <div class="form-group">
+                    <%= label p, :path %>
+                    <%= text_input p, :path, disabled: true %>
+                    <%= error_tag p, :path %>
+                </div>
+            </div>
+
+            <div class="column">
+                <div class="form-group">
+                    <%= label p, :delete, "Delete?", class: "control-label" %>
+                    <%= checkbox p, :delete %> Mark for deletion
+                </div>
+            </div>
+        </div>
+    <% end %>
+
+    <%= link_to_monitor_fields() %>
+
+    <div style="margin-top: 2rem;">
+        <%= submit "Save changes", class: "c-btn" %>
     </div>
-  <% end %>
-
-  <h4>Basic information</h4>
-  <%= label f, :base_url %>
-  <p>The base URL is essentially the front page of the site.</p>
-  <%= text_input f, :base_url %>
-  <%= error_tag f, :base_url %>
-
-  <%= label f, :wp_content_dir %>
-  <%= text_input f, :wp_content_dir %>
-  <%= error_tag f, :wp_content_dir %>
-
-  <%= label f, :wp_plugins_dir %>
-  <%= text_input f, :wp_plugins_dir %>
-  <%= error_tag f, :wp_plugins_dir %>
-
-  <%= text_input f, :token, type: "hidden" %>
-  <%= error_tag f, :token %>
-
-  <h4>Monitors</h4>
-  <p>Each monitor represents a specific page or URL path on the website.</p>
-  <%= inputs_for f, :monitors, fn p -> %>
-      <div class="row">
-          <div class="column column-80">
-              <div class="form-group">
-                  <%= label p, :path %>
-                  <%= text_input p, :path, disabled: true %>
-                  <%= error_tag p, :path %>
-              </div>
-          </div>
-
-          <div class="column">
-              <div class="form-group">
-                  <%= label p, :delete, "Delete?", class: "control-label" %>
-                  <%= checkbox p, :delete %> Mark for deletion
-              </div>
-          </div>
-      </div>
-  <% end %>
-
-  <%= link_to_monitor_fields() %>
-
-  <hr />
-
-  <div>
-    <%= submit "Save changes" %>
-  </div>
 <% end %>

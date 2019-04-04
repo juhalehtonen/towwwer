@@ -97,7 +97,7 @@ defmodule TowwwerWeb.SiteView do
       to: "#",
       "data-template": fields,
       id: "add_monitor",
-      class: "button button-outline"
+      class: "c-btn c-btn--secondary"
     )
   end
 
