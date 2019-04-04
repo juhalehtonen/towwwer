@@ -28,6 +28,7 @@
                 <div class="c-site-table__cell">FMP</div>
                 <div class="c-site-table__cell">TTI</div>
                 <div class="c-site-table__cell">Time</div>
+                <div class="c-site-table__cell">Img</div>
             </div>
 
 
@@ -110,6 +111,14 @@
                         </div>
                         <div class="c-site-table__cell-row">
                         </div>
+                    </div>
+
+                    <div class="c-site-table__cell">
+                      <div class="c-site-table__cell-row">
+                        <a title="Open screenshot in new tab" href="<%= final_screenshot(report) %>" data-no-swup target="_blank"><img src="<%= final_screenshot(report) %>" alt="Screenshot" /></a>
+                      </div>
+                      <div class="c-site-table__cell-row">
+                      </div>
                     </div>
                 </div>
             <% end %>
