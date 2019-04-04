@@ -25,6 +25,7 @@ mix do clean, compile --force
 
 # Build frontend stuff
 cd assets
+npm rebuild node-sass
 npm install
 nodejs ./node_modules/webpack/bin/webpack.js --mode="production"
 cd ..
