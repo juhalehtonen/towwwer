@@ -8,35 +8,27 @@
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
   </head>
   <body>
+    <header class="l-site-navigation">
+      <h3 class="c-site-logo"><%= link "Towwwer", to: Routes.site_path(@conn, :index) %></h3>
+      <ul class="c-site-navigation">
+        <li class="c-site-navigation__item <%= active_class(@conn, Routes.site_path(@conn, :index)) %>">
+          <%= link "Performance", to: Routes.site_path(@conn, :index) %>
+        </li>
+        <li class="c-site-navigation__item <%= active_class(@conn, Routes.page_path(@conn, :insights)) %>">
+          <%= link "Security", to: Routes.page_path(@conn, :insights) %>
+        </li>
+      </ul>
+    </header>
 
-      <div class="l-site-container">
-          <div class="l-site-navigation">
-              <h3 class="c-site-logo"><%= link "Towwwer", to: Routes.site_path(@conn, :index) %></h3>
-              <ul class="c-site-navigation">
-                  <li class="c-site-navigation__item <%= active_class(@conn, Routes.site_path(@conn, :index)) %>">
-                      <%= link "Performance", to: Routes.site_path(@conn, :index) %>
-                  </li>
-                  <li class="c-site-navigation__item <%= active_class(@conn, Routes.page_path(@conn, :insights)) %>">
-                      <%= link "Security", to: Routes.page_path(@conn, :insights) %>
-                  </li>
-              </ul>
-              <div class="l-site-navigation__footer">
-                  <div class="c-profile">
-                      <p class="c-profile__name">Username</p>
-                      <span class="c-profile__logout">
-                          <a href="#">Log out</a>
-                      </span>
-                  </div>
-              </div>
-          </div>
-          <div class="l-site-content">
-              <div class="c-site-content">
-                  <p class="c-alert c-alert--positive" role="alert"><%= get_flash(@conn, :info) %></p>
-                  <p class="c-alert c-alert--negative" role="alert"><%= get_flash(@conn, :error) %></p>
-                  <%= render @view_module, @view_template, assigns %>
-              </div>
-          </div>
+    <div class="l-site-container">
+      <div class="l-site-content">
+        <div class="c-site-content">
+          <p class="c-alert c-alert--positive" role="alert"><%= get_flash(@conn, :info) %></p>
+          <p class="c-alert c-alert--negative" role="alert"><%= get_flash(@conn, :error) %></p>
+          <%= render @view_module, @view_template, assigns %>
+        </div>
       </div>
+    </div>
 
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </body>
