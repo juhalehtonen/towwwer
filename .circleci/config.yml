@@ -14,7 +14,7 @@ jobs:
     steps:
       - checkout
       
-      # Restore cache
+      # Restore dependency cache
       - restore_cache:
           keys:
             - v1-deps-cache-{{ checksum "mix.lock" }}
@@ -25,19 +25,31 @@ jobs:
       - run: mix local.rebar --force
       - run: mix deps.get
       
-      # Create Ecto repo
-      - run: mix ecto.create
-      
-      # Run Dialyzer
-      - run: mix dialyzer --halt-exit-status
-      
-      # Save cache of compiled files
+      # Save cache of compiled dependencies
       - save_cache:
           key: v1-deps-cache-{{ checksum "mix.lock" }}
           paths:
             - _build
             - deps
             - ~/.mix
+      
+      # Create Ecto repo
+      - run: mix ecto.create
+      
+      # Setup PLT caching
+      - restore_cache:
+          keys:
+            - v1-plt-cache-{{ checksum "mix.lock" }}
+            - v1-plt-cache
+      - run: mix dialyzer --plt
+      - save_cache:
+          key: v1-plt-cache-{{ checksum "mix.lock" }}
+          paths:
+            - _build
+            - ~/.mix
+      
+      # Run Dialyzer
+      - run: mix dialyzer --halt-exit-status
       
       # Finally run tests
       - run: mix test
