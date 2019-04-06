@@ -75,4 +75,4 @@ config :towwwer, Towwwer.Repo,
   pool_size: 10
 
 # Shared secrets usable for any environment, such as API keys
-# import_config "shared.secret.exs"
+import_config "shared.secret.exs"
