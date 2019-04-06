@@ -23,8 +23,12 @@ jobs:
       # Get and compile hex, rebar, deps
       - run: mix local.hex --force
       - run: mix local.rebar --force
-      - run: mix deps.get
+      
       # Ensure compilation happens in correct MIX_ENV for better caching
+      - run:
+          command: mix deps.get
+          environment:
+            MIX_ENV: test
       - run:
           command: mix compile
           environment:
@@ -39,7 +43,10 @@ jobs:
             - ~/.mix
       
       # Create Ecto repo
-      - run: mix ecto.create
+      - run:
+          command: mix ecto.create
+          environment:
+            MIX_ENV: test
       
       # Setup PLT caching
       - restore_cache:
