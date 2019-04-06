@@ -46,8 +46,22 @@
                                 <%= for audit <- report_audits(report) do %>
                                     <h4>(<%= parse_audit(audit)["score"] %>) <%= parse_audit(audit)["title"] %></h4>
                                     <p><%= parse_audit(audit)["description"] %></p>
-                                    <%= for detail <- details(audit) do %>
-                                        hmm
+                                    <%= for detail_list <- details(audit) do %>
+                                        <%= for {detail_key, detail_value} <- detail_list do %>
+                                            <%= if is_map(detail_value) do %>
+                                                <p>
+                                                    <strong><%= detail_key %>:</strong>
+                                                    <br />
+                                                    <%= for {detail_nested_key, detail_nested_value} <- detail_value do %>
+                                                        <strong><%= detail_nested_key %>:</strong> <%= detail_nested_value %><br />
+                                                    <% end %>
+                                                </p>
+                                            <%= else %>
+                                                <p>
+                                                    <strong><%= detail_key %>:</strong> <%= detail_value %>
+                                                </p>
+                                            <% end %>
+                                        <% end %>
                                     <% end %>
                                 <% end %>
                             </main>

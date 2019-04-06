@@ -131,18 +131,22 @@ defmodule TowwwerWeb.SiteView do
 
   def parse_audit(audit) do
     {_name, data} = audit
-    IO.inspect data
+    data
   end
 
   def details(audit) do
     data = parse_audit(audit)
 
     # Items is a list of maps
-    case data["details"]["items"] do
+    items = case data["details"]["items"] do
       nil ->
         []
       items ->
         items
     end
+
+    IO.inspect Enum.map(items, fn(x) ->
+      x
+    end)
   end
 end
