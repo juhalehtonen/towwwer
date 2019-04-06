@@ -119,4 +119,30 @@ defmodule TowwwerWeb.SiteView do
       true -> "No reports for this monitor have been created yet. Check back later."
     end
   end
+
+  def report_audits(report) do
+    report.data["lighthouseResult"]["audits"]
+    |> Enum.reject(fn({_desc, item}) -> item["score"] == 1 end)
+    |> Enum.reject(fn({_desc, item}) -> item["scoreDisplayMode"] == "notApplicable" end)
+    |> Enum.reject(fn({_desc, item}) -> item["scoreDisplayMode"] == "manual" end)
+    |> Enum.reject(fn({_desc, item}) -> item["scoreDisplayMode"] == "informative" end)
+    |> Map.new()
+  end
+
+  def parse_audit(audit) do
+    {_name, data} = audit
+    IO.inspect data
+  end
+
+  def details(audit) do
+    data = parse_audit(audit)
+
+    # Items is a list of maps
+    case data["details"]["items"] do
+      nil ->
+        []
+      items ->
+        items
+    end
+  end
 end

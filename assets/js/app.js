@@ -20,6 +20,7 @@ import "phoenix_html";
 // const swup = new Swup();
 import * as Plotly from 'plotly.js';
 
+
 let setupMonitorAdd = function() {
     // Add monitors
     if (document.getElementById('add_monitor')) {
@@ -133,3 +134,8 @@ let drawMonitorIssues = function(report_id) {
 loopReportsForIssues();
 loopMonitorsForGraphs();
 setupMonitorAdd();
+
+
+
+import MicroModal from 'micromodal';
+MicroModal.init();

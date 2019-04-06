@@ -33,7 +33,32 @@
 
 
             <%= for report <- reports_of_monitor(monitor) do %>
-                <div class="c-site-table__row">
+                <div class="modal micromodal-slide" id="modal-<%= report.id %>" aria-hidden="true">
+                    <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+                        <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-<%= report.id %>-title">
+                            <header class="modal__header">
+                                <h2 class="modal__title" id="modal-<%= report.id %>-title">
+                                    Report <%= report.id %> for <%= @site.base_url %> at <%= monitor.path %> created at <%= report.updated_at %>
+                                </h2>
+                                <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
+                            </header>
+                            <main class="modal__content" id="modal-<%= report.id %>-content">
+                                <%= for audit <- report_audits(report) do %>
+                                    <h4>(<%= parse_audit(audit)["score"] %>) <%= parse_audit(audit)["title"] %></h4>
+                                    <p><%= parse_audit(audit)["description"] %></p>
+                                    <%= for detail <- details(audit) do %>
+                                        hmm
+                                    <% end %>
+                                <% end %>
+                            </main>
+                            <footer class="modal__footer">
+                                <button class="c-btn" data-micromodal-close aria-label="Close this dialog window">Close</button>
+                            </footer>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="c-site-table__row" data-micromodal-trigger="modal-<%= report.id %>">
                     <div class="c-site-table__cell">
                         <div class="c-site-table__cell-row">
                             <span class="c-mark c-mark--positive" style="background-color:<%= score(report, "performance", "desktop") |> color_code_result() %>;"></span> <%= score(report, "performance") %>
@@ -128,3 +153,5 @@
         <p><%= message_no_reports(monitor) %></p>
     <% end %>
 <% end %>
+
+
