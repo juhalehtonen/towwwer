@@ -23,11 +23,16 @@ jobs:
             - v1-deps-cache-{{ checksum "mix.lock" }}
             - v1-deps-cache
 
-      # specify any bash command here prefixed with `run: `
+      # Get and compile hex, rebar, deps
       - run: mix local.hex --force
       - run: mix local.rebar --force
       - run: mix deps.get
+      
+      # Create Ecto repo
       - run: mix ecto.create
+      
+      # Run Dialyzer
+      - run: mix dialyzer --halt-exit-status
       
       # Save cache of compiled files
       - save_cache:
