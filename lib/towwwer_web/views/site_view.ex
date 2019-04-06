@@ -144,9 +144,5 @@ defmodule TowwwerWeb.SiteView do
       items ->
         items
     end
-
-    IO.inspect Enum.map(items, fn(x) ->
-      x
-    end)
   end
 end

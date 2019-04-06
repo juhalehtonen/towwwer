@@ -469,6 +469,7 @@ input[disabled] {
         margin-bottom: 1rem;
         padding-top: 1rem;
         border-top: 1px solid $color-blue-grey-medium;
+        word-wrap: anywhere;
     }
 }
 
@@ -508,7 +509,7 @@ label {
 .modal__container {
   background-color: #fff;
   padding: 30px;
-  max-width: 90vw;
+  max-width: 1200px;
   max-height: 90vh;
   border-radius: 3px;
   overflow-y: auto;
