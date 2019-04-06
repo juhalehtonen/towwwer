@@ -458,6 +458,20 @@ input[disabled] {
   margin-top: 2rem;
 }
 
+.c-audit-detail {
+    margin-top: $spacing-regular;
+    margin-bottom: $spacing-regular;
+    background: #f5f5f5;
+    padding: 2rem;
+
+    &__info {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid $color-blue-grey-medium;
+    }
+}
+
 // TODO: REDO
 .row {
   display: flex;
