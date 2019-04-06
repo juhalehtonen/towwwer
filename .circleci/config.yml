@@ -21,8 +21,14 @@ jobs:
             - v1-deps-cache
 
       # Get and compile hex, rebar, deps
-      - run: mix local.hex --force
-      - run: mix local.rebar --force
+      - run:
+          command: mix local.hex --force
+          environment:
+            MIX_ENV: test
+      - run:
+          command: mix local.rebar --force
+          environment:
+            MIX_ENV: test
       
       # Ensure compilation happens in correct MIX_ENV for better caching
       - run:
