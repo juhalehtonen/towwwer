@@ -27,8 +27,6 @@ use Mix.Config
 config :towwwer, pagespeed_insights_api_key: "YOUR_API_KEY_HERE"
 ```
 
-NOTE: You can use different configurations for different environments. The shared config is included for all environments by default.
-
 ## Deployment
 
 Towwwer uses Distillery to build releases for production. See the [Distillery docs](https://hexdocs.pm/distillery) for more details.
