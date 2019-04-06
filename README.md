@@ -1,5 +1,7 @@
 # Towwwer
 
+[![CircleCI](https://circleci.com/gh/juhalehtonen/towwwer.svg?style=svg)](https://circleci.com/gh/juhalehtonen/towwwer)
+
 Towwwer is a tool for monitoring, collecting and presenting website performance data collected from Google PageSpeed Insights API.
 
 Additionally, Towwwer can run [WPScan](https://github.com/wpscanteam/wpscan) against the monitored websites and keep track of which security issues are found. WPScan is a separate project, and their license details differ from those of Towwwer.
