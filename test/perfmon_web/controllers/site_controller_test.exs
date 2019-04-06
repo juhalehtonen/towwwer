@@ -15,14 +15,14 @@ defmodule TowwwerWeb.SiteControllerTest do
   describe "index" do
     test "lists all sites", %{conn: conn} do
       conn = get(conn, Routes.site_path(conn, :index))
-      assert html_response(conn, 200) =~ "Listing Sites"
+      assert html_response(conn, 200) =~ "Websites"
     end
   end
 
   describe "new site" do
     test "renders form", %{conn: conn} do
       conn = get(conn, Routes.site_path(conn, :new))
-      assert html_response(conn, 200) =~ "New Site"
+      assert html_response(conn, 200) =~ "<form"
     end
   end
 
@@ -39,7 +39,7 @@ defmodule TowwwerWeb.SiteControllerTest do
 
     test "renders errors when data is invalid", %{conn: conn} do
       conn = post(conn, Routes.site_path(conn, :create), site: @invalid_attrs)
-      assert html_response(conn, 200) =~ "New Site"
+      assert html_response(conn, 200) =~ "Please check the errors below"
     end
   end
 
