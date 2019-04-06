@@ -56,12 +56,12 @@ defmodule Towwwer.WebsitesTest do
 
     test "list_sites/0 returns all sites" do
       site = site_fixture()
-      assert Websites.list_sites() == [site]
+      assert Websites.list_sites() == [unload_relations(site)]
     end
 
     test "get_site!/1 returns the site with given id" do
       site = site_fixture()
-      assert Websites.get_site!(site.id) == site
+      assert unload_relations(Websites.get_site!(site.id)) == unload_relations(site)
     end
 
     test "create_site/1 with valid data creates a site" do
@@ -84,7 +84,7 @@ defmodule Towwwer.WebsitesTest do
     test "update_site/2 with invalid data returns error changeset" do
       site = site_fixture()
       assert {:error, %Ecto.Changeset{}} = Websites.update_site(site, @invalid_attrs)
-      assert site == Websites.get_site!(site.id)
+      assert unload_relations(site) == unload_relations(Websites.get_site!(site.id))
     end
 
     test "delete_site/1 deletes the site" do
@@ -116,13 +116,14 @@ defmodule Towwwer.WebsitesTest do
     end
 
     test "list_monitors/0 returns all monitors" do
-      monitor = monitor_fixture()
-      assert Websites.list_monitors() == [monitor]
+      monitor = monitor_fixture() 
+      [listed_monitor] = Websites.list_monitors()
+      assert [unload_relations(listed_monitor)] == [unload_relations(monitor)]
     end
 
     test "get_monitor!/1 returns the monitor with given id" do
       monitor = monitor_fixture()
-      assert Websites.get_monitor!(monitor.id) == monitor
+      assert unload_relations(Websites.get_monitor!(monitor.id)) == unload_relations(monitor)
     end
 
     test "create_monitor/1 with valid data creates a monitor" do
@@ -143,7 +144,7 @@ defmodule Towwwer.WebsitesTest do
     test "update_monitor/2 with invalid data returns error changeset" do
       monitor = monitor_fixture()
       assert {:error, %Ecto.Changeset{}} = Websites.update_monitor(monitor, @invalid_attrs)
-      assert monitor == Websites.get_monitor!(monitor.id)
+      assert unload_relations(monitor) == unload_relations(Websites.get_monitor!(monitor.id))
     end
 
     test "delete_monitor/1 deletes the monitor" do
@@ -184,12 +185,12 @@ defmodule Towwwer.WebsitesTest do
 
     test "list_reports/0 returns all reports" do
       report = report_fixture()
-      assert Websites.list_reports() == [report]
+      assert Websites.list_reports() == [unload_relations(report)]
     end
 
     test "get_report!/1 returns the report with given id" do
       report = report_fixture()
-      assert Websites.get_report!(report.id) == report
+      assert unload_relations(Websites.get_report!(report.id)) == unload_relations(report)
     end
 
     test "create_report/1 with valid data creates a report" do
@@ -210,7 +211,7 @@ defmodule Towwwer.WebsitesTest do
     test "update_report/2 with invalid data returns error changeset" do
       report = report_fixture()
       assert {:error, %Ecto.Changeset{}} = Websites.update_report(report, @invalid_attrs)
-      assert report == Websites.get_report!(report.id)
+      assert unload_relations(report) == unload_relations(Websites.get_report!(report.id))
     end
 
     test "delete_report/1 deletes the report" do
