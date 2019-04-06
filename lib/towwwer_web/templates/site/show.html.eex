@@ -59,7 +59,7 @@
                                                                 <strong><%= detail_nested_key %>:</strong> <%= detail_nested_value %><br />
                                                             <% end %>
                                                         </p>
-                                                    <%= else %>
+                                                    <% else %>
                                                         <p>
                                                             <strong><%= detail_key %>:</strong> <%= detail_value %>
                                                         </p>

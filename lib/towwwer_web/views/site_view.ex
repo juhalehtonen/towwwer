@@ -137,8 +137,7 @@ defmodule TowwwerWeb.SiteView do
   def details(audit) do
     data = parse_audit(audit)
 
-    # Items is a list of maps
-    items = case data["details"]["items"] do
+    case data["details"]["items"] do
       nil ->
         []
       items ->

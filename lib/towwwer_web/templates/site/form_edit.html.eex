@@ -1,4 +1,4 @@
-<%= form_for @changeset, @action, ["class": "c-site-form"], fn f -> %>
+<%= form_for @changeset, @action, [class: "c-site-form"], fn f -> %>
     <%= if @changeset.action do %>
         <div class="c-alert c-alert--negative">
             <p>Oops, something went wrong! Please check the errors below.</p>
