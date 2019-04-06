@@ -24,6 +24,10 @@ jobs:
       - run: mix local.hex --force
       - run: mix local.rebar --force
       - run: mix deps.get
+      - run:
+          command: mix compile
+          environment:
+            MIX_ENV: test
       
       # Save cache of compiled dependencies
       - save_cache:
