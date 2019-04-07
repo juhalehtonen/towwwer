@@ -17,7 +17,7 @@
         <div class="c-graph"><div class="js-plotly" data-monitor-id="<%= monitor.id %>"></div></div>
 
 
-        <div class="c-site-table">
+        <div class="c-site-table c-site-table--icons">
             <div class="c-site-table__head">
                 <div class="c-site-table__cell">Perf</div>
                 <div class="c-site-table__cell">SEO</div>

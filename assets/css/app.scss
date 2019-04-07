@@ -103,6 +103,7 @@ h4,
 h5 {
   font-weight: 700;
   margin-top: $baseline;
+  margin-bottom: 0.5em;
 }
 
 h1 {
@@ -151,7 +152,7 @@ h6 {
   display: flex;
   height: auto;
   width: 100%;
-  justify-content: middle;
+  align-items: center;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 }
@@ -278,6 +279,32 @@ h6 {
   a {
     text-decoration: none;
     color: $color-blue;
+  }
+
+  &--icons {
+    // TODO: Replace with less hacky stuff :)
+    .c-site-table__cell:nth-child(1) {
+        .c-site-table__cell-row:nth-child(1):before {
+            content: "";
+            width: 16px;
+            height: 16px;
+            background-size: contain;
+            background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDQ4IDQ4IiB3aWR0aD0iNDgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGg0OHY0OGgtNDh6IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTQyIDRoLTM2Yy0yLjIxIDAtNCAxLjc5LTQgNHYyNGMwIDIuMjEgMS43OSA0IDQgNGgxNGwtNCA2djJoMTZ2LTJsLTQtNmgxNGMyLjIxIDAgNC0xLjc5IDQtNHYtMjRjMC0yLjIxLTEuNzktNC00LTR6bTAgMjRoLTM2di0yMGgzNnYyMHoiLz48L3N2Zz4=);
+            display: inline-block;
+            opacity: 0.4;
+            margin-right: 0.5rem;
+        }
+        .c-site-table__cell-row:nth-child(2):before {
+            content: "";
+            width: 16px;
+            height: 16px;
+            background-size: contain;
+            background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDQ4IDQ4IiB3aWR0aD0iNDgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTMxIDJoLTE2Yy0yLjc2IDAtNSAyLjI0LTUgNXYzNGMwIDIuNzYgMi4yNCA1IDUgNWgxNmMyLjc2IDAgNS0yLjI0IDUtNXYtMzRjMC0yLjc2LTIuMjQtNS01LTV6bS04IDQyYy0xLjY2IDAtMy0xLjM0LTMtM3MxLjM0LTMgMy0zIDMgMS4zNCAzIDMtMS4zNCAzLTMgM3ptOS04aC0xOHYtMjhoMTh2Mjh6Ii8+PHBhdGggZD0iTTAgMGg0OHY0OGgtNDh6IiBmaWxsPSJub25lIi8+PC9zdmc+);
+            display: inline-block;
+            opacity: 0.4;
+            margin-right: 0.5rem;
+        }
+    }
   }
 
   &__head {
