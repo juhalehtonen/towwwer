@@ -69,7 +69,7 @@ You can run migrations in production with `bin/towwwer migrate`. This is handled
 
 ## Testing
 
-The following should always pass:
+The following are run in CI, and should always pass:
 
 ```
 mix test
