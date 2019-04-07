@@ -13,19 +13,18 @@ To run Towwwer, you need:
   * Elixir (or a release built for your system with ERTS bundled in)
   * PostgreSQL (for storing the reports & job queue)
   * Ruby and RubyGems (for installing WPScan)
-
+  
 ## Configuration
 
 While the PageSpeed Insights API can be used without an API key, you will want to use one for anything more than a single Site + Monitor combination.
 
-Configure the PageSpeed Insights API key by creating a `config/shared.secret.exs` file and filling it with the following:
+### Development configuration
 
-```elixir
-use Mix.Config
+Configure the PageSpeed Insights API key by setting the `PAGESPEED_INSIGHTS_API_KEY` environment variable.
 
-# Configure PageSpeeds Insights API
-config :towwwer, pagespeed_insights_api_key: "YOUR_API_KEY_HERE"
-```
+### Production configuration
+
+Configure the PageSpeed Insights API key by using the config provider of Distillery at `rel/config/runtime_config.exs`.
 
 ## Deployment
 
@@ -55,17 +54,27 @@ You can run migrations in production with `bin/towwwer migrate`. This is handled
 
 ## Features
 
-Currently implemented:
+### Currently implemented
 
-  * Unlimited sites (think domain), monitors (paths for a site), and reports (API response data for a monitor)
+  * Unlimited sites (think domain), monitors (paths for a site), and reports (data for a monitor)
   * Automatic daily (or configurable) updates for every site & monitor reports
   * PostgreSQL-backed job queue
   * WPScan security scans alongside PageSpeed Insights
   * Rate limiting to respect Google API quotas
-  
-Planned:
-  * Slack integration
   * Friendly API for fetching the most relevant information
+  
+### Planned
+
+  * Slack integration
+
+## Testing
+
+The following should always pass:
+
+```
+mix test
+mix dialyzer
+```
 
 ## Local Phoenix
 
