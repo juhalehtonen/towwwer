@@ -28,5 +28,17 @@ config :towwwer, Towwwer.Repo,
   database: "towwwer_prod",
   pool_size: 15
 
+# Configure Papertrail
+config :logger, :logger_papertrail_backend,
+  host: "REPLACEME",
+  level: :info,
+  system_name: "REPLACEME",
+  metadata_filter: [],
+  format: "$metadata $message"
+
+# Add Papertrail Logger Backend
+config :logger,
+  backends: [:console, LoggerPapertrailBackend.Logger]
+
 # Configure PageSpeeds Insights API
 config :towwwer, pagespeed_insights_api_key: "REPLACEME"
