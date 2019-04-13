@@ -72,7 +72,8 @@ config :towwwer, Towwwer.Repo,
   password: "postgres",
   database: "towwwer_dev",
   hostname: "localhost",
-  pool_size: 10
+  pool_size: 10,
+  connect_timeout: 20000
 
 # Shared secrets usable for any environment, such as API keys
 # import_config "shared.secret.exs"
