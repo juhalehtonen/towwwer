@@ -27,7 +27,10 @@ defmodule Towwwer.Job do
     case success? do
       :ok ->
         naive_now = NaiveDateTime.utc_now()
-        {:ok, naive_midnight} = NaiveDateTime.new(naive_now.year, naive_now.month, naive_now.day, 0, 0, 0)
+
+        {:ok, naive_midnight} =
+          NaiveDateTime.new(naive_now.year, naive_now.month, naive_now.day, 0, 0, 0)
+
         naive_next_midnight = NaiveDateTime.add(naive_midnight, 86400, :second)
         {:ok, next_midnight} = DateTime.from_naive(naive_next_midnight, "Etc/UTC")
         Rihanna.schedule(Towwwer.Job, [site, monitor], at: next_midnight)
@@ -50,13 +53,41 @@ defmodule Towwwer.Job do
       {:ok, report} ->
         Logger.info("Created report for #{site.base_url} at #{monitor.path} successfully")
 
+        # TODO: Handle this comparison in a new process to ensure we do not crash here
+
         # If we actually had a previous report to compare to
         if prev_report != nil do
           # Compare scores of new and prev reports
           Logger.info("Comparing scores between reports #{prev_report.id} and #{report.id}")
           old_scores = Websites.get_report_scores!(prev_report.id)
           new_scores = Websites.get_report_scores!(report.id)
-          Helpers.compare_scores(old_scores, new_scores)
+          [desktop_diff, mobile_diff] = Helpers.compare_scores(old_scores, new_scores)
+
+          # TODO: Clean this up
+
+          if desktop_diff != nil do
+            Enum.each(desktop_diff, fn item ->
+              if item.difference > 0.01 do
+                Logger.info(
+                  "Desktop #{item.type} changed to direction #{item.direction} by #{item.difference} for #{
+                  site.base_url
+                  } at #{monitor.path}"
+                )
+              end
+            end)
+          end
+
+          if mobile_diff != nil do
+            Enum.each(desktop_diff, fn item ->
+              if item.difference > 0.01 do
+                Logger.info(
+                  "Mobile #{item.type} changed to direction #{item.direction} by #{item.difference} for #{
+                  site.base_url
+                  } at #{monitor.path}"
+                )
+              end
+            end)
+          end
         end
 
         Websites.bump_site_timestamp(site)
