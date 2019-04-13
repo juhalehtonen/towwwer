@@ -78,6 +78,6 @@ defmodule Towwwer.HelpersTest do
       }
     }
     map_diff = Helpers.compare_scores(old_report_scores, new_report_scores)
-    assert is_list(map_diff)
+    assert map_diff == [nil, nil]
   end
 end
