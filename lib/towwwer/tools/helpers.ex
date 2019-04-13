@@ -57,7 +57,17 @@ defmodule Towwwer.Tools.Helpers do
   # any significant difference in them, and whether they have gone up or down.
   @spec compare_scores(map(), map()) :: map()
   def compare_scores(old_report_scores, new_report_scores) do
-    IO.inspect MapDiff.diff(old_report_scores, new_report_scores)
+    # Generate a diff of the two score maps
+    map_diff = MapDiff.diff(old_report_scores, new_report_scores)
+    # Fetch just the values
+    {:ok, values} = Map.fetch(map_diff, :value)
+
+    Enum.map(values, fn({strategy, strategy_values}) ->
+      IO.inspect val = strategy_values.value
+      Enum.reject(val, fn({type, changes}) ->
+        Enum.member?(changes, :primitive_change)
+      end)
+    end)
   end
 
   @doc """
