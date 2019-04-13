@@ -313,12 +313,14 @@ defmodule Towwwer.Websites do
           performance: fragment("?->'lighthouseResult'->'categories'->'performance'->'score'", r.data),
           pwa: fragment("?->'lighthouseResult'->'categories'->'pwa'->'score'", r.data),
           seo: fragment("?->'lighthouseResult'->'categories'->'seo'->'score'", r.data),
+          best_practices: fragment("?->'lighthouseResult'->'categories'->'best-practices'->'score'", r.data),
           accessibility: fragment("?->'lighthouseResult'->'categories'->'accessibility'->'score'", r.data)
         },
         mobile: %{
           performance: fragment("?->'lighthouseResult'->'categories'->'performance'->'score'", r.mobile_data),
           pwa: fragment("?->'lighthouseResult'->'categories'->'pwa'->'score'", r.mobile_data),
           seo: fragment("?->'lighthouseResult'->'categories'->'seo'->'score'", r.mobile_data),
+          best_practices: fragment("?->'lighthouseResult'->'categories'->'best-practices'->'score'", r.mobile_data),
           accessibility: fragment("?->'lighthouseResult'->'categories'->'accessibility'->'score'", r.mobile_data),
         }
       }
