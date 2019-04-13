@@ -57,7 +57,8 @@ defmodule Towwwer.Tools.Helpers do
   Given two maps of report scores, compare them and determine if there is
   any significant difference in them, and whether they have gone up or down.
 
-  Returns a list of lists in the form of [[desktop], [mobile]].
+  Returns a list of lists in the form of [[desktop_data], [mobile_data]], or
+  [nil, nil] if there are no differences in scores.
   """
   @spec compare_scores(map(), map()) :: list()
   def compare_scores(old_report_scores, new_report_scores) do
