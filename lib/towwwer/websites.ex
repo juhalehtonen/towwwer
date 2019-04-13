@@ -303,6 +303,30 @@ defmodule Towwwer.Websites do
   end
 
   @doc """
+  Get a single report's scores, both desktop and mobile.
+  """
+  def get_report_scores!(id) do
+    query = from r in Report,
+      where: r.id == ^id,
+      select: %{
+        desktop: %{
+          performance: fragment("?->'lighthouseResult'->'categories'->'performance'->'score'", r.data),
+          pwa: fragment("?->'lighthouseResult'->'categories'->'pwa'->'score'", r.data),
+          seo: fragment("?->'lighthouseResult'->'categories'->'seo'->'score'", r.data),
+          accessibility: fragment("?->'lighthouseResult'->'categories'->'accessibility'->'score'", r.data)
+        },
+        mobile: %{
+          performance: fragment("?->'lighthouseResult'->'categories'->'performance'->'score'", r.mobile_data),
+          pwa: fragment("?->'lighthouseResult'->'categories'->'pwa'->'score'", r.mobile_data),
+          seo: fragment("?->'lighthouseResult'->'categories'->'seo'->'score'", r.mobile_data),
+          accessibility: fragment("?->'lighthouseResult'->'categories'->'accessibility'->'score'", r.mobile_data),
+        }
+      }
+
+    Repo.one!(query)
+  end
+
+  @doc """
   Creates a report.
 
   ## Examples
