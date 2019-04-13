@@ -354,6 +354,14 @@ defmodule Towwwer.Websites do
   end
 
   @doc """
+  Returns the latest Report for a given Monitor.
+  """
+  def get_latest_report_for_monitor(monitor) do
+    reports_query = from r in Report, distinct: r.monitor_id, order_by: [desc: r.updated_at], where: r.monitor_id == ^monitor.id
+    Repo.one(reports_query)
+  end
+
+  @doc """
   Creates a report.
 
   ## Examples

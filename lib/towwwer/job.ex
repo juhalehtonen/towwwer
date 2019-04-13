@@ -43,9 +43,22 @@ defmodule Towwwer.Job do
   defp do_work(site, monitor) do
     Logger.info("Doing work for #{site.base_url} at #{monitor.path}")
 
+    # Get previous report in order to compare the upcoming one to this one
+    prev_report = Websites.get_latest_report_for_monitor(monitor)
+
     case Helpers.build_report(site, monitor) do
-      {:ok, _report} ->
+      {:ok, report} ->
         Logger.info("Created report for #{site.base_url} at #{monitor.path} successfully")
+
+        # If we actually had a previous report to compare to
+        if prev_report != nil do
+          # Compare scores of new and prev reports
+          Logger.info("Comparing scores between reports #{prev_report.id} and #{report.id}")
+          old_scores = Websites.get_report_scores!(prev_report.id)
+          new_scores = Websites.get_report_scores!(report.id)
+          Helpers.compare_scores(old_scores, new_scores)
+        end
+
         Websites.bump_site_timestamp(site)
         :ok
 

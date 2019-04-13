@@ -53,6 +53,13 @@ defmodule Towwwer.Tools.Helpers do
     end
   end
 
+  # Given two maps of report scores, compare them and determine if there is
+  # any significant difference in them, and whether they have gone up or down.
+  @spec compare_scores(map(), map()) :: map()
+  def compare_scores(old_report_scores, new_report_scores) do
+    IO.inspect MapDiff.diff(old_report_scores, new_report_scores)
+  end
+
   @doc """
   Runs a build task for each monitor under given `site`.
   """

@@ -49,7 +49,8 @@ defmodule Towwwer.MixProject do
       {:rihanna, ">= 0.0.0"},
       {:distillery, "~> 2.0"},
       {:dialyxir, "~> 1.0.0-rc.4", only: [:dev], runtime: false},
-      {:logger_papertrail_backend, "~> 1.1"}
+      {:logger_papertrail_backend, "~> 1.1"},
+      {:map_diff, "~> 1.3"}
     ]
   end
 
