@@ -60,7 +60,7 @@ defmodule Towwwer.Tools.Helpers do
   Returns a list of lists in the form of [[desktop_data], [mobile_data]], or
   [nil, nil] if there are no differences in scores.
   """
-  @spec compare_scores(map(), map()) :: list()
+  @spec compare_scores(map(), map()) :: [list() | list()] | [nil | nil]
   def compare_scores(old_report_scores, new_report_scores) do
     # Generate a diff of the two score maps
     difference =
