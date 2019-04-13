@@ -53,21 +53,47 @@ defmodule Towwwer.Tools.Helpers do
     end
   end
 
-  # Given two maps of report scores, compare them and determine if there is
-  # any significant difference in them, and whether they have gone up or down.
-  @spec compare_scores(map(), map()) :: map()
+
+  @doc """
+  Given two maps of report scores, compare them and determine if there is
+  any significant difference in them, and whether they have gone up or down.
+
+  Returns a list of lists in the form of [[desktop], [mobile]].
+  """
+  @spec compare_scores(map(), map()) :: list()
   def compare_scores(old_report_scores, new_report_scores) do
     # Generate a diff of the two score maps
-    map_diff = MapDiff.diff(old_report_scores, new_report_scores)
-    # Fetch just the values
-    {:ok, values} = Map.fetch(map_diff, :value)
+    IO.inspect difference = MapDiff.diff(old_report_scores, new_report_scores)
+    |> Map.get(:value)
+    |> Enum.map(fn({_strategy, data}) ->
+      if Map.has_key?(data, :changed) && data.changed == :map_change do
+        only_changes = Enum.filter(data.value, fn({_key, value}) ->
+          if value.changed == :primitive_change do
+            true
+          else
+            false
+          end
+        end)
 
-    Enum.map(values, fn({strategy, strategy_values}) ->
-      IO.inspect val = strategy_values.value
-      Enum.reject(val, fn({type, changes}) ->
-        Enum.member?(changes, :primitive_change)
-      end)
+        Enum.map(only_changes, fn({key, value}) ->
+          item_values = %{new_value: value.added, old_value: value.removed}
+          # Determine difference and direction
+          {difference, direction} = cond do
+            item_values.new_value > item_values.old_value ->
+              diff = item_values.new_value - item_values.old_value |> Float.round(3)
+              {diff, :increase}
+            item_values.new_value < item_values.old_value ->
+              diff = item_values.old_value - item_values.new_value |> Float.round(3)
+              {diff, :decrease}
+          end
+
+          %{type: key, added: value.added, changed: value.changed, removed: value.removed, direction: direction, difference: difference}
+        end)
+
+      end
     end)
+
+    difference
   end
 
   @doc """
