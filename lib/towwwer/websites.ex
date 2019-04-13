@@ -304,6 +304,31 @@ defmodule Towwwer.Websites do
 
   @doc """
   Get a single report's scores, both desktop and mobile.
+
+  Raises `Ecto.NoResultsError` if the Report does not exist.
+
+  ## Examples
+
+  iex> get_report_scores!(123)
+  %{
+    desktop: %{
+      accessibility: 0.88,
+      best_practices: 0.77,
+      performance: 0.97,
+      pwa: 0.4,
+      seo: 0.77
+    },
+    mobile: %{
+      accessibility: 0.88,
+      best_practices: 0.77,
+      performance: 0.84,
+      pwa: 0.42,
+      seo: 0.78
+    }
+  }
+
+  iex> get_report_scores!(14456)
+  ** (Ecto.NoResultsError)
   """
   def get_report_scores!(id) do
     query = from r in Report,
