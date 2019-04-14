@@ -71,7 +71,6 @@ defmodule Towwwer.Job do
             if mobile_diff != nil do
               check_for_significant_score_difference(mobile_diff, site, monitor, "Mobile")
             end
-
           end
         end)
 
@@ -86,14 +85,32 @@ defmodule Towwwer.Job do
 
   defp check_for_significant_score_difference(diff, site, monitor, strategy) do
     Enum.each(diff, fn item ->
-      if item.difference > 0.05 do
-        Logger.info(
-          "#{strategy} #{item.type} #{item.direction}d by #{item.difference} for #{
-          site.base_url
-          } at #{monitor.path}"
-        )
+      if item.difference > 0.1 do
+        message =
+          "#{strategy} #{item.type} #{item.direction}d by #{item.difference} for #{site.base_url} at #{
+            monitor.path
+          }"
+
+        Logger.info(message)
+        send_slack_message(message)
       end
     end)
+  end
+
+  # Sends Slack message via specified webhook
+  defp send_slack_message(message) do
+    url = slack_webhook_url()
+
+    if url != nil do
+      body = Jason.encode!(%{ text: message })
+      headers = [{"Content-type", "application/json"}]
+      HTTPoison.post(url, body, headers, [])
+    end
+  end
+
+  # Returns a Slack webhook if configured, or nil otherwise
+  defp slack_webhook_url do
+    Application.get_env(:towwwer, :slack_webhook_url) || System.get_env("SLACK_WEBHOOK_URL")
   end
 
   # Query all pending sites and run the build task for them.

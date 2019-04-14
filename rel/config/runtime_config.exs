@@ -42,3 +42,7 @@ config :logger,
 
 # Configure PageSpeeds Insights API
 config :towwwer, pagespeed_insights_api_key: "REPLACEME"
+
+# Configure Slack webhook
+config :towwwer,
+  slack_webhook_url: "REPLACEME"

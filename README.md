@@ -6,6 +6,8 @@ Towwwer is a tool for monitoring, collecting and presenting website performance 
 
 Additionally, Towwwer can run [WPScan](https://github.com/wpscanteam/wpscan) against the monitored websites and keep track of which security issues are found. WPScan is a separate project, and their license details differ from those of Towwwer.
 
+Lastly, Towwwer can be configured to send messages to a Slack channel via Slack webhooks whenever a significance difference in Lighthouse scores is detected between two consecutive measurements. 
+
 ## Requirements
 
 To run Towwwer, you need:
@@ -20,11 +22,13 @@ While the PageSpeed Insights API can be used without an API key, you will want t
 
 ### Development configuration
 
-Configure the PageSpeed Insights API key by setting the `PAGESPEED_INSIGHTS_API_KEY` environment variable.
+* Configure the PageSpeed Insights API key by setting the `PAGESPEED_INSIGHTS_API_KEY` environment variable.
+* Configure the Slack webhook URL key by setting the `SLACK_WEBHOOK_URL` environment variable.
 
 ### Production configuration
 
-Configure the PageSpeed Insights API key by using the config provider of Distillery at `rel/config/runtime_config.exs`.
+* Configure the PageSpeed Insights API key by using the config provider of Distillery at `rel/config/runtime_config.exs`.
+* Configure the Slack webhook URL by using the config provider of Distillery at `rel/config/runtime_config.exs`.
 
 ## Deployment
 
@@ -44,17 +48,15 @@ After which you should see your release tarball in `rel/artifacts`.
 
 If you add dependencies that require system packages, you will need to update the Dockerfile for the build container, and rerun the docker build command to update it.
 
-Test local "deployment": `cp rel/artifacts/towwwer-0.1.0.tar.gz /tmp/test/`
+Test local deployment: `cp rel/artifacts/towwwer-0.1.0.tar.gz /tmp/test/`
 
 Start the release with: `cd /tmp/test && tar -xf towwwer-0.1.0.tar.gz && ./bin/towwwer start`
 
 ## Production migrations
 
-You can run migrations in production with `bin/towwwer migrate`. This is handled by `rel/commands/migrate.sh` and `Towwwer.ReleaseTasks`.
+You can run migrations in production with `./bin/towwwer migrate`. This is handled by `rel/commands/migrate.sh` and `Towwwer.ReleaseTasks`.
 
 ## Features
-
-### Currently implemented
 
   * Unlimited sites (think domain), monitors (paths for a site), and reports (data for a monitor)
   * Automatic daily (or configurable) updates for every site & monitor reports
@@ -62,9 +64,6 @@ You can run migrations in production with `bin/towwwer migrate`. This is handled
   * WPScan security scans alongside PageSpeed Insights
   * Rate limiting to respect Google API quotas
   * Friendly API for fetching the most relevant information
-  
-### Planned
-
   * Slack integration
 
 ## Testing
