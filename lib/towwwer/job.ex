@@ -58,7 +58,6 @@ defmodule Towwwer.Job do
           # If we actually had a previous report to compare to
           if prev_report != nil do
             # Compare scores of new and prev reports
-            Logger.info("Comparing scores between reports #{prev_report.id} and #{report.id}")
             old_scores = Websites.get_report_scores!(prev_report.id)
             new_scores = Websites.get_report_scores!(report.id)
             [desktop_diff, mobile_diff] = Helpers.compare_scores(old_scores, new_scores)
@@ -66,28 +65,13 @@ defmodule Towwwer.Job do
             # TODO: Clean this up
 
             if desktop_diff != nil do
-              Enum.each(desktop_diff, fn item ->
-                if item.difference > 0.05 do
-                  Logger.info(
-                    "Desktop #{item.type} #{item.direction}d by #{item.difference} for #{
-                      site.base_url
-                    } at #{monitor.path}"
-                  )
-                end
-              end)
+              check_for_significant_score_difference(desktop_diff, site, monitor, "Desktop")
             end
 
             if mobile_diff != nil do
-              Enum.each(desktop_diff, fn item ->
-                if item.difference > 0.05 do
-                  Logger.info(
-                    "Mobile #{item.type} #{item.direction}d by #{item.difference} for #{
-                      site.base_url
-                    } at #{monitor.path}"
-                  )
-                end
-              end)
+              check_for_significant_score_difference(mobile_diff, site, monitor, "Mobile")
             end
+
           end
         end)
 
@@ -98,6 +82,18 @@ defmodule Towwwer.Job do
         Logger.info("Failed to create report for #{site.base_url} monitor #{monitor.path}")
         :error
     end
+  end
+
+  defp check_for_significant_score_difference(diff, site, monitor, strategy) do
+    Enum.each(diff, fn item ->
+      if item.difference > 0.05 do
+        Logger.info(
+          "#{strategy} #{item.type} #{item.direction}d by #{item.difference} for #{
+          site.base_url
+          } at #{monitor.path}"
+        )
+      end
+    end)
   end
 
   # Query all pending sites and run the build task for them.
