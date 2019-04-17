@@ -86,10 +86,22 @@ defmodule Towwwer.Job do
   defp check_for_significant_score_difference(diff, site, monitor, strategy) do
     Enum.each(diff, fn item ->
       if item.difference > 0.1 do
+        emoji_strategy =
+          case strategy do
+            "mobile" -> ":iphone:"
+            _ -> ":desktop_computer:"
+          end
+
+        emoji_direction =
+          case item.direction do
+            :increase -> ":thumbsup:"
+            _ -> ":thumbsdown:"
+          end
+
         message =
-          "#{strategy} #{item.type} #{item.direction}d by #{item.difference} for #{site.base_url} at #{
-            monitor.path
-          }"
+          "#{emoji_strategy} #{strategy} #{item.type} #{emoji_direction} #{item.direction}d by #{item.difference} for #{
+            site.base_url
+          } at #{monitor.path}"
 
         Logger.info(message)
         send_slack_message(message)
@@ -102,7 +114,7 @@ defmodule Towwwer.Job do
     url = slack_webhook_url()
 
     if url != nil do
-      body = Jason.encode!(%{ text: message })
+      body = Jason.encode!(%{text: message})
       headers = [{"Content-type", "application/json"}]
       HTTPoison.post(url, body, headers, [])
     end
