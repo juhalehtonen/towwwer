@@ -94,14 +94,20 @@ defmodule Towwwer.Job do
 
         emoji_direction =
           case item.direction do
-            :increase -> ":thumbsup:"
-            _ -> ":thumbsdown:"
+            :increase -> ":trophy:"
+            _ -> ":rotating_light:"
+          end
+
+        msg_direction =
+          case item.direction do
+            :increase -> "+"
+            :decrease -> "-"
           end
 
         message =
-          "#{emoji_strategy} #{strategy} #{item.type} #{emoji_direction} #{item.direction}d by #{item.difference} for #{
-            site.base_url
-          } at #{monitor.path}"
+          "#{emoji_direction} #{site.base_url}#{monitor.path} #{emoji_strategy} #{item.type} #{
+            msg_direction
+          }#{item.difference}"
 
         Logger.info(message)
         send_slack_message(message)
