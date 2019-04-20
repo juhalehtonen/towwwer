@@ -3,9 +3,11 @@ defmodule Towwwer.Tools.Helpers do
   Contains helper functions and functions that do not yet have a clear home.
   """
 
+  require Logger
   alias Towwwer.Tools.ApiClient
   alias Towwwer.Tools.WPScan
   alias Towwwer.Websites
+  alias Towwwer.Notifications.Slack
 
   @doc """
   Generate a random URL-friendly string of given `length`.
@@ -104,6 +106,68 @@ defmodule Towwwer.Tools.Helpers do
       end)
 
     difference
+  end
+
+  @doc """
+  Check for the score difference of two subsequent reports.
+  """
+  @spec check_score_diff(map(), map(), map(), map()) :: {:ok, pid()}
+  def check_score_diff(prev_report, report, site, monitor) do
+    Task.start(fn ->
+      # If we actually had a previous report to compare to
+      if prev_report != nil do
+        # Compare scores of new and prev reports
+        old_scores = Websites.get_report_scores!(prev_report.id)
+        new_scores = Websites.get_report_scores!(report.id)
+        [desktop_diff, mobile_diff] = compare_scores(old_scores, new_scores)
+
+        if desktop_diff != nil do
+          handle_significant_score_change(desktop_diff, site, monitor, "Desktop")
+        end
+
+        if mobile_diff != nil do
+          handle_significant_score_change(mobile_diff, site, monitor, "Mobile")
+        end
+      end
+    end)
+  end
+
+  # Handle diffs bigger than defined value
+  @spec handle_significant_score_change(list(), map(), map(), String.t()) :: :ok
+  defp handle_significant_score_change(diff, site, monitor, strategy) do
+    Enum.each(diff, fn item ->
+      if item.difference > 0.1 do
+        emoji_strategy =
+          case strategy do
+            "mobile" -> ":iphone:"
+            _ -> ":desktop_computer:"
+          end
+
+        emoji_direction =
+          case item.direction do
+            :increase -> ":heavy_check_mark:"
+            _ -> ":rotating_light:"
+          end
+
+        msg_direction =
+          case item.direction do
+            :increase -> "+"
+            :decrease -> "-"
+          end
+
+        site_url = TowwwerWeb.Router.Helpers.site_path(TowwwerWeb.Endpoint, :show, site.id)
+
+        difference_score = (item.difference * 100) |> round()
+
+        message =
+          "#{emoji_direction} #{site.base_url}#{monitor.path} #{emoji_strategy} #{item.type} *#{
+            msg_direction
+          }#{difference_score}* - #{site_url}"
+
+        Logger.info(message)
+        Slack.send_message(message)
+      end
+    end)
   end
 
   @doc """

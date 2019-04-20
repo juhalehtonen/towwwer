@@ -1,9 +1,4 @@
 defmodule Towwwer.Job do
-  @behaviour Rihanna.Job
-  require Logger
-  alias Towwwer.Websites
-  alias Towwwer.Tools.Helpers
-
   @moduledoc """
   Enqueue job for later execution and return immediately:
   Rihanna.enqueue(Towwwer.Job, [arg1, arg2])
@@ -13,6 +8,11 @@ defmodule Towwwer.Job do
 
   NOTE: You will need to enqueue the job manually the first time from the console.
   """
+
+  @behaviour Rihanna.Job
+  require Logger
+  alias Towwwer.Websites
+  alias Towwwer.Tools.Helpers
 
   @doc """
   NOTE: `perform/1` is a required callback. It takes exactly one argument. To pass
@@ -52,28 +52,7 @@ defmodule Towwwer.Job do
     case Helpers.build_report(site, monitor) do
       {:ok, report} ->
         Logger.info("Created report for #{site.base_url} at #{monitor.path} successfully")
-
-        # TODO: Consider using a Task supervisor
-        Task.start(fn ->
-          # If we actually had a previous report to compare to
-          if prev_report != nil do
-            # Compare scores of new and prev reports
-            old_scores = Websites.get_report_scores!(prev_report.id)
-            new_scores = Websites.get_report_scores!(report.id)
-            [desktop_diff, mobile_diff] = Helpers.compare_scores(old_scores, new_scores)
-
-            # TODO: Clean this up
-
-            if desktop_diff != nil do
-              check_for_significant_score_difference(desktop_diff, site, monitor, "Desktop")
-            end
-
-            if mobile_diff != nil do
-              check_for_significant_score_difference(mobile_diff, site, monitor, "Mobile")
-            end
-          end
-        end)
-
+        Helpers.check_score_diff(prev_report, report, site, monitor)
         Websites.bump_site_timestamp(site)
         :ok
 
@@ -81,54 +60,6 @@ defmodule Towwwer.Job do
         Logger.info("Failed to create report for #{site.base_url} monitor #{monitor.path}")
         :error
     end
-  end
-
-  defp check_for_significant_score_difference(diff, site, monitor, strategy) do
-    Enum.each(diff, fn item ->
-      if item.difference > 0.1 do
-        emoji_strategy =
-          case strategy do
-            "mobile" -> ":iphone:"
-            _ -> ":desktop_computer:"
-          end
-
-        emoji_direction =
-          case item.direction do
-            :increase -> ":trophy:"
-            _ -> ":rotating_light:"
-          end
-
-        msg_direction =
-          case item.direction do
-            :increase -> "+"
-            :decrease -> "-"
-          end
-
-        message =
-          "#{emoji_direction} #{site.base_url}#{monitor.path} #{emoji_strategy} #{item.type} #{
-            msg_direction
-          }#{item.difference}"
-
-        Logger.info(message)
-        send_slack_message(message)
-      end
-    end)
-  end
-
-  # Sends Slack message via specified webhook
-  defp send_slack_message(message) do
-    url = slack_webhook_url()
-
-    if url != nil do
-      body = Jason.encode!(%{text: message})
-      headers = [{"Content-type", "application/json"}]
-      HTTPoison.post(url, body, headers, [])
-    end
-  end
-
-  # Returns a Slack webhook if configured, or nil otherwise
-  defp slack_webhook_url do
-    Application.get_env(:towwwer, :slack_webhook_url) || System.get_env("SLACK_WEBHOOK_URL")
   end
 
   # Query all pending sites and run the build task for them.
