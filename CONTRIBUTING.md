@@ -6,7 +6,7 @@ The following are mostly guidelines, not rules. Use your best judgment, and feel
 
 ## Code of Conduct
 
-Please read the [../CODE_OF_CONDUCT.md](Code of Conduct).
+Please read the CODE_OF_CONDUCT.md
 
 ## Issues and pull requests
 
