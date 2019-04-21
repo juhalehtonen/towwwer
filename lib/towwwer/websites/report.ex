@@ -18,6 +18,7 @@ defmodule Towwwer.Websites.Report do
     |> cast(attrs, [:data, :mobile_data, :wpscan_data])
     |> put_assoc(:monitor, attrs.monitor)
   end
+
   def changeset(report, attrs) do
     report
     |> cast(attrs, [:data, :mobile_data, :wpscan_data])

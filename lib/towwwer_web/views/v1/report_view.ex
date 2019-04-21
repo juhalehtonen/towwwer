@@ -26,7 +26,8 @@ defmodule TowwwerWeb.V1.ReportView do
   end
 
   # Score extracted from saved lighthouse data
-  defp score(report, type) when type in ["performance", "seo", "accessibility", "best-practices", "pwa"] do
+  defp score(report, type)
+       when type in ["performance", "seo", "accessibility", "best-practices", "pwa"] do
     case report.data["lighthouseResult"]["categories"][type]["score"] do
       nil -> 0
       _ -> (report.data["lighthouseResult"]["categories"][type]["score"] * 100) |> round()
@@ -37,10 +38,10 @@ defmodule TowwwerWeb.V1.ReportView do
   # require manual checking, or are purely informative.
   defp extract_issues(report) do
     report.data["lighthouseResult"]["audits"]
-    |> Enum.reject(fn({_desc, item}) -> item["score"] == 1 end)
-    |> Enum.reject(fn({_desc, item}) -> item["scoreDisplayMode"] == "notApplicable" end)
-    |> Enum.reject(fn({_desc, item}) -> item["scoreDisplayMode"] == "manual" end)
-    |> Enum.reject(fn({_desc, item}) -> item["scoreDisplayMode"] == "informative" end)
+    |> Enum.reject(fn {_desc, item} -> item["score"] == 1 end)
+    |> Enum.reject(fn {_desc, item} -> item["scoreDisplayMode"] == "notApplicable" end)
+    |> Enum.reject(fn {_desc, item} -> item["scoreDisplayMode"] == "manual" end)
+    |> Enum.reject(fn {_desc, item} -> item["scoreDisplayMode"] == "informative" end)
     |> Map.new()
   end
 end

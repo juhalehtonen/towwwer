@@ -12,18 +12,24 @@ defmodule Towwwer.Tools.ApiClient do
     rate_limit: {1, 1200}
   ]
   @retry_errors [
-    408, # TIMEOUT
-    429, # RESOURCE_EXHAUSTED
-    499, # CANCELLED
-    500, # INTERNAL
-    503, # UNAVAILABLE
-    504, # DEADLINE_EXCEEDED
+    # TIMEOUT
+    408,
+    # RESOURCE_EXHAUSTED
+    429,
+    # CANCELLED
+    499,
+    # INTERNAL
+    500,
+    # UNAVAILABLE
+    503,
+    # DEADLINE_EXCEEDED
+    504
   ]
   @retry_opts %ExternalService.RetryOptions{
     # Exponential backoff, 10000ms between retries
     backoff: {:exponential, 10_000},
     # Stop retrying after 60 seconds.
-    expiry: 60_000,
+    expiry: 60_000
   }
 
   def start do
@@ -38,12 +44,13 @@ defmodule Towwwer.Tools.ApiClient do
   defp try_get(url, strategy) when strategy in ["desktop", "mobile"] do
     PageSpeed.query_pagespeed_api(url, strategy)
     |> case do
-         {:ok_but_error, status_code} when status_code in @retry_errors ->
-           Logger.info "Retrying #{url} due to #{status_code} with strategy of #{strategy}"
-           {:retry, status_code}
-         # If not a retriable error, just return the result.
-         pagespeed_result ->
-           pagespeed_result
-       end
+      {:ok_but_error, status_code} when status_code in @retry_errors ->
+        Logger.info("Retrying #{url} due to #{status_code} with strategy of #{strategy}")
+        {:retry, status_code}
+
+      # If not a retriable error, just return the result.
+      pagespeed_result ->
+        pagespeed_result
+    end
   end
 end

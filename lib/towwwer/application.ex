@@ -13,7 +13,7 @@ defmodule Towwwer.Application do
       # Start Rihanna
       {Rihanna.Supervisor, [postgrex: Towwwer.Repo.config()]},
       # Start the endpoint when the application starts
-      TowwwerWeb.Endpoint,
+      TowwwerWeb.Endpoint
     ]
 
     # Start the ExternalService fuse

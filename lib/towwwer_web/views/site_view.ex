@@ -5,18 +5,22 @@ defmodule TowwwerWeb.SiteView do
 
   # Score extracted from saved lighthouse data
   def score(report, type, strategy \\ "desktop")
-      when type in ["performance", "seo", "accessibility", "best-practices", "pwa"] and strategy in ["desktop", "mobile"] do
-
+      when type in ["performance", "seo", "accessibility", "best-practices", "pwa"] and
+             strategy in ["desktop", "mobile"] do
     case strategy do
       "desktop" ->
         case report.data["lighthouseResult"]["categories"][type]["score"] do
           nil -> 0
           _ -> (report.data["lighthouseResult"]["categories"][type]["score"] * 100) |> round()
         end
+
       "mobile" ->
         case report.mobile_data["lighthouseResult"]["categories"][type]["score"] do
-          nil -> 0
-          _ -> (report.mobile_data["lighthouseResult"]["categories"][type]["score"] * 100) |> round()
+          nil ->
+            0
+
+          _ ->
+            (report.mobile_data["lighthouseResult"]["categories"][type]["score"] * 100) |> round()
         end
     end
   end
@@ -27,13 +31,15 @@ defmodule TowwwerWeb.SiteView do
     |> String.replace("Total size was", "")
   end
 
-  def first_meaningful_paint(report, strategy \\ "desktop") when strategy in ["desktop", "mobile"] do
+  def first_meaningful_paint(report, strategy \\ "desktop")
+      when strategy in ["desktop", "mobile"] do
     case strategy do
       "desktop" ->
         case report.data["lighthouseResult"]["audits"]["metrics"]["details"]["items"] do
           nil -> ""
           val -> val |> Enum.at(0) |> Map.get("firstMeaningfulPaint")
         end
+
       "mobile" ->
         case report.mobile_data["lighthouseResult"]["audits"]["metrics"]["details"]["items"] do
           nil -> ""
@@ -49,6 +55,7 @@ defmodule TowwwerWeb.SiteView do
           nil -> ""
           val -> val |> Enum.at(0) |> Map.get("interactive")
         end
+
       "mobile" ->
         case report.mobile_data["lighthouseResult"]["audits"]["metrics"]["details"]["items"] do
           nil -> ""
@@ -122,10 +129,10 @@ defmodule TowwwerWeb.SiteView do
 
   def report_audits(report) do
     report.data["lighthouseResult"]["audits"]
-    |> Enum.reject(fn({_desc, item}) -> item["score"] == 1 end)
-    |> Enum.reject(fn({_desc, item}) -> item["scoreDisplayMode"] == "notApplicable" end)
-    |> Enum.reject(fn({_desc, item}) -> item["scoreDisplayMode"] == "manual" end)
-    |> Enum.reject(fn({_desc, item}) -> item["scoreDisplayMode"] == "informative" end)
+    |> Enum.reject(fn {_desc, item} -> item["score"] == 1 end)
+    |> Enum.reject(fn {_desc, item} -> item["scoreDisplayMode"] == "notApplicable" end)
+    |> Enum.reject(fn {_desc, item} -> item["scoreDisplayMode"] == "manual" end)
+    |> Enum.reject(fn {_desc, item} -> item["scoreDisplayMode"] == "informative" end)
     |> Map.new()
   end
 
@@ -140,6 +147,7 @@ defmodule TowwwerWeb.SiteView do
     case data["details"]["items"] do
       nil ->
         []
+
       items ->
         items
     end

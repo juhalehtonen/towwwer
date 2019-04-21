@@ -42,7 +42,7 @@ defmodule TowwwerWeb.PageView do
     report = Enum.at(monitor.reports, 0)
 
     report.wpscan_data["plugins"]
-    |> Enum.filter(fn({_plugin_name, plugin_data}) ->
+    |> Enum.filter(fn {_plugin_name, plugin_data} ->
       if plugin_data["vulnerabilities"] do
         vulns = plugin_data["vulnerabilities"]
         vulns != [] && vulns != nil

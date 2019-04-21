@@ -22,8 +22,10 @@ defmodule Towwwer.Websites do
   """
   @spec list_sites() :: [%Site{}]
   def list_sites do
-    Repo.all from s in Site,
-      order_by: s.base_url
+    Repo.all(
+      from s in Site,
+        order_by: s.base_url
+    )
   end
 
   @doc """
@@ -31,8 +33,10 @@ defmodule Towwwer.Websites do
   """
   @spec list_sites_with_preloads() :: [%Site{}]
   def list_sites_with_preloads do
-    Repo.all from s in Site,
-      preload: [monitors: [:reports]]
+    Repo.all(
+      from s in Site,
+        preload: [monitors: [:reports]]
+    )
   end
 
   @doc """
@@ -42,8 +46,14 @@ defmodule Towwwer.Websites do
   @spec list_sites_with_latest_root_report() :: [%Site{}]
   def list_sites_with_latest_root_report do
     reports_query = from r in Report, distinct: r.monitor_id, order_by: [desc: r.updated_at]
-    monitors_query = from m in Monitor, distinct: m.site_id, where: m.path == "/", preload: [reports: ^reports_query]
-    Repo.all from s in Site, preload: [monitors: ^monitors_query]
+
+    monitors_query =
+      from m in Monitor,
+        distinct: m.site_id,
+        where: m.path == "/",
+        preload: [reports: ^reports_query]
+
+    Repo.all(from s in Site, preload: [monitors: ^monitors_query])
   end
 
   @doc """
@@ -64,7 +74,7 @@ defmodule Towwwer.Websites do
   def get_site!(id) do
     Site
     |> Repo.get!(id)
-    |> Repo.preload([monitors: [:reports]])
+    |> Repo.preload(monitors: [:reports])
   end
 
   @doc """
@@ -81,19 +91,21 @@ defmodule Towwwer.Websites do
   """
   @spec create_site(map()) :: {:ok, %Site{}} | {:error, %Ecto.Changeset{}}
   def create_site(attrs \\ %{}) do
-    changeset = %Site{}
-    |> Site.changeset(attrs)
-    |> Repo.insert()
+    changeset =
+      %Site{}
+      |> Site.changeset(attrs)
+      |> Repo.insert()
 
     case changeset do
       {:ok, site} ->
         Logger.info("Site created, running build task for monitors")
         Helpers.run_build_task_for_site_monitors(site)
+
       _ ->
         Logger.info("Failed to create site, so no reports are built.")
     end
 
-   changeset
+    changeset
   end
 
   @doc """
@@ -110,13 +122,15 @@ defmodule Towwwer.Websites do
   """
   @spec update_site(%Site{}, map()) :: {:ok, %Site{}} | {:error, %Ecto.Changeset{}}
   def update_site(%Site{} = site, attrs) do
-    changeset = site
-    |> Site.changeset(attrs)
-    |> Repo.update()
+    changeset =
+      site
+      |> Site.changeset(attrs)
+      |> Repo.update()
 
     case changeset do
       {:ok, updated_site} ->
         Helpers.run_build_task_for_new_site_monitors(updated_site)
+
       _ ->
         Logger.info("Failed to update site, so no reports are built.")
     end
@@ -161,7 +175,6 @@ defmodule Towwwer.Websites do
   def change_site(%Site{} = site) do
     Site.changeset(site, %{})
   end
-
 
   @doc """
   Returns the list of monitors.
@@ -261,7 +274,6 @@ defmodule Towwwer.Websites do
     Monitor.changeset(monitor, %{})
   end
 
-
   @doc """
   Returns the list of reports.
 
@@ -276,9 +288,10 @@ defmodule Towwwer.Websites do
   end
 
   def list_reports_of_monitor(monitor) do
-    query = from r in Report,
-      where: r.monitor_id == ^monitor.id,
-      order_by: [desc: :inserted_at]
+    query =
+      from r in Report,
+        where: r.monitor_id == ^monitor.id,
+        order_by: [desc: :inserted_at]
 
     Repo.all(query)
   end
@@ -331,24 +344,40 @@ defmodule Towwwer.Websites do
   ** (Ecto.NoResultsError)
   """
   def get_report_scores!(id) do
-    query = from r in Report,
-      where: r.id == ^id,
-      select: %{
-        desktop: %{
-          performance: fragment("?->'lighthouseResult'->'categories'->'performance'->'score'", r.data),
-          pwa: fragment("?->'lighthouseResult'->'categories'->'pwa'->'score'", r.data),
-          seo: fragment("?->'lighthouseResult'->'categories'->'seo'->'score'", r.data),
-          best_practices: fragment("?->'lighthouseResult'->'categories'->'best-practices'->'score'", r.data),
-          accessibility: fragment("?->'lighthouseResult'->'categories'->'accessibility'->'score'", r.data)
-        },
-        mobile: %{
-          performance: fragment("?->'lighthouseResult'->'categories'->'performance'->'score'", r.mobile_data),
-          pwa: fragment("?->'lighthouseResult'->'categories'->'pwa'->'score'", r.mobile_data),
-          seo: fragment("?->'lighthouseResult'->'categories'->'seo'->'score'", r.mobile_data),
-          best_practices: fragment("?->'lighthouseResult'->'categories'->'best-practices'->'score'", r.mobile_data),
-          accessibility: fragment("?->'lighthouseResult'->'categories'->'accessibility'->'score'", r.mobile_data),
+    query =
+      from r in Report,
+        where: r.id == ^id,
+        select: %{
+          desktop: %{
+            performance:
+              fragment("?->'lighthouseResult'->'categories'->'performance'->'score'", r.data),
+            pwa: fragment("?->'lighthouseResult'->'categories'->'pwa'->'score'", r.data),
+            seo: fragment("?->'lighthouseResult'->'categories'->'seo'->'score'", r.data),
+            best_practices:
+              fragment("?->'lighthouseResult'->'categories'->'best-practices'->'score'", r.data),
+            accessibility:
+              fragment("?->'lighthouseResult'->'categories'->'accessibility'->'score'", r.data)
+          },
+          mobile: %{
+            performance:
+              fragment(
+                "?->'lighthouseResult'->'categories'->'performance'->'score'",
+                r.mobile_data
+              ),
+            pwa: fragment("?->'lighthouseResult'->'categories'->'pwa'->'score'", r.mobile_data),
+            seo: fragment("?->'lighthouseResult'->'categories'->'seo'->'score'", r.mobile_data),
+            best_practices:
+              fragment(
+                "?->'lighthouseResult'->'categories'->'best-practices'->'score'",
+                r.mobile_data
+              ),
+            accessibility:
+              fragment(
+                "?->'lighthouseResult'->'categories'->'accessibility'->'score'",
+                r.mobile_data
+              )
+          }
         }
-      }
 
     Repo.one!(query)
   end
@@ -357,7 +386,12 @@ defmodule Towwwer.Websites do
   Returns the latest Report for a given Monitor.
   """
   def get_latest_report_for_monitor(monitor) do
-    reports_query = from r in Report, distinct: r.monitor_id, order_by: [desc: r.updated_at], where: r.monitor_id == ^monitor.id
+    reports_query =
+      from r in Report,
+        distinct: r.monitor_id,
+        order_by: [desc: r.updated_at],
+        where: r.monitor_id == ^monitor.id
+
     Repo.one(reports_query)
   end
 

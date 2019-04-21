@@ -22,7 +22,8 @@ defmodule Towwwer.Tools.WPScan do
     params =
       cond do
         # Both WP Content and WP Plugins directories are set
-        site.wp_content_dir != nil && site.wp_content_dir != "" && site.wp_plugins_dir != nil && site.wp_plugins_dir != "" ->
+        site.wp_content_dir != nil && site.wp_content_dir != "" && site.wp_plugins_dir != nil &&
+            site.wp_plugins_dir != "" ->
           base_params() ++ url_params(url) ++ wp_content_params(site) ++ wp_plugins_params(site)
 
         # WP Content directory is set

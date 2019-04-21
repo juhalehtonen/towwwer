@@ -93,6 +93,7 @@ defmodule TowwwerWeb.SiteControllerTest do
     test "deletes chosen site", %{conn: conn, site: site} do
       conn = delete(conn, Routes.site_path(conn, :delete, site))
       assert redirected_to(conn) == Routes.site_path(conn, :index)
+
       assert_error_sent 404, fn ->
         get(conn, Routes.site_path(conn, :show, site))
       end

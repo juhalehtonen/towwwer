@@ -15,7 +15,7 @@ defmodule TowwwerWeb.V1.SiteView do
     %{
       id: site.id,
       base_url: site.base_url,
-      monitors: render_many(site.monitors, MonitorView, "monitor.json"),
+      monitors: render_many(site.monitors, MonitorView, "monitor.json")
     }
   end
 end

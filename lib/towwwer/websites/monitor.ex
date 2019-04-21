@@ -4,10 +4,10 @@ defmodule Towwwer.Websites.Monitor do
   alias Towwwer.Websites.Site
   alias Towwwer.Websites.Report
 
-
   schema "monitors" do
     field :path, :string, default: "/"
-    field :delete, :boolean, virtual: true # Not persisted to database
+    # Not persisted to database
+    field :delete, :boolean, virtual: true
     belongs_to :site, Site
     has_many :reports, Report
 

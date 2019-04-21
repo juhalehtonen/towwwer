@@ -116,7 +116,7 @@ defmodule Towwwer.WebsitesTest do
     end
 
     test "list_monitors/0 returns all monitors" do
-      monitor = monitor_fixture() 
+      monitor = monitor_fixture()
       [listed_monitor] = Websites.list_monitors()
       assert [unload_relations(listed_monitor)] == [unload_relations(monitor)]
     end

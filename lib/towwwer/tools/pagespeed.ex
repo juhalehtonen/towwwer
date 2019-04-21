@@ -9,8 +9,10 @@ defmodule Towwwer.Tools.PageSpeed do
     @api_base_url <> url <> @api_categories <> "&strategy=" <> strategy <> api_key()
   end
 
-  @spec query_pagespeed_api(String.t(), String.t()) :: {:ok, map()} | {:ok_but_error, integer()} | {:error, String.t()}
-  def query_pagespeed_api(url, strategy) when is_binary(url) and strategy in ["desktop", "mobile"] do
+  @spec query_pagespeed_api(String.t(), String.t()) ::
+          {:ok, map()} | {:ok_but_error, integer()} | {:error, String.t()}
+  def query_pagespeed_api(url, strategy)
+      when is_binary(url) and strategy in ["desktop", "mobile"] do
     request_url = construct_request_url(url, strategy)
     headers = []
     options = [timeout: 90000, recv_timeout: 90000]
@@ -20,7 +22,10 @@ defmodule Towwwer.Tools.PageSpeed do
         {:ok, body}
 
       {:ok, %HTTPoison.Response{status_code: status_code}} ->
-        Logger.info("HTTPoison request succeeded for #{request_url} but got status code: #{status_code}")
+        Logger.info(
+          "HTTPoison request succeeded for #{request_url} but got status code: #{status_code}"
+        )
+
         {:ok_but_error, status_code}
 
       {:error, %HTTPoison.Error{reason: reason}} ->
@@ -32,7 +37,9 @@ defmodule Towwwer.Tools.PageSpeed do
   def query_pagespeed_api(_url), do: {:error, "URL not a binary"}
 
   defp api_key do
-    key = Application.get_env(:towwwer, :pagespeed_insights_api_key) || System.get_env("PAGESPEED_INSIGHTS_API_KEY")
+    key =
+      Application.get_env(:towwwer, :pagespeed_insights_api_key) ||
+        System.get_env("PAGESPEED_INSIGHTS_API_KEY")
 
     if key != nil do
       "&key=" <> key
