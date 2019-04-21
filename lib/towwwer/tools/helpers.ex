@@ -14,7 +14,10 @@ defmodule Towwwer.Tools.Helpers do
   """
   @spec random_string(integer()) :: String.t()
   def random_string(length) do
-    :crypto.strong_rand_bytes(length) |> Base.url_encode64() |> binary_part(0, length)
+    length
+    |> :crypto.strong_rand_bytes()
+    |> Base.url_encode64()
+    |> binary_part(0, length)
   end
 
   @doc """
@@ -66,7 +69,8 @@ defmodule Towwwer.Tools.Helpers do
   def compare_scores(old_report_scores, new_report_scores) do
     # Generate a diff of the two score maps
     difference =
-      MapDiff.diff(old_report_scores, new_report_scores)
+      old_report_scores
+      |> MapDiff.diff(new_report_scores)
       |> Map.get(:value)
       |> Enum.map(fn {_strategy, data} ->
         if Map.has_key?(data, :changed) && data.changed == :map_change do
@@ -91,6 +95,9 @@ defmodule Towwwer.Tools.Helpers do
                 item_values.new_value < item_values.old_value ->
                   diff = (item_values.old_value - item_values.new_value) |> Float.round(3)
                   {diff, :decrease}
+
+                true ->
+                  {:error, "No difference"}
               end
 
             %{

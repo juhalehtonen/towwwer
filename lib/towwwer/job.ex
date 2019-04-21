@@ -31,7 +31,7 @@ defmodule Towwwer.Job do
         {:ok, naive_midnight} =
           NaiveDateTime.new(naive_now.year, naive_now.month, naive_now.day, 0, 0, 0)
 
-        naive_next_midnight = NaiveDateTime.add(naive_midnight, 86400, :second)
+        naive_next_midnight = NaiveDateTime.add(naive_midnight, 86_400, :second)
         {:ok, next_midnight} = DateTime.from_naive(naive_next_midnight, "Etc/UTC")
         Rihanna.schedule(Towwwer.Job, [site, monitor], at: next_midnight)
         :ok

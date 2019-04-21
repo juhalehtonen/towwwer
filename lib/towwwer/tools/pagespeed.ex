@@ -1,4 +1,7 @@
 defmodule Towwwer.Tools.PageSpeed do
+  @moduledoc """
+  Functions for interacting with the Google PageSpeed API.
+  """
   require Logger
 
   @api_base_url "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url="
@@ -15,7 +18,7 @@ defmodule Towwwer.Tools.PageSpeed do
       when is_binary(url) and strategy in ["desktop", "mobile"] do
     request_url = construct_request_url(url, strategy)
     headers = []
-    options = [timeout: 90000, recv_timeout: 90000]
+    options = [timeout: 90_000, recv_timeout: 90_000]
 
     case HTTPoison.get(request_url, headers, options) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->

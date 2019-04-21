@@ -1,4 +1,7 @@
 defmodule Towwwer.Tools.ApiClient do
+  @moduledoc """
+  Functions for managing API requests with ExternalService library.
+  """
   require Logger
   alias Towwwer.Tools.PageSpeed
 
@@ -42,7 +45,8 @@ defmodule Towwwer.Tools.ApiClient do
 
   @spec try_get(String.t(), String.t()) :: {:retry, integer()} | any()
   defp try_get(url, strategy) when strategy in ["desktop", "mobile"] do
-    PageSpeed.query_pagespeed_api(url, strategy)
+    url
+    |> PageSpeed.query_pagespeed_api(strategy)
     |> case do
       {:ok_but_error, status_code} when status_code in @retry_errors ->
         Logger.info("Retrying #{url} due to #{status_code} with strategy of #{strategy}")

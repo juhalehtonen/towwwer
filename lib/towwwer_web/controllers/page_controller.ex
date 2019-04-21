@@ -5,7 +5,7 @@ defmodule TowwwerWeb.PageController do
     render(conn, "index.html")
   end
 
-  # TODO: Do this in Ecto, don't be an idiot :D
+  # Do this in Ecto, don't be an idiot :D
   def insights(conn, _params) do
     sites =
       Towwwer.Websites.list_sites_with_latest_root_report()
@@ -21,14 +21,18 @@ defmodule TowwwerWeb.PageController do
             first_report = Enum.at(first_monitor.reports, 0)
 
             # Is wpscan not aborted?
-            if Map.has_key?(first_report.wpscan_data, "scan_aborted") do
-              false
-            else
-              true
-            end
+            is_wpscan_aborted?(first_report)
         end
       end)
 
     render(conn, "insights.html", sites: sites)
+  end
+
+  defp is_wpscan_aborted?(report) do
+    if Map.has_key?(report.wpscan_data, "scan_aborted") do
+      false
+    else
+      true
+    end
   end
 end

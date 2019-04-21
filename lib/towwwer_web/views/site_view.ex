@@ -3,15 +3,21 @@ defmodule TowwwerWeb.SiteView do
   alias Towwwer.Websites.Site
   alias Towwwer.Websites.Monitor
 
+  @possible_types ["performance", "seo", "accessibility", "best-practices", "pwa"]
+  @possible_strategies ["desktop", "mobile"]
+
   # Score extracted from saved lighthouse data
   def score(report, type, strategy \\ "desktop")
-      when type in ["performance", "seo", "accessibility", "best-practices", "pwa"] and
-             strategy in ["desktop", "mobile"] do
+      when type in @possible_types and strategy in @possible_strategies do
     case strategy do
       "desktop" ->
         case report.data["lighthouseResult"]["categories"][type]["score"] do
-          nil -> 0
-          _ -> (report.data["lighthouseResult"]["categories"][type]["score"] * 100) |> round()
+          nil ->
+            0
+
+          _ ->
+            val = report.data["lighthouseResult"]["categories"][type]["score"] * 100
+            round(val)
         end
 
       "mobile" ->
@@ -20,7 +26,8 @@ defmodule TowwwerWeb.SiteView do
             0
 
           _ ->
-            (report.mobile_data["lighthouseResult"]["categories"][type]["score"] * 100) |> round()
+            val = report.mobile_data["lighthouseResult"]["categories"][type]["score"] * 100
+            round(val)
         end
     end
   end
@@ -121,9 +128,10 @@ defmodule TowwwerWeb.SiteView do
   end
 
   def message_no_reports(monitor) do
-    cond do
-      monitor |> report_count() > 0 -> ""
-      true -> "No reports for this monitor have been created yet. Check back later."
+    if monitor |> report_count() > 0 do
+      ""
+    else
+      "No reports for this monitor have been created yet. Check back later."
     end
   end
 

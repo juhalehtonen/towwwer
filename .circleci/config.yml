@@ -62,6 +62,9 @@ jobs:
       
       # Run Dialyzer
       - run: mix dialyzer --halt-exit-status
+
+      # Check formatting
+      - run: mix format --check-formatted
       
       # Finally run tests
       - run: mix test

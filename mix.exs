@@ -50,7 +50,8 @@ defmodule Towwwer.MixProject do
       {:distillery, "~> 2.0"},
       {:dialyxir, "~> 1.0.0-rc.4", only: [:dev], runtime: false},
       {:logger_papertrail_backend, "~> 1.1"},
-      {:map_diff, "~> 1.3"}
+      {:map_diff, "~> 1.3"},
+      {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false}
     ]
   end
 

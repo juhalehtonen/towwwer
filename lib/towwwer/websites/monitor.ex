@@ -1,4 +1,5 @@
 defmodule Towwwer.Websites.Monitor do
+  @moduledoc false
   use Ecto.Schema
   import Ecto.Changeset
   alias Towwwer.Websites.Site

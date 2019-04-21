@@ -1,4 +1,6 @@
 defmodule Towwwer.ReleaseTasks do
+  @moduledoc false
+
   @start_apps [
     :crypto,
     :ssl,

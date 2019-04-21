@@ -22,8 +22,7 @@ defmodule Towwwer.Tools.WPScan do
     params =
       cond do
         # Both WP Content and WP Plugins directories are set
-        site.wp_content_dir != nil && site.wp_content_dir != "" && site.wp_plugins_dir != nil &&
-            site.wp_plugins_dir != "" ->
+        both_directory_params_set?(site) ->
           base_params() ++ url_params(url) ++ wp_content_params(site) ++ wp_plugins_params(site)
 
         # WP Content directory is set
@@ -42,6 +41,12 @@ defmodule Towwwer.Tools.WPScan do
     # Run command with correct params
     {cmd, _} = System.cmd("wpscan", params, parallelism: true)
     {:ok, cmd}
+  end
+
+  # Check if both directory params are set
+  defp both_directory_params_set?(site) do
+    site.wp_content_dir != nil && site.wp_content_dir != "" && site.wp_plugins_dir != nil &&
+      site.wp_plugins_dir != ""
   end
 
   # Returns a list of common base parameters used by all wpscan commands

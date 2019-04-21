@@ -2,6 +2,8 @@ defmodule TowwwerWeb.V1.ReportView do
   use TowwwerWeb, :view
   alias TowwwerWeb.V1.ReportView
 
+  @possible_types ["performance", "seo", "accessibility", "best-practices", "pwa"]
+
   def render("index.json", %{reports: reports}) do
     %{data: render_many(reports, ReportView, "report.json")}
   end
@@ -26,11 +28,14 @@ defmodule TowwwerWeb.V1.ReportView do
   end
 
   # Score extracted from saved lighthouse data
-  defp score(report, type)
-       when type in ["performance", "seo", "accessibility", "best-practices", "pwa"] do
+  defp score(report, type) when type in @possible_types do
     case report.data["lighthouseResult"]["categories"][type]["score"] do
-      nil -> 0
-      _ -> (report.data["lighthouseResult"]["categories"][type]["score"] * 100) |> round()
+      nil ->
+        0
+
+      _ ->
+        val = report.data["lighthouseResult"]["categories"][type]["score"] * 100
+        round(val)
     end
   end
 
