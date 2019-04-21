@@ -71,8 +71,10 @@ You can run migrations in production with `./bin/towwwer migrate`. This is handl
 The following are run in CI, and should always pass:
 
 ```
+mix format --check-formatted
 mix test
 mix dialyzer
+mix credo
 ```
 
 ## Local Phoenix
