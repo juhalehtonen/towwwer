@@ -26,7 +26,9 @@ config :towwwer, Towwwer.Repo,
   username: "postgres",
   password: "postgres",
   database: "towwwer_prod",
-  pool_size: 15
+  pool_size: 15,
+  timeout: 30_000,
+  connect_timeout: 30_000
 
 # Configure Papertrail
 config :logger, :logger_papertrail_backend,
