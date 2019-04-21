@@ -163,7 +163,7 @@ defmodule Towwwer.Tools.Helpers do
   defp handle_significant_score_change(diff, site, monitor, strategy) do
     Enum.each(diff, fn item ->
       if item.difference > 0.1 do
-        site_url = TowwwerWeb.Router.Helpers.site_path(TowwwerWeb.Endpoint, :show, site.id)
+        site_url = TowwwerWeb.Router.Helpers.site_url(TowwwerWeb.Endpoint, :show, site.id)
         difference_score = item.difference |> humanize_score()
         msg_parts = get_message_parts(strategy, item)
 
