@@ -73,7 +73,8 @@ config :towwwer, Towwwer.Repo,
   database: "towwwer_dev",
   hostname: "localhost",
   pool_size: 10,
-  connect_timeout: 20000
+  timeout: 30_000,
+  connect_timeout: 30_000
 
 # Shared secrets usable for any environment, such as API keys
 # import_config "shared.secret.exs"
