@@ -17,8 +17,8 @@ jobs:
       # Restore dependency cache
       - restore_cache:
           keys:
-            - v1-deps-cache-{{ checksum "mix.lock" }}
-            - v1-deps-cache
+            - v2-deps-cache-{{ checksum "mix.lock" }}
+            - v2-deps-cache
 
       # Get and compile hex, rebar, deps
       - run: mix local.hex --force
@@ -36,7 +36,7 @@ jobs:
       
       # Save cache of compiled dependencies
       - save_cache:
-          key: v1-deps-cache-{{ checksum "mix.lock" }}
+          key: v2-deps-cache-{{ checksum "mix.lock" }}
           paths:
             - _build
             - deps
@@ -51,11 +51,11 @@ jobs:
       # Setup PLT caching
       - restore_cache:
           keys:
-            - v1-plt-cache-{{ checksum "mix.lock" }}
-            - v1-plt-cache
+            - v2-plt-cache-{{ checksum "mix.lock" }}
+            - v2-plt-cache
       - run: mix dialyzer --plt
       - save_cache:
-          key: v1-plt-cache-{{ checksum "mix.lock" }}
+          key: v2-plt-cache-{{ checksum "mix.lock" }}
           paths:
             - _build
             - ~/.mix
