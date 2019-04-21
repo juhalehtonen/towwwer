@@ -5,16 +5,16 @@ defmodule Towwwer.Websites.Report do
   alias Towwwer.Websites.Monitor
 
   schema "reports" do
-    field :data, :map
-    field :mobile_data, :map
-    field :wpscan_data, :map
-    belongs_to :monitor, Monitor
+    field(:data, :map)
+    field(:mobile_data, :map)
+    field(:wpscan_data, :map)
+    belongs_to(:monitor, Monitor)
 
     timestamps()
   end
 
   @doc false
-  def changeset(report, attrs = %{monitor: _monitor}) do
+  def changeset(report, %{monitor: _monitor} = attrs) do
     report
     |> cast(attrs, [:data, :mobile_data, :wpscan_data])
     |> put_assoc(:monitor, attrs.monitor)

@@ -74,45 +74,61 @@ defmodule Towwwer.Tools.Helpers do
       |> Map.get(:value)
       |> Enum.map(fn {_strategy, data} ->
         if Map.has_key?(data, :changed) && data.changed == :map_change do
-          only_changes =
-            Enum.filter(data.value, fn {_key, value} ->
-              if value.changed == :primitive_change do
-                true
-              else
-                false
-              end
-            end)
-
-          Enum.map(only_changes, fn {key, value} ->
-            item_values = %{new_value: value.added, old_value: value.removed}
-            # Determine difference and direction
-            {difference, direction} =
-              cond do
-                item_values.new_value > item_values.old_value ->
-                  diff = (item_values.new_value - item_values.old_value) |> Float.round(3)
-                  {diff, :increase}
-
-                item_values.new_value < item_values.old_value ->
-                  diff = (item_values.old_value - item_values.new_value) |> Float.round(3)
-                  {diff, :decrease}
-
-                true ->
-                  {:error, "No difference"}
-              end
-
-            %{
-              type: key,
-              added: value.added,
-              changed: value.changed,
-              removed: value.removed,
-              direction: direction,
-              difference: difference
-            }
-          end)
+          only_changes = filter_unchanged(data)
+          list_changes(only_changes)
         end
       end)
 
     difference
+  end
+
+  # Filters out unchanged data
+  defp filter_unchanged(data) do
+    Enum.filter(data.value, fn {_key, value} -> primitive_change?(value) end)
+  end
+
+  # Returns a list of maps for changes
+  @spec list_changes(list()) :: list()
+  defp list_changes(list_of_changes) do
+    Enum.map(list_of_changes, fn {key, value} ->
+      item_values = %{new_value: value.added, old_value: value.removed}
+      # Determine difference and direction
+      {difference, direction} = difference_and_direction(item_values)
+
+      %{
+        type: key,
+        added: value.added,
+        changed: value.changed,
+        removed: value.removed,
+        direction: direction,
+        difference: difference
+      }
+    end)
+  end
+
+  # Check for a primitive change in map
+  defp primitive_change?(value) do
+    if value.changed == :primitive_change do
+      true
+    else
+      false
+    end
+  end
+
+  # Return the difference and direction
+  defp difference_and_direction(item_values) do
+    cond do
+      item_values.new_value > item_values.old_value ->
+        diff = (item_values.new_value - item_values.old_value) |> Float.round(3)
+        {diff, :increase}
+
+      item_values.new_value < item_values.old_value ->
+        diff = (item_values.old_value - item_values.new_value) |> Float.round(3)
+        {diff, :decrease}
+
+      true ->
+        {:error, "No difference"}
+    end
   end
 
   @doc """
@@ -128,15 +144,18 @@ defmodule Towwwer.Tools.Helpers do
         new_scores = Websites.get_report_scores!(report.id)
         [desktop_diff, mobile_diff] = compare_scores(old_scores, new_scores)
 
-        if desktop_diff != nil do
-          handle_significant_score_change(desktop_diff, site, monitor, "Desktop")
-        end
-
-        if mobile_diff != nil do
-          handle_significant_score_change(mobile_diff, site, monitor, "Mobile")
-        end
+        handle_work_for_non_nil_diff(desktop_diff, site, monitor, "Desktop")
+        handle_work_for_non_nil_diff(mobile_diff, site, monitor, "Mobile")
       end
     end)
+  end
+
+  # Handle checking for non-nil of diff
+  defp handle_work_for_non_nil_diff(diff, site, monitor, type)
+       when type in ["Desktop", "Mobile"] do
+    if diff != nil do
+      handle_significant_score_change(diff, site, monitor, type)
+    end
   end
 
   # Handle diffs bigger than defined value
@@ -144,37 +163,56 @@ defmodule Towwwer.Tools.Helpers do
   defp handle_significant_score_change(diff, site, monitor, strategy) do
     Enum.each(diff, fn item ->
       if item.difference > 0.1 do
-        emoji_strategy =
-          case strategy do
-            "mobile" -> ":iphone:"
-            _ -> ":desktop_computer:"
-          end
-
-        emoji_direction =
-          case item.direction do
-            :increase -> ":heavy_check_mark:"
-            _ -> ":rotating_light:"
-          end
-
-        msg_direction =
-          case item.direction do
-            :increase -> "+"
-            :decrease -> "-"
-          end
-
         site_url = TowwwerWeb.Router.Helpers.site_path(TowwwerWeb.Endpoint, :show, site.id)
-
-        difference_score = (item.difference * 100) |> round()
+        difference_score = item.difference |> humanize_score()
+        msg_parts = get_message_parts(strategy, item)
 
         message =
-          "#{emoji_direction} #{site.base_url}#{monitor.path} #{emoji_strategy} #{item.type} *#{
-            msg_direction
-          }#{difference_score}* - #{site_url}"
+          "#{msg_parts.emoji_direction} #{site.base_url}#{monitor.path} #{
+            msg_parts.emoji_strategy
+          } #{item.type} *#{msg_parts.msg_direction}#{difference_score}* - #{site_url}"
 
         Logger.info(message)
         Slack.send_message(message)
       end
     end)
+  end
+
+  @doc """
+  Converts a float-based (0-1) PageSpeed score to a more commonly understood int (0-100).
+  """
+  @spec humanize_score(float()) :: integer()
+  def humanize_score(score) do
+    val = score * 100
+    round(val)
+  end
+
+  # Given a value, return a corresponding part of the message to send/log.
+  @spec get_message_parts(String.t(), map()) :: map()
+  defp get_message_parts(strategy, item) do
+    emoji_strategy =
+      case strategy do
+        "mobile" -> ":iphone:"
+        _ -> ":desktop_computer:"
+      end
+
+    emoji_direction =
+      case item.direction do
+        :increase -> ":heavy_check_mark:"
+        _ -> ":rotating_light:"
+      end
+
+    msg_direction =
+      case item.direction do
+        :increase -> "+"
+        _ -> "-"
+      end
+
+    %{
+      emoji_strategy: emoji_strategy,
+      emoji_direction: emoji_direction,
+      msg_direction: msg_direction
+    }
   end
 
   @doc """

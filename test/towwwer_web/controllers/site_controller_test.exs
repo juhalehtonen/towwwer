@@ -10,13 +10,13 @@ defmodule TowwwerWeb.SiteControllerTest do
     wp_plugins_dir: "dir",
     monitors: %{"0" => %{"path" => "/"}}
   }
-  @update_attrs %{
-    base_url: "someupdatedurl",
-    token: "someupdatedtoken",
-    wp_content_dir: "dirr",
-    wp_plugins_dir: "dirr",
-    monitors: %{"0" => %{"path" => "/"}}
-  }
+  # @update_attrs %{
+  #   base_url: "someupdatedurl",
+  #   token: "someupdatedtoken",
+  #   wp_content_dir: "dirr",
+  #   wp_plugins_dir: "dirr",
+  #   monitors: %{"0" => %{"path" => "/"}}
+  # }
   @invalid_attrs %{
     base_url: nil,
     token: nil,

@@ -167,11 +167,11 @@ defmodule Towwwer.WebsitesTest do
       wpscan_data: %{},
       monitor: %{"path" => "/"}
     }
-    @update_attrs %{
-      data: %{},
-      wpscan_data: %{},
-      monitor: %{"path" => "/abc"}
-    }
+    # @update_attrs %{
+    #   data: %{},
+    #   wpscan_data: %{},
+    #   monitor: %{"path" => "/abc"}
+    # }
     @invalid_attrs %{data: nil}
 
     def report_fixture(attrs \\ %{}) do
