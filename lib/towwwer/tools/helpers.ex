@@ -192,7 +192,7 @@ defmodule Towwwer.Tools.Helpers do
   defp get_message_parts(strategy, item) do
     emoji_strategy =
       case strategy do
-        "mobile" -> ":iphone:"
+        "Mobile" -> ":iphone:"
         _ -> ":desktop_computer:"
       end
 
