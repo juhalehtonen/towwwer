@@ -163,7 +163,7 @@ defmodule Towwwer.Tools.Helpers do
   defp handle_significant_score_change(diff, site, monitor, strategy) do
     Enum.each(diff, fn item ->
       if item.difference > 0.1 do
-        site_url = TowwwerWeb.Router.Helpers.site_url(TowwwerWeb.Endpoint, :show, site.id)
+        site_url = live_url(site)
         difference_score = item.difference |> humanize_score()
         msg_parts = get_message_parts(strategy, item)
 
@@ -176,6 +176,20 @@ defmodule Towwwer.Tools.Helpers do
         Slack.send_message(message)
       end
     end)
+  end
+
+  @doc """
+  Returns the live_url if configured. This is useful when the application is served
+  through a reverse proxy and the application doesn't actually know what URL it is
+  behind.
+  """
+  def live_url(site) do
+    case Application.get_env(:towwwer, :live_url) do
+      nil ->
+        TowwwerWeb.Router.Helpers.site_url(TowwwerWeb.Endpoint, :show, site.id)
+      live_url ->
+        live_url <> TowwwerWeb.Router.Helpers.site_path(TowwwerWeb.Endpoint, :show, site.id)
+    end
   end
 
   @doc """
