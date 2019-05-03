@@ -187,6 +187,7 @@ defmodule Towwwer.Tools.Helpers do
     case Application.get_env(:towwwer, :live_url) do
       nil ->
         TowwwerWeb.Router.Helpers.site_url(TowwwerWeb.Endpoint, :show, site.id)
+
       live_url ->
         live_url <> TowwwerWeb.Router.Helpers.site_path(TowwwerWeb.Endpoint, :show, site.id)
     end
