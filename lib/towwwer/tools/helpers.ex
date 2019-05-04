@@ -166,11 +166,14 @@ defmodule Towwwer.Tools.Helpers do
         site_url = live_url(site)
         difference_score = item.difference |> humanize_score()
         msg_parts = get_message_parts(strategy, item)
+        current_score = item.added |> humanize_score()
 
         message =
           "#{msg_parts.emoji_direction} #{site.base_url}#{monitor.path} #{
             msg_parts.emoji_strategy
-          } #{item.type} *#{msg_parts.msg_direction}#{difference_score}* - #{site_url}"
+          } #{item.type} *#{msg_parts.msg_direction}#{difference_score}* (#{current_score}) - #{
+            site_url
+          }"
 
         Logger.info(message)
         Slack.send_message(message)

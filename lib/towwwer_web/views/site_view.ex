@@ -34,8 +34,10 @@ defmodule TowwwerWeb.SiteView do
 
   # Returns total size of monitor from report
   def total_size(report) do
-    report.data["lighthouseResult"]["audits"]["total-byte-weight"]["displayValue"]
-    |> String.replace("Total size was", "")
+    case report.data["lighthouseResult"]["audits"]["total-byte-weight"]["displayValue"] do
+      nil -> ""
+      val -> val |> String.replace("Total size was", "")
+    end
   end
 
   def first_meaningful_paint(report, strategy \\ "desktop")
