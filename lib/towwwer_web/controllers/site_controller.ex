@@ -1,5 +1,6 @@
 defmodule TowwwerWeb.SiteController do
   use TowwwerWeb, :controller
+  use PlugEtsCache.Phoenix
 
   alias Towwwer.Websites
   alias Towwwer.Websites.Site
@@ -7,7 +8,10 @@ defmodule TowwwerWeb.SiteController do
 
   def index(conn, _params) do
     sites = Websites.list_sites_with_latest_root_report()
-    render(conn, "index.html", sites: sites)
+
+    conn
+    |> render("index.html", sites: sites)
+    |> cache_response()
   end
 
   def new(conn, _params) do

@@ -4,7 +4,7 @@ defmodule Towwwer.MixProject do
   def project do
     [
       app: :towwwer,
-      version: "0.1.9",
+      version: "0.1.10",
       elixir: "~> 1.5",
       elixirc_paths: elixirc_paths(Mix.env()),
       dialyzer: [plt_add_deps: :transitive],
@@ -51,6 +51,7 @@ defmodule Towwwer.MixProject do
       {:dialyxir, "~> 1.0.0-rc.4", only: [:dev], runtime: false},
       {:logger_papertrail_backend, "~> 1.1"},
       {:map_diff, "~> 1.3"},
+      {:plug_ets_cache, "~> 0.3.1"},
       {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false}
     ]
   end

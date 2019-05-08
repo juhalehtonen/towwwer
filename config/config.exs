@@ -31,6 +31,13 @@ config :rihanna,
   producer_postgres_connection: {Ecto, Towwwer.Repo},
   dispatcher_max_concurrency: 10
 
+# Configure plug_ets_cache.
+# TTL Check and TTL values are in seconds.
+config :plug_ets_cache,
+  db_name: :ets_cache,
+  ttl_check: 3600,
+  ttl: 43_200
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"

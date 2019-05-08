@@ -1,8 +1,11 @@
 defmodule TowwwerWeb.PageController do
   use TowwwerWeb, :controller
+  use PlugEtsCache.Phoenix
 
   def index(conn, _params) do
-    render(conn, "index.html")
+    conn
+    |> render("index.html")
+    |> cache_response()
   end
 
   # Do this in Ecto, don't be an idiot :D
@@ -25,7 +28,9 @@ defmodule TowwwerWeb.PageController do
         end
       end)
 
-    render(conn, "insights.html", sites: sites)
+    conn
+    |> render("insights.html", sites: sites)
+    |> cache_response()
   end
 
   defp is_wpscan_aborted?(report) do
