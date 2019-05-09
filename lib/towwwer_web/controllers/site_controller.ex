@@ -22,7 +22,9 @@ defmodule TowwwerWeb.SiteController do
         ]
       })
 
-    render(conn, "new.html", changeset: changeset)
+    conn
+    |> render("new.html", changeset: changeset)
+    |> cache_response()
   end
 
   def create(conn, %{"site" => site_params}) do
@@ -39,7 +41,10 @@ defmodule TowwwerWeb.SiteController do
 
   def show(conn, %{"id" => id}) do
     site = Websites.get_site!(id)
-    render(conn, "show.html", site: site)
+
+    conn
+    |> render("show.html", site: site)
+    |> cache_response()
   end
 
   def edit(conn, %{"id" => id}) do
