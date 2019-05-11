@@ -53,6 +53,7 @@ defmodule Towwwer.Job do
       {:ok, report} ->
         Logger.info("Created report for #{site.base_url} at #{monitor.path} successfully")
         Helpers.check_score_diff(prev_report, report, site, monitor)
+        Helpers.check_low_hanging_fruits(site, monitor, report)
         Websites.bump_site_timestamp(site)
         :ok
 

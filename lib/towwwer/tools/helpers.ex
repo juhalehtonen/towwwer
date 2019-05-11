@@ -9,7 +9,6 @@ defmodule Towwwer.Tools.Helpers do
   alias Towwwer.Websites
   alias Towwwer.Websites.Site
   alias Towwwer.Websites.Monitor
-  alias Towwwer.Websites.Report
   alias Towwwer.Notifications.Slack
 
   @doc """
@@ -148,24 +147,24 @@ defmodule Towwwer.Tools.Helpers do
         new_scores = Websites.get_report_scores!(report.id)
         [desktop_diff, mobile_diff] = compare_scores(old_scores, new_scores)
 
-        handle_work_for_non_nil_diff(desktop_diff, site, monitor, "Desktop", report)
-        handle_work_for_non_nil_diff(mobile_diff, site, monitor, "Mobile", report)
+        handle_work_for_non_nil_diff(desktop_diff, site, monitor, "Desktop")
+        handle_work_for_non_nil_diff(mobile_diff, site, monitor, "Mobile")
       end
     end)
   end
 
   # Handle checking for non-nil of diff
-  @spec handle_work_for_non_nil_diff(list(), %Site{}, %Monitor{}, String.t(), %Report{}) :: any()
-  defp handle_work_for_non_nil_diff(diff, site, monitor, strategy, report)
+  @spec handle_work_for_non_nil_diff(list(), %Site{}, %Monitor{}, String.t()) :: any()
+  defp handle_work_for_non_nil_diff(diff, site, monitor, strategy)
        when strategy in ["Desktop", "Mobile"] do
     if diff != nil do
-      handle_significant_score_change(diff, site, monitor, strategy, report)
+      handle_significant_score_change(diff, site, monitor, strategy)
     end
   end
 
   # Handle diffs bigger than defined value
-  @spec handle_significant_score_change(list(), %Site{}, %Monitor{}, String.t(), %Report{}) :: :ok
-  defp handle_significant_score_change(diff, site, monitor, strategy, report) do
+  @spec handle_significant_score_change(list(), %Site{}, %Monitor{}, String.t()) :: :ok
+  defp handle_significant_score_change(diff, site, monitor, strategy) do
     Enum.each(diff, fn item ->
       if item.difference > 0.1 do
         site_url = live_url(site)
@@ -184,6 +183,38 @@ defmodule Towwwer.Tools.Helpers do
         Slack.send_message(message)
       end
     end)
+  end
+
+  # Check for specific things in the report, and send helpful messages
+  # if those are detected.
+  def check_low_hanging_fruits(site, monitor, report) do
+    Task.start(fn ->
+      if low_hanging_fruits?(report) do
+        fruit_message = low_hanging_fruits_to_message(report)
+        fruit_report = fruit_message <> " " <> "for #{site.base_url}#{monitor.path}"
+        Logger.info(fruit_report)
+        # Slack.send_message(fruit_report)
+      end
+    end)
+  end
+
+  # Checks if low-hanging fruits exist
+  defp low_hanging_fruits?(report) do
+    if report.data["lighthouseResult"]["audits"]["uses-optimized-images"]["score"] < 0.8 do
+      true
+    else
+      false
+    end
+  end
+
+  # Converts low-hanging fruits to Slack/log messages.
+  defp low_hanging_fruits_to_message(report) do
+    bytes_to_save =
+      report.data["lighthouseResult"]["audits"]["uses-optimized-images"]["details"][
+        "overallSavingsBytes"
+      ]
+
+    "You could save #{bytes_to_save} bytes by minifying images"
   end
 
   @doc """
