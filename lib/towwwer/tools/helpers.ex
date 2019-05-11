@@ -7,6 +7,9 @@ defmodule Towwwer.Tools.Helpers do
   alias Towwwer.Tools.ApiClient
   alias Towwwer.Tools.WPScan
   alias Towwwer.Websites
+  alias Towwwer.Websites.Site
+  alias Towwwer.Websites.Monitor
+  alias Towwwer.Websites.Report
   alias Towwwer.Notifications.Slack
 
   @doc """
@@ -133,6 +136,7 @@ defmodule Towwwer.Tools.Helpers do
 
   @doc """
   Check for the score difference of two subsequent reports.
+  Gets called by the Rihanna job.
   """
   @spec check_score_diff(map(), map(), map(), map()) :: {:ok, pid()}
   def check_score_diff(prev_report, report, site, monitor) do
@@ -144,23 +148,24 @@ defmodule Towwwer.Tools.Helpers do
         new_scores = Websites.get_report_scores!(report.id)
         [desktop_diff, mobile_diff] = compare_scores(old_scores, new_scores)
 
-        handle_work_for_non_nil_diff(desktop_diff, site, monitor, "Desktop")
-        handle_work_for_non_nil_diff(mobile_diff, site, monitor, "Mobile")
+        handle_work_for_non_nil_diff(desktop_diff, site, monitor, "Desktop", report)
+        handle_work_for_non_nil_diff(mobile_diff, site, monitor, "Mobile", report)
       end
     end)
   end
 
   # Handle checking for non-nil of diff
-  defp handle_work_for_non_nil_diff(diff, site, monitor, type)
-       when type in ["Desktop", "Mobile"] do
+  @spec handle_work_for_non_nil_diff(list(), %Site{}, %Monitor{}, String.t(), %Report{}) :: any()
+  defp handle_work_for_non_nil_diff(diff, site, monitor, strategy, report)
+       when strategy in ["Desktop", "Mobile"] do
     if diff != nil do
-      handle_significant_score_change(diff, site, monitor, type)
+      handle_significant_score_change(diff, site, monitor, strategy, report)
     end
   end
 
   # Handle diffs bigger than defined value
-  @spec handle_significant_score_change(list(), map(), map(), String.t()) :: :ok
-  defp handle_significant_score_change(diff, site, monitor, strategy) do
+  @spec handle_significant_score_change(list(), %Site{}, %Monitor{}, String.t(), %Report{}) :: :ok
+  defp handle_significant_score_change(diff, site, monitor, strategy, report) do
     Enum.each(diff, fn item ->
       if item.difference > 0.1 do
         site_url = live_url(site)
