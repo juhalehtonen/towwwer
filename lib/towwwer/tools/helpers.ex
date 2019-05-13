@@ -200,7 +200,7 @@ defmodule Towwwer.Tools.Helpers do
 
   # Checks if low-hanging fruits exist
   defp low_hanging_fruits?(report) do
-    if report.data["lighthouseResult"]["audits"]["uses-optimized-images"]["score"] < 0.8 do
+    if report.data["lighthouseResult"]["audits"]["uses-optimized-images"]["score"] < 0.6 do
       true
     else
       false
@@ -214,8 +214,12 @@ defmodule Towwwer.Tools.Helpers do
         "overallSavingsBytes"
       ]
 
-    "You could save #{bytes_to_save} bytes by minifying images"
+    kilobytes_to_save = bytes_to_kilobytes(bytes_to_save)
+
+    "You could save #{kilobytes_to_save} kilobytes by optimizing images"
   end
+
+  defp bytes_to_kilobytes(bytes), do: bytes / 1000
 
   @doc """
   Returns the live_url if configured. This is useful when the application is served

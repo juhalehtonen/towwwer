@@ -4,7 +4,7 @@ defmodule Towwwer.MixProject do
   def project do
     [
       app: :towwwer,
-      version: "0.1.12",
+      version: "0.1.13",
       elixir: "~> 1.5",
       elixirc_paths: elixirc_paths(Mix.env()),
       dialyzer: [plt_add_deps: :transitive],
