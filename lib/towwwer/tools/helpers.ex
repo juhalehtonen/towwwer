@@ -189,9 +189,14 @@ defmodule Towwwer.Tools.Helpers do
   # if those are detected.
   def check_low_hanging_fruits(site, monitor, report) do
     Task.start(fn ->
-      if low_hanging_fruits?(report) do
-        fruit_message = low_hanging_fruits_to_message(report)
-        fruit_report = fruit_message <> " " <> "for #{site.base_url}#{monitor.path}"
+      if low_hanging_fruit?(report, "uses-optimized-images") do
+        fruit_kilobytes_optim = low_hanging_fruit_kilobytes(report, "uses-optimized-images")
+        fruit_kilobytes_size = low_hanging_fruit_kilobytes(report, "uses-responsive-images")
+        fruit_total = fruit_kilobytes_size + fruit_kilobytes_optim
+
+        fruit_report =
+          "You could save up to #{fruit_total} for #{site.base_url}#{monitor.path} by optimizing and resizing images"
+
         Logger.info(fruit_report)
         # Slack.send_message(fruit_report)
       end
@@ -199,24 +204,20 @@ defmodule Towwwer.Tools.Helpers do
   end
 
   # Checks if low-hanging fruits exist
-  defp low_hanging_fruits?(report) do
-    if report.data["lighthouseResult"]["audits"]["uses-optimized-images"]["score"] < 0.6 do
+  defp low_hanging_fruit?(report, key) when is_binary(key) do
+    if report.data["lighthouseResult"]["audits"][key]["score"] < 0.7 do
       true
     else
       false
     end
   end
 
-  # Converts low-hanging fruits to Slack/log messages.
-  defp low_hanging_fruits_to_message(report) do
+  # Returns
+  defp low_hanging_fruit_kilobytes(report, key) when is_binary(key) do
     bytes_to_save =
-      report.data["lighthouseResult"]["audits"]["uses-optimized-images"]["details"][
-        "overallSavingsBytes"
-      ]
+      report.data["lighthouseResult"]["audits"][key]["details"]["overallSavingsBytes"]
 
-    kilobytes_to_save = bytes_to_kilobytes(bytes_to_save)
-
-    "You could save #{kilobytes_to_save} kilobytes by optimizing images"
+    bytes_to_kilobytes(bytes_to_save)
   end
 
   defp bytes_to_kilobytes(bytes), do: bytes / 1000
